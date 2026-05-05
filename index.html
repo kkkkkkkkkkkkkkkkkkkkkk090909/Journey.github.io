@@ -984,7 +984,10 @@ function GoalList({skey,label}){
 function FitnessTab(){
   const [fd, setFd] = useState(todayStr());
   const [sub, setSub] = useState('log'); // log, progress, settings
+  
+  // 1. UPDATE THIS LINE to include carbs and fat defaults
   const [settings, setSettings] = useState({cal: 2500, pro: 150, carbs: 250, fat: 70, water: 8});
+  
   const [log, setLog] = useState({ foods:[], workouts:[], strength:[], water:0 });
   
   // AI Logging State
@@ -1013,6 +1016,7 @@ function FitnessTab(){
   const [strHistory, setStrHistory] = useState({});
 
   useEffect(() => {
+    // 2. UPDATE THIS LINE as well to pull carbs/fat from storage
     setSettings(DB.get('fit_settings', {cal: 2500, pro: 150, carbs: 250, fat: 70, water: 8}));
     setStrHistory(DB.get('fit_history', {}));
   }, []);
@@ -1329,6 +1333,7 @@ function FitnessTab(){
         </div>
       )}
 
+      {/* 3. REPLACE YOUR ENTIRE SETTINGS SECTION WITH THIS: */}
       {sub==='settings' && (
         <div className="card">
           <div className="ctitle">⚙️ Daily Targets</div>
@@ -1339,6 +1344,14 @@ function FitnessTab(){
           <div className="frow">
             <label className="flbl">Protein Goal (g)</label>
             <input className="inp" type="number" value={settings.pro} onChange={e=>saveSettings({...settings, pro:Number(e.target.value)})}/>
+          </div>
+          <div className="frow">
+            <label className="flbl">Carbs Goal (g)</label>
+            <input className="inp" type="number" value={settings.carbs} onChange={e=>saveSettings({...settings, carbs:Number(e.target.value)})}/>
+          </div>
+          <div className="frow">
+            <label className="flbl">Fat Goal (g)</label>
+            <input className="inp" type="number" value={settings.fat} onChange={e=>saveSettings({...settings, fat:Number(e.target.value)})}/>
           </div>
           <div className="frow">
             <label className="flbl">Water Goal (Glasses)</label>
