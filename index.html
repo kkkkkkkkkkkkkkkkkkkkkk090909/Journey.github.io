@@ -4,408 +4,336 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 <title>Journey</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
 <style>
-/* ── Colour tokens ───────────────────────────────── */
+/* ── Apple-Style Glassmorphism & Tokens ───────────────────────────────── */
 :root {
-  /* Reds */
-  --red-deep:    #3D0A14;
-  --red-burgundy:#7B1D2E;
-  --red-garnet:  #B5293C;
-  --red-terra:   #D4736B;
-  --red-blush:   #EEC4BC;
-  /* Golds */
-  --gold-dark:   #2C1F0A;
-  --gold-bronze: #8C6B2E;
-  --gold-champ:  #C4963A;
-  --gold-warm:   #E8C87A;
-  /* Neutrals */
-  --n-ebony:     #1E1410;
-  --n-walnut:    #4A3530;
-  --n-stone:     #9C8A82;
-  --n-linen:     #EDE4DC;
-  /* Accents */
-  --amethyst:    #8880B0;
-  --sage:        #50A078;
-  --steel:       #5A8CC8;
-  /* Section colours */
-  --c-daily:    #B5293C;
-  --c-goals:    #9B2335;
-  --c-habits:   #50A078;
-  --c-budget:   #C4963A;
-  --c-bible:    #8880B0;
-  --c-affirm:   #D4736B;
-  --c-cal:      #7A9E9F;
-  --c-meet:     #5A8CC8;
-  /* Glass */
-  --glass-bg:         rgba(255,255,255,0.06);
-  --glass-bg-strong:  rgba(255,255,255,0.10);
-  --glass-border:     rgba(255,255,255,0.12);
-  --glass-border-str: rgba(255,255,255,0.20);
-  /* Text */
-  --text-primary:   rgba(255,255,255,0.92);
-  --text-secondary: rgba(255,255,255,0.60);
-  --text-muted:     rgba(255,255,255,0.38);
-  /* Legacy aliases (used throughout JSX) */
-  --bg:    #131823;
-  --sf:    rgba(255,255,255,0.06);
-  --s2:    rgba(255,255,255,0.04);
-  --s3:    rgba(255,255,255,0.09);
-  --card:  rgba(255,255,255,0.06);
-  --cream: rgba(255,255,255,0.92);
-  --muted: rgba(255,255,255,0.42);
-  --bdr:   rgba(255,255,255,0.12);
-  --ok:    #50A078;
-  --danger:#B5293C;
-  /* Default section accent */
-  --sec:  #B5293C;
-  --sec2: #C4963A;
-  --acc:  var(--sec);
-  --acc2: var(--sec2);
-  --gold: #C4963A;
-  --gold2:#E8C87A;
+  /* Default Apple Dark */
+  --bg-color: #000000;
+  --glass-bg: rgba(28, 28, 30, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-border-strong: rgba(255, 255, 255, 0.2);
+  --text-main: #FFFFFF;
+  --text-muted: rgba(255, 255, 255, 0.55);
+  --accent: #0A84FF;
+  --accent-soft: rgba(10, 132, 255, 0.15);
+  --ok: #32D74B;
+  --danger: #FF453A;
+  --warn: #FF9F0A;
 }
 
-/* ── Per-tab section overrides ───────────────────── */
-.tab-daily  { --sec:#B5293C; --sec2:#D4736B; }
-.tab-goals  { --sec:#9B2335; --sec2:#B5293C; }
-.tab-habits { --sec:#50A078; --sec2:#7AC8A0; }
-.tab-budget { --sec:#C4963A; --sec2:#E8C87A; }
-.tab-bible  { --sec:#8880B0; --sec2:#A89CCF; }
-.tab-affirm { --sec:#D4736B; --sec2:#EEC4BC; }
-.tab-cal    { --sec:#7A9E9F; --sec2:#9ABCBD; }
-.tab-meet   { --sec:#5A8CC8; --sec2:#82AADE; }
+[data-theme="apple-light"] {
+  --bg-color: #F2F2F7;
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --glass-border-strong: rgba(0, 0, 0, 0.15);
+  --text-main: #1C1C1E;
+  --text-muted: rgba(60, 60, 67, 0.6);
+  --accent: #007AFF;
+  --accent-soft: rgba(0, 122, 255, 0.15);
+  --ok: #34C759;
+  --danger: #FF3B30;
+  --warn: #FF9500;
+}
+
+[data-theme="midnight-glass"] {
+  --bg-color: #0b0f19;
+  --glass-bg: rgba(20, 25, 40, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --accent: #8b5cf6;
+  --accent-soft: rgba(139, 92, 246, 0.15);
+}
+
+[data-theme="crimson-glass"] {
+  --bg-color: #1a080a;
+  --glass-bg: rgba(40, 15, 20, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --accent: #f43f5e;
+  --accent-soft: rgba(244, 63, 94, 0.15);
+}
+
+[data-theme="ocean-glass"] {
+  --bg-color: #04141c;
+  --glass-bg: rgba(10, 30, 45, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --accent: #0ea5e9;
+  --accent-soft: rgba(14, 165, 233, 0.15);
+}
 
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body,#root{height:100%;width:100%;overflow:hidden}
-body{background:var(--bg);color:var(--cream);font-family:'DM Sans',sans-serif;transition:background .5s ease}
+body{
+  background: var(--bg-color);
+  color: var(--text-main);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  transition: background 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), color 0.6s ease;
+  font-weight: 400;
+}
 #root{display:flex;flex-direction:column}
 .app{display:flex;flex-direction:column;height:100vh;height:100dvh;overflow:hidden}
 
-/* ── Header ──────────────────────────────────────── */
-.hdr{
-  background:rgba(12,8,6,0.88);
-  backdrop-filter:blur(24px);
-  -webkit-backdrop-filter:blur(24px);
-  border-bottom:1px solid rgba(255,255,255,0.09);
-  padding:11px 16px 9px;
-  display:flex;align-items:center;justify-content:space-between;flex-shrink:0;
+/* ── Animations ──────────────────────────────────────── */
+@keyframes slideUp {
+  0% { opacity: 0; transform: translateY(15px) scale(0.98); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
 }
-.hdr-t{
-  font-family:'Cormorant Garamond',serif;
-  font-size:1.25rem;color:var(--text-primary);
-  font-weight:600;letter-spacing:.14em;text-transform:uppercase;
-}
-.hdr-r{display:flex;align-items:center;gap:8px}
-.chips{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
-.chip{
-  background:rgba(196,150,58,0.14);
-  border:1px solid rgba(196,150,58,0.28);
-  border-radius:20px;padding:2px 8px;
-  font-size:.62rem;color:var(--gold-warm);font-weight:600;
-  white-space:nowrap;letter-spacing:.06em;
-}
-
-/* ── Sync dot ─────────────────────────────────────── */
-.syncdot{width:8px;height:8px;border-radius:50%;flex-shrink:0;cursor:pointer;transition:background .3s}
-.syncdot.synced{background:var(--ok);box-shadow:0 0 6px var(--ok)}
-.syncdot.syncing{background:var(--gold-champ);animation:pulse 1s infinite}
-.syncdot.error{background:var(--danger)}
-.syncdot.offline{background:rgba(255,255,255,0.25)}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 
-/* ── Background theme picker ──────────────────────── */
+/* ── Header & Nav ──────────────────────────────────────── */
+.hdr{
+  background: var(--glass-bg);
+  backdrop-filter: blur(30px) saturate(150%);
+  -webkit-backdrop-filter: blur(30px) saturate(150%);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 12px 18px 10px;
+  display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+  z-index: 10;
+}
+.hdr-t{
+  font-size: 1.1rem; color: var(--text-main);
+  font-weight: 700; letter-spacing: -0.02em;
+}
+.hdr-r{display:flex;align-items:center;gap:10px}
+.chips{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}
+.chip{
+  background: var(--accent-soft);
+  border: 1px solid rgba(0,0,0,0.05);
+  border-radius: 12px; padding: 3px 9px;
+  font-size: .65rem; color: var(--accent); font-weight: 600;
+  white-space: nowrap; letter-spacing: .02em;
+}
+
 .bg-picker{
-  display:flex;gap:6px;padding:10px 16px 6px;flex-shrink:0;
-  border-bottom:1px solid rgba(255,255,255,0.06);
-  background:rgba(0,0,0,0.2);
+  display:flex;gap:8px;padding:12px 18px;flex-shrink:0;
+  border-bottom:1px solid var(--glass-border);
+  background: rgba(0,0,0,0.02);
+  overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
 }
+.bg-picker::-webkit-scrollbar{display:none}
 .bg-btn{
-  flex:1;height:36px;border-radius:8px;
-  border:1.5px solid transparent;
-  cursor:pointer;display:flex;align-items:flex-end;padding:4px 7px;
-  transition:border-color .2s;
+  flex:0 0 auto; height: 32px; border-radius: 16px;
+  border: 1px solid var(--glass-border); background: var(--glass-bg);
+  cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0 14px;
+  transition: all 0.3s ease; color: var(--text-muted); font-size: 0.75rem; font-weight: 500;
 }
-.bg-btn span{font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,0.7);font-weight:500}
-.bg-btn.active{border-color:rgba(255,255,255,0.55)}
+.bg-btn.active{ border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
 
-/* ── Main ─────────────────────────────────────────── */
-.main{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column}
-.sec{padding:14px}
-
-/* ── Nav ──────────────────────────────────────────── */
 .bnav{
-  display:flex;
-  background:rgba(12,8,6,0.90);
-  backdrop-filter:blur(24px);
-  -webkit-backdrop-filter:blur(24px);
-  border-top:1px solid rgba(255,255,255,0.08);
-  flex-shrink:0;overflow-x:auto;overflow-y:hidden;
-  -webkit-overflow-scrolling:touch;scrollbar-width:none;
+  display:flex; justify-content: flex-start; gap: 8px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(30px) saturate(150%);
+  -webkit-backdrop-filter: blur(30px) saturate(150%);
+  border-top: 1px solid var(--glass-border);
+  flex-shrink: 0; padding: 10px 14px 20px;
+  overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch;
 }
-.bnav::-webkit-scrollbar{display:none}
+.bnav::-webkit-scrollbar { display: none; }
 .nbtn{
-  flex:0 0 auto;min-width:52px;display:flex;flex-direction:column;
-  align-items:center;gap:2px;padding:7px 6px;
+  flex: 0 0 auto; display:flex;flex-direction:column;
+  align-items:center;gap:4px;padding:6px; min-width: 56px;
   background:none;border:none;cursor:pointer;
-  color:rgba(255,255,255,0.32);font-family:'DM Sans',sans-serif;
-  font-size:.54rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;
-  transition:color .2s;
+  color: var(--text-muted); font-family: inherit;
+  font-size:.65rem; font-weight:500;
+  transition: all 0.3s ease;
 }
-.nbtn.on{color:var(--text-primary)}
-.nico{font-size:1.1rem;line-height:1}
-.nbtn.on .nico{
-  filter:drop-shadow(0 0 5px currentColor);
-}
+.nbtn:active { transform: scale(0.9); }
+.nbtn.on{ color: var(--accent); font-weight: 600; }
+.nico{font-size:1.25rem;line-height:1; transition: transform 0.3s ease;}
+.nbtn.on .nico{ transform: translateY(-2px); }
 
-/* Coloured active indicator per tab */
-.nbtn.on.nav-daily  { color:#B5293C; }
-.nbtn.on.nav-goals  { color:#9B2335; }
-.nbtn.on.nav-habits { color:#50A078; }
-.nbtn.on.nav-budget { color:#C4963A; }
-.nbtn.on.nav-bible  { color:#8880B0; }
-.nbtn.on.nav-affirm { color:#D4736B; }
-.nbtn.on.nav-cal    { color:#7A9E9F; }
-.nbtn.on.nav-meet   { color:#5A8CC8; }
+/* ── Main & Cards ──────────────────────────────────────── */
+.main{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column; padding-bottom: 20px;}
+.sec{padding: 16px; animation: slideUp 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) both;}
 
-/* ── Glass cards ──────────────────────────────────── */
 .card{
-  background:var(--glass-bg);
-  border:1px solid var(--glass-border);
-  border-radius:14px;
-  backdrop-filter:blur(16px);
-  -webkit-backdrop-filter:blur(16px);
-  padding:14px;margin-bottom:11px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  backdrop-filter: blur(30px) saturate(150%);
+  -webkit-backdrop-filter: blur(30px) saturate(150%);
+  padding: 18px; margin-bottom: 14px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.04);
+  transition: transform 0.2s ease;
 }
 
-/* ── Progress ─────────────────────────────────────── */
-.pwrap{background:rgba(255,255,255,0.09);border-radius:99px;height:5px;overflow:hidden;margin:7px 0}
-.pbar{height:100%;background:linear-gradient(90deg,var(--sec),var(--sec2));border-radius:99px;transition:width .4s}
-.plbl{font-size:.68rem;color:var(--muted);display:flex;justify-content:space-between;letter-spacing:.05em}
-
-/* ── Section title ────────────────────────────────── */
 .ctitle{
-  font-family:'Cormorant Garamond',serif;
-  font-size:.88rem;color:var(--sec2);
-  font-weight:600;margin-bottom:11px;
-  display:flex;align-items:center;gap:7px;
-  letter-spacing:.14em;text-transform:uppercase;
+  font-size: 1rem; color: var(--text-main);
+  font-weight: 700; margin-bottom: 14px;
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  letter-spacing: -0.01em;
 }
 
-/* ── Todo ─────────────────────────────────────────── */
-.titem{display:flex;align-items:flex-start;gap:9px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.05);animation:fi .2s ease}
-.titem:last-child{border-bottom:none}
-.tchk{width:20px;height:20px;border-radius:6px;border:2px solid var(--sec);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:background .2s}
-.tchk.on{background:var(--sec);border-color:var(--sec)}
-.ttxt{flex:1;font-size:.88rem;line-height:1.4;cursor:pointer}
-.ttxt.done{text-decoration:line-through;color:var(--muted)}
-.ttag{font-size:.63rem;background:rgba(255,255,255,.06);border:1px solid var(--bdr);border-radius:99px;padding:1px 7px;color:var(--sec2);margin-top:2px;display:inline-block;letter-spacing:.05em}
-.tdel{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.95rem;padding:2px 5px;opacity:.5;line-height:1}
-.tdel:hover{opacity:1;color:var(--danger)}
-
-/* ── Inputs ───────────────────────────────────────── */
-.row{display:flex;gap:7px;margin-top:10px}
+/* ── Inputs & Buttons ──────────────────────────────────────── */
+.row{display:flex;gap:10px;margin-top:12px}
 .inp{
-  flex:1;
-  background:rgba(255,255,255,0.05);
-  border:1px solid rgba(255,255,255,0.13);
-  border-radius:8px;padding:10px 11px;
-  color:var(--cream);font-family:'DM Sans',sans-serif;
-  font-size:.88rem;outline:none;transition:border-color .2s;
+  flex:1; width: 100%;
+  background: rgba(120,120,120,0.1);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px; padding: 12px 14px;
+  color: var(--text-main); font-family: inherit;
+  font-size: 16px; outline: none; transition: all 0.3s ease;
 }
-.inp:focus{border-color:var(--sec)}
-.inp::placeholder{color:var(--muted)}
-.inp-sm{padding:8px 10px;font-size:.82rem}
-textarea.inp{resize:vertical;min-height:78px;line-height:1.5}
-select.inp option{background:#1E1410}
+.inp:focus{border-color: var(--accent); background: rgba(120,120,120,0.15); box-shadow: 0 0 0 3px var(--accent-soft);}
+.inp::placeholder{color: var(--text-muted);}
+.inp-sm{padding: 10px 12px; font-size: 15px;}
+textarea.inp{resize:vertical;min-height:80px;line-height:1.5}
+select.inp { appearance: none; background-color: rgba(120,120,120,0.1); }
+select.inp option { background: var(--bg-color); color: var(--text-main); }
 
 .btn{
-  background:var(--sec);color:#fff;border:none;
-  border-radius:8px;padding:10px 15px;
-  font-family:'DM Sans',sans-serif;font-weight:600;
-  font-size:.85rem;cursor:pointer;transition:all .2s;flex-shrink:0;
-  letter-spacing:.04em;
+  background: var(--accent); color: #fff; border: none;
+  border-radius: 12px; padding: 12px 18px;
+  font-family: inherit; font-weight: 600;
+  font-size: .9rem; cursor: pointer; transition: all 0.2s ease; flex-shrink: 0;
 }
-.btn:hover{opacity:.85}
-.btng{background:rgba(255,255,255,0.07);color:var(--cream);border:1px solid var(--glass-border)}
-.btng:hover{background:rgba(255,255,255,0.12);border-color:rgba(255,255,255,0.22)}
-.btnsm{padding:6px 11px;font-size:.75rem;letter-spacing:.05em}
-.btnfull{width:100%}
+.btn:active{ transform: scale(0.96); opacity: 0.9; }
+.btng{background: rgba(120,120,120,0.15); color: var(--text-main); border: 1px solid var(--glass-border);}
+.btnsm{padding: 8px 14px; font-size: .8rem;}
+.btnfull{width:100%; display: block; text-align: center;}
 
-/* ── Tabs ─────────────────────────────────────────── */
-.stabs{display:flex;gap:5px;margin-bottom:13px;flex-wrap:wrap}
+/* AI Styling */
+.btn-ai {
+  background: linear-gradient(135deg, #8b5cf6, #d946ef);
+  color: #fff;
+  border: none;
+}
+.btn-ai:hover { opacity: 0.9; }
+.ai-loading { animation: pulse 1s infinite; opacity: 0.7; pointer-events: none; }
+.ai-error { font-size: 0.75rem; color: var(--danger); margin-top: 6px; }
+
+/* ── Progress & Badges ──────────────────────────────────────── */
+.pwrap{background: rgba(120,120,120,0.15); border-radius: 99px; height: 6px; overflow: hidden; margin: 8px 0;}
+.pbar{height: 100%; background: var(--accent); border-radius: 99px; transition: width 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);}
+.plbl{font-size: .75rem; color: var(--text-muted); display: flex; justify-content: space-between; font-weight: 500;}
+
+/* ── Todo/Goal/Affirm Items ──────────────────────────────────────── */
+.titem, .gitem, .aitem {display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--glass-border);animation:slideUp .3s ease both;}
+.aitem { align-items: center; }
+.titem:last-child, .gitem:last-child, .aitem:last-child {border-bottom:none}
+.tchk{width:22px;height:22px;border-radius:50%;border:2px solid var(--glass-border-strong);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;transition:all .2s cubic-bezier(0.2, 0.8, 0.2, 1);}
+.tchk.on{background:var(--accent);border-color:var(--accent);}
+.ttxt, .atxt{flex:1;font-size:.95rem;line-height:1.4;cursor:pointer; font-weight: 500;}
+.ttxt.done{text-decoration:line-through;color:var(--text-muted); font-weight: 400;}
+.tdel{background:var(--glass-bg);border:1px solid var(--glass-border);color:var(--text-muted);border-radius:50%;width:26px;height:26px;cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.tdel:active{transform:scale(0.9); background: var(--danger); color: #fff; border-color: var(--danger);}
+
+/* ── Tabs (Sub-nav) ──────────────────────────────────────── */
+.stabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
 .stab{
-  background:rgba(255,255,255,0.05);
-  border:1px solid rgba(255,255,255,0.10);
-  border-radius:20px;padding:5px 13px;
-  font-size:.72rem;cursor:pointer;
-  color:var(--muted);font-family:'DM Sans',sans-serif;
-  transition:all .2s;letter-spacing:.07em;text-transform:uppercase;
+  background: var(--glass-bg); border: 1px solid var(--glass-border);
+  border-radius: 16px; padding: 6px 14px; font-size: .8rem; cursor: pointer;
+  color: var(--text-muted); font-family: inherit; font-weight: 500;
+  transition: all 0.2s ease;
 }
-.stab.on{background:var(--sec);border-color:var(--sec);color:#fff;font-weight:600}
-
-/* ── Goals ────────────────────────────────────────── */
-.gitem{display:flex;align-items:flex-start;gap:8px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.05)}
-.gitem:last-child{border-bottom:none}
-.mbdg{font-size:.61rem;border-radius:99px;padding:2px 7px;border:1px solid;display:inline-block;margin-top:3px;letter-spacing:.05em}
-.mbdg.y{color:var(--ok);border-color:var(--ok);background:rgba(80,160,120,.10)}
-.mbdg.n{color:var(--muted);border-color:rgba(255,255,255,.15);background:rgba(255,255,255,.04)}
+.stab.on{background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600;}
 
 /* ── Date nav ─────────────────────────────────────── */
-.dnav{display:flex;align-items:center;gap:9px}
+.dnav{display:flex;align-items:center;gap:12px}
 .dnbtn{
-  background:rgba(255,255,255,0.07);
-  border:1px solid rgba(255,255,255,0.13);
-  border-radius:6px;padding:5px 10px;
-  color:var(--cream);cursor:pointer;font-size:.9rem;line-height:1;
-  transition:background .15s;
+  background: rgba(120,120,120,0.15); border: none; border-radius: 10px;
+  width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+  color: var(--text-main); cursor: pointer; font-size: 1.1rem;
+  transition: all 0.2s ease;
 }
-.dnbtn:hover{background:rgba(255,255,255,0.12)}
-.dlbl{font-family:'Cormorant Garamond',serif;font-size:.95rem;color:var(--sec2);flex:1;text-align:center;letter-spacing:.08em}
+.dnbtn:active{ transform: scale(0.9); }
+.dlbl{font-size: 1rem; font-weight: 600; color: var(--text-main); flex: 1; text-align: center;}
 
-/* ── Day stats ────────────────────────────────────── */
-.dstats{display:flex;gap:9px;margin-bottom:13px}
-.dstat{
-  flex:1;
-  background:rgba(255,255,255,0.05);
-  border:1px solid rgba(255,255,255,0.10);
-  border-radius:10px;padding:9px;text-align:center;min-width:0;
-  backdrop-filter:blur(8px);
-}
-.dsnum{font-family:'Cormorant Garamond',serif;font-size:1.55rem;color:var(--sec2);line-height:1}
-.dslbl{font-size:.58rem;color:var(--muted);margin-top:2px;text-transform:uppercase;letter-spacing:.1em}
+/* ── Misc Classes ──────────────────────────────────────── */
+.flbl{font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:var(--text-muted);margin-bottom:6px;font-weight:600;display:block}
+.frow{margin-bottom:14px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.empty{text-align:center;padding:30px 14px;color:var(--text-muted)}
+.eico{font-size:2rem;margin-bottom:10px}.etxt{font-size:.9rem; font-weight: 500;}
+.gquote{font-style:italic;color:var(--text-muted);font-size:.95rem;text-align:center;padding:14px;border-left:3px solid var(--accent);margin-bottom:14px;background:rgba(120,120,120,0.1);border-radius:0 12px 12px 0;letter-spacing:.02em;}
+.anum{font-size:1.4rem;font-weight:700;color:var(--accent);opacity:.8;width:28px;flex-shrink:0; text-align:center;}
 
-/* ── Quote ────────────────────────────────────────── */
-.gquote{
-  font-family:'Cormorant Garamond',serif;font-style:italic;
-  color:var(--sec2);font-size:.95rem;text-align:center;
-  padding:11px;border-left:2px solid var(--sec);
-  margin-bottom:13px;background:rgba(255,255,255,0.04);
-  border-radius:0 10px 10px 0;
-  backdrop-filter:blur(8px);letter-spacing:.02em;
-}
-
-/* ── Affirmations ─────────────────────────────────── */
-.aitem{display:flex;gap:9px;align-items:center;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.05)}
-.aitem:last-child{border-bottom:none}
-.anum{font-family:'Cormorant Garamond',serif;font-size:1.25rem;color:var(--sec);opacity:.7;width:22px;flex-shrink:0}
-.atxt{flex:1;font-size:.88rem;line-height:1.4}
-
-/* ── Calendar ─────────────────────────────────────── */
-.cgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:11px}
-.cdname{text-align:center;font-size:.58rem;color:var(--muted);padding:3px 0;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
-.cday{aspect-ratio:1;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.78rem;cursor:pointer;position:relative;transition:background .15s}
-.cday:hover{background:rgba(255,255,255,0.09)}
-.cday.today{background:var(--sec);color:#fff;font-weight:700}
-.cday.sel:not(.today){background:rgba(255,255,255,0.08);font-weight:600;outline:1px solid var(--sec)}
-.cday.hase::after{content:'';position:absolute;bottom:2px;width:3px;height:3px;border-radius:50%;background:var(--sec2)}
-.cday.today.hase::after{background:rgba(255,255,255,0.6)}
-.cday.oth{color:var(--muted);opacity:.25;pointer-events:none}
-.chdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}
-.cmo{font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--sec2);letter-spacing:.08em}
-.evitem{display:flex;gap:9px;align-items:flex-start;padding:9px;background:rgba(255,255,255,0.05);border-radius:8px;margin-bottom:5px;border-left:3px solid var(--sec)}
-.evtime{font-size:.73rem;color:var(--sec2);font-weight:600;white-space:nowrap;min-width:55px;letter-spacing:.05em}
-.evtit{flex:1;font-size:.86rem}
-.evdel{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.88rem;opacity:.6}
-.evdel:hover{opacity:1;color:var(--danger)}
-
-/* ── Meeting ──────────────────────────────────────── */
-.swgrid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:9px}
-.swcard{background:rgba(255,255,255,0.05);border-radius:10px;padding:9px;border:1px solid rgba(255,255,255,0.08)}
-.swlbl{font-size:.6rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:5px;font-weight:600}
-textarea.swinp{width:100%;background:transparent;border:none;color:var(--cream);font-family:'DM Sans',sans-serif;font-size:.81rem;resize:none;outline:none;min-height:58px;line-height:1.5}
-
-/* ── Modal / overlay ──────────────────────────────── */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.80);z-index:100;display:flex;align-items:flex-end;justify-content:center;padding:14px;backdrop-filter:blur(4px)}
+/* ── Modal / Overlay ──────────────────────────────────────── */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.60);z-index:100;display:flex;align-items:flex-end;justify-content:center;padding:14px;backdrop-filter:blur(8px)}
 .modal{
-  background:rgba(22,15,12,0.95);
-  border:1px solid rgba(255,255,255,0.14);
-  border-radius:14px 14px 10px 10px;
-  width:100%;max-width:480px;max-height:88vh;overflow-y:auto;padding:18px;
-  backdrop-filter:blur(24px);
+  background: var(--bg-color);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px 20px 16px 16px;
+  width: 100%; max-width: 480px; max-height: 88vh; overflow-y: auto; padding: 20px;
 }
-.mtitle{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--sec2);margin-bottom:14px;letter-spacing:.1em;text-transform:uppercase}
-.macts{display:flex;gap:7px;margin-top:13px}
+.mtitle{font-size:1.15rem;font-weight:700;color:var(--text-main);margin-bottom:18px;letter-spacing:-0.01em;}
+.macts{display:flex;gap:10px;margin-top:18px}
 
-/* ── Form ─────────────────────────────────────────── */
-.flbl{font-size:.65rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:4px;font-weight:600;display:block}
-.frow{margin-bottom:11px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+/* ── Calendar ──────────────────────────────────────── */
+.cgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:14px}
+.cdname{text-align:center;font-size:.65rem;color:var(--text-muted);padding:4px 0;font-weight:600;letter-spacing:.05em;text-transform:uppercase}
+.cday{aspect-ratio:1;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.85rem;cursor:pointer;position:relative;transition:all .2s ease; border: 1px solid transparent;}
+.cday:active{transform:scale(0.9)}
+.cday.today{background:var(--accent);color:#fff;font-weight:700}
+.cday.sel:not(.today){background:var(--accent-soft);font-weight:600;border-color:var(--accent)}
+.cday.hase::after{content:'';position:absolute;bottom:4px;width:4px;height:4px;border-radius:50%;background:var(--accent)}
+.cday.today.hase::after{background:rgba(255,255,255,0.8)}
+.cday.oth{color:var(--text-muted);opacity:.3;pointer-events:none}
+.chdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.cmo{font-size:1.1rem;color:var(--text-main);font-weight:600;letter-spacing:.05em}
+.evitem{display:flex;gap:12px;align-items:flex-start;padding:12px;background:rgba(120,120,120,0.1);border-radius:12px;margin-bottom:8px;border-left:3px solid var(--accent)}
+.evtime{font-size:.8rem;color:var(--text-muted);font-weight:600;white-space:nowrap;min-width:55px;}
+.evtit{flex:1;font-size:.9rem;font-weight:500;}
 
-/* ── Planning banner ──────────────────────────────── */
-.pbanner{border-radius:10px;padding:9px 13px;margin-bottom:11px;display:flex;align-items:flex-start;gap:9px}
-.pbanner.plan{background:rgba(181,41,60,0.10);border:1px solid rgba(181,41,60,0.28)}
-.pbanner.lock{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09)}
-.pb-ico{font-size:1rem;flex-shrink:0;margin-top:1px}
-.pb-hd{font-size:.7rem;font-weight:600;margin-bottom:2px;letter-spacing:.08em;text-transform:uppercase}
-.pb-hd.gld{color:var(--gold-warm)}.pb-hd.mu{color:var(--muted)}
-.pb-bd{font-size:.72rem;color:var(--muted);line-height:1.4}
+/* ── Meetings ──────────────────────────────────────── */
+.swgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.swcard{background:rgba(120,120,120,0.1);border-radius:12px;padding:12px;border:1px solid var(--glass-border)}
+.swlbl{font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text-muted);margin-bottom:6px;font-weight:600}
+textarea.swinp{width:100%;background:transparent;border:none;color:var(--text-main);font-family:inherit;font-size:.85rem;resize:none;outline:none;min-height:60px;line-height:1.5}
 
-/* ── Misc ─────────────────────────────────────────── */
-.empty{text-align:center;padding:24px 14px;color:var(--muted)}
-.eico{font-size:1.8rem;margin-bottom:7px}.etxt{font-size:.83rem;letter-spacing:.04em}
-.hint{font-size:.72rem;margin-top:5px;letter-spacing:.04em}
-.hint.ok{color:var(--ok)}.hint.mu{color:var(--muted)}
-@keyframes fi{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:translateY(0)}}
-::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.12);border-radius:99px}
+/* ── Habit Tracker ────────────────────────────────── */
+.hab-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -18px;padding:0 18px 10px}
+.hab-tbl{border-collapse:collapse;font-size:.75rem;white-space:nowrap; width: 100%;}
+.hab-name{text-align:left;padding:8px 10px 8px 0;font-size:.85rem;color:var(--text-main);font-weight:500;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;position:sticky;left:0;background:var(--bg-color);z-index:2; transition: background 0.6s ease;}
+.hab-dh{text-align:center;padding:4px 2px;font-size:.65rem;color:var(--text-muted);min-width:24px}
+.hab-wh{text-align:center;font-size:.65rem;color:var(--text-main);font-weight:600;padding:4px;border-bottom:1px solid var(--glass-border);letter-spacing:.05em;text-transform:uppercase}
+.hab-c{text-align:center;padding:4px 2px}
+.hck{width:22px;height:22px;border-radius:6px;border:2px solid var(--glass-border-strong);background:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:.7rem;color:#fff;font-weight:700;transition:all .2s cubic-bezier(0.2, 0.8, 0.2, 1);}
+.hck.on{background:var(--accent);border-color:var(--accent)}
+.hck.fut{opacity:.2;cursor:default;pointer-events:none}
+.hab-prow td{font-size:.7rem;color:var(--text-main);font-weight:600;text-align:center;padding:6px 2px;border-top:1px solid var(--glass-border)}
+.hab-prow .hab-name{color:var(--text-muted);font-size:.75rem}
+
+.anl-grid{display:grid;grid-template-columns:1fr auto auto 1fr;gap:0;border-radius:12px;overflow:hidden;border:1px solid var(--glass-border)}
+.anl-h{background:rgba(120,120,120,0.15);padding:8px 12px;font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:var(--text-main);font-weight:600;border-bottom:1px solid var(--glass-border)}
+.anl-c{padding:10px 12px;font-size:.85rem;border-bottom:1px solid var(--glass-border);display:flex;align-items:center; font-weight:500;}
+.anl-bar-wrap{flex:1;background:rgba(120,120,120,0.15);border-radius:99px;height:6px;overflow:hidden}
+.anl-bar{height:100%;background:var(--accent);border-radius:99px;transition:width .5s cubic-bezier(0.2, 0.8, 0.2, 1);}
+.anl-bar.warn{background:var(--warn)}
+.anl-bar.bad{background:var(--danger)}
+
+/* ── Budget Planner ───────────────────────────────── */
+.bsum{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px}
+.bstat{background:rgba(120,120,120,0.1);border-radius:16px;padding:14px 10px;text-align:center;border:1px solid var(--glass-border)}
+.bnum{font-size:1.4rem;font-weight:700;line-height:1; letter-spacing: -0.02em;}
+.bnum.pos{color:var(--ok)}.bnum.neg{color:var(--danger)}.bnum.neu{color:var(--text-main)}
+.blbl{font-size:.7rem;color:var(--text-muted);margin-top:6px;text-transform:uppercase;letter-spacing:.05em; font-weight:600;}
+
+/* ── Search Dropdown (Fitness) ─────────────────────── */
+.search-res {
+  background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px;
+  margin-top: 4px; max-height: 200px; overflow-y: auto; backdrop-filter: blur(20px);
+}
+.search-item {
+  padding: 10px 14px; border-bottom: 1px solid var(--glass-border); cursor: pointer;
+  font-size: 0.9rem; transition: background 0.2s;
+}
+.search-item:last-child { border-bottom: none; }
+.search-item:active { background: var(--accent-soft); }
 
 /* ── Setup screen ─────────────────────────────────── */
-.setup{position:fixed;inset:0;background:var(--bg);z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;text-align:center}
-.setup-t{font-family:'Cormorant Garamond',serif;font-size:2.4rem;color:var(--gold-warm);margin-bottom:6px;letter-spacing:.14em;text-transform:uppercase;font-weight:600}
-.setup-s{font-size:.85rem;color:var(--muted);margin-bottom:28px;line-height:1.7;max-width:300px;letter-spacing:.03em}
-.setup-f{width:100%;max-width:340px;display:flex;flex-direction:column;gap:10px}
+.setup{position:fixed;inset:0;background:var(--bg-color);z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;text-align:center}
+.setup-t{font-size:2.5rem;color:var(--text-main);margin-bottom:10px;font-weight:700; letter-spacing: -0.03em;}
+.setup-s{font-size:1rem;color:var(--text-muted);margin-bottom:32px;line-height:1.5;max-width:300px;}
+.setup-f{width:100%;max-width:340px;display:flex;flex-direction:column;gap:14px}
 
-/* ── Sync setup ───────────────────────────────────── */
-.step{display:flex;gap:11px;margin-bottom:16px}
-.step-num{width:24px;height:24px;border-radius:50%;background:var(--red-garnet);color:#fff;font-weight:700;font-size:.8rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
-.step-body{flex:1}
-.step-title{font-weight:600;font-size:.88rem;margin-bottom:4px;color:var(--cream);letter-spacing:.04em}
-.step-desc{font-size:.8rem;color:var(--muted);line-height:1.5;margin-bottom:6px}
-.code-box{background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.12);border-radius:7px;padding:9px 11px;font-family:monospace;font-size:.72rem;color:var(--gold-warm);line-height:1.6;white-space:pre-wrap;word-break:break-all;cursor:pointer;position:relative}
-.code-box:hover::after{content:'tap to copy';position:absolute;top:4px;right:6px;font-size:.6rem;color:var(--muted);font-family:'DM Sans',sans-serif}
-.copied{color:var(--ok) !important}
-.sync-status-row{display:flex;align-items:center;gap:8px;padding:8px 11px;border-radius:8px;margin-bottom:12px}
-.sync-status-row.synced{background:rgba(80,160,120,.08);border:1px solid rgba(80,160,120,.2)}
-.sync-status-row.error{background:rgba(181,41,60,.08);border:1px solid rgba(181,41,60,.2)}
-.sync-status-row.offline{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.10)}
-.sync-status-row.syncing{background:rgba(196,150,58,.06);border:1px solid rgba(196,150,58,.2)}
-.divider{height:1px;background:rgba(255,255,255,0.08);margin:16px 0}
+/* ── Stats block ─────────────────────────────────── */
+.stat-box { background: rgba(120,120,120,0.1); border-radius: 16px; padding: 14px; text-align: center; flex: 1; }
+.stat-val { font-size: 1.3rem; font-weight: 700; color: var(--text-main); margin-bottom: 2px;}
+.stat-lbl { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600;}
 
-/* ── Habit tracker ────────────────────────────────── */
-.hab-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -14px;padding:0 14px 8px}
-.hab-tbl{border-collapse:collapse;font-size:.7rem;white-space:nowrap}
-.hab-name{text-align:left;padding:5px 8px 5px 0;font-size:.75rem;color:var(--cream);max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;position:sticky;left:0;background:rgba(22,15,12,0.95);z-index:2}
-.hab-dh{text-align:center;padding:2px 1px;font-size:.58rem;color:var(--muted);min-width:20px}
-.hab-wh{text-align:center;font-size:.58rem;color:var(--sec2);font-weight:600;padding:2px 3px;border-bottom:1px solid rgba(255,255,255,0.08);letter-spacing:.07em;text-transform:uppercase}
-.hab-c{text-align:center;padding:2px 1px}
-.hck{width:18px;height:18px;border-radius:4px;border:1.5px solid rgba(255,255,255,0.20);background:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:.6rem;color:#fff;font-weight:700;transition:all .15s}
-.hck.on{background:var(--sec);border-color:var(--sec)}
-.hck.fut{opacity:.15;cursor:default;pointer-events:none}
-.hab-prow td{font-size:.63rem;color:var(--sec2);font-weight:600;text-align:center;padding:3px 1px;border-top:1px solid rgba(255,255,255,0.08)}
-.hab-prow .hab-name{color:var(--muted);font-size:.65rem}
-
-/* ── Analysis grid ────────────────────────────────── */
-.anl-grid{display:grid;grid-template-columns:1fr auto auto 1fr;gap:0;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.10)}
-.anl-h{background:rgba(255,255,255,0.07);padding:5px 9px;font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;color:var(--sec2);font-weight:600;border-bottom:1px solid rgba(255,255,255,0.08)}
-.anl-c{padding:6px 9px;font-size:.8rem;border-bottom:1px solid rgba(255,255,255,.04);display:flex;align-items:center}
-.anl-bar-wrap{flex:1;background:rgba(255,255,255,0.07);border-radius:99px;height:5px;overflow:hidden}
-.anl-bar{height:100%;background:linear-gradient(90deg,var(--sec),var(--sec2));border-radius:99px;transition:width .4s}
-.anl-bar.warn{background:linear-gradient(90deg,#f59e0b,#fcd34d)}
-.anl-bar.bad{background:linear-gradient(90deg,#7B1D2E,#B5293C)}
-
-/* ── Budget planner ───────────────────────────────── */
-.bsum{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}
-.bstat{background:rgba(255,255,255,0.05);border-radius:10px;padding:10px 6px;text-align:center;border:1px solid rgba(255,255,255,0.10)}
-.bnum{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;line-height:1}
-.bnum.pos{color:var(--ok)}.bnum.neg{color:var(--danger)}.bnum.neu{color:var(--sec2)}
-.blbl{font-size:.57rem;color:var(--muted);margin-top:2px;text-transform:uppercase;letter-spacing:.08em}
-.bbar-w{height:4px;background:rgba(255,255,255,0.07);border-radius:99px;overflow:hidden;margin-top:4px}
-.bbar{height:100%;border-radius:99px;transition:width .4s}
-.btx-del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.85rem;opacity:.4;padding:0 3px}
-.btx-del:hover{opacity:1;color:var(--danger)}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:rgba(120,120,120,0.3);border-radius:99px}
 </style>
 </head>
 <body>
@@ -413,115 +341,127 @@ textarea.swinp{width:100%;background:transparent;border:none;color:var(--cream);
 <script type="text/babel">
 const {useState, useEffect, useRef, useCallback} = React;
 
+/* ─── Gemini API Configuration ─── */
+const apiKey = ""; 
+
+async function callGeminiAPI(prompt, systemInstruction) {
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+  const payload = {
+    contents: [{ parts: [{ text: prompt }] }],
+    systemInstruction: { parts: [{ text: systemInstruction }] },
+    generationConfig: { responseMimeType: "application/json" }
+  };
+
+  let retries = 5;
+  let delay = 1000;
+  
+  while (retries > 0) {
+    try {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+      const data = await res.json();
+      const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+      if(text) return JSON.parse(text);
+      throw new Error("No text candidate found.");
+    } catch (e) {
+      retries--;
+      if (retries === 0) {
+        console.error("Gemini API Error:", e);
+        return null;
+      }
+      await new Promise(r => setTimeout(r, delay));
+      delay *= 2;
+    }
+  }
+}
+
 /* ─── helpers ─── */
 const fmt = d => { if(!d) return ''; const x = d instanceof Date ? d : new Date(d + 'T12:00:00'); return x.getFullYear() + '-' + String(x.getMonth()+1).padStart(2,'0') + '-' + String(x.getDate()).padStart(2,'0'); };
 const todayStr = () => fmt(new Date());
 const genId = () => Math.random().toString(36).slice(2,9);
 const DAYS   = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const MONTH_NAMES=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const FULL_MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
 
 const calcDay   = s => { const a=new Date(s); a.setHours(0,0,0,0); const b=new Date(); b.setHours(0,0,0,0); return Math.max(1,Math.floor((b-a)/86400000)+1); };
 const getSundayOf = d => { const dt=new Date(typeof d==='string'?d+'T12:00:00':d); const dow=dt.getDay(); dt.setDate(dt.getDate()-dow); dt.setHours(12,0,0,0); return dt; };
 const calcWeek  = start => { const sm=getSundayOf(start); const tm=getSundayOf(new Date()); return Math.max(1,Math.floor((tm-sm)/604800000)+1); };
 const weekNumOf = (start,dateStr) => { const sm=getSundayOf(start); const dm=getSundayOf(dateStr); return Math.max(1,Math.floor((dm-sm)/604800000)+1); };
-const weekDays = (start,wk) => { const sm=getSundayOf(start); const mon=new Date(sm); mon.setDate(sm.getDate()+(wk-1)*7); return Array.from({length:7},(_,i)=>{ const d=new Date(mon); d.setDate(mon.getDate()+i); return fmt(d); }); };
 const calcMonth = s => { const a=new Date(s+'T12:00:00'), b=new Date(); return Math.max(1,(b.getFullYear()-a.getFullYear())*12+(b.getMonth()-a.getMonth())+1); };
 const calcYear  = d => Math.max(1,Math.ceil(d/365));
-const isMeas    = t => /\b\d+\b|pages?|mins?|minutes?|hours?|times?|days?|chapters?|verses?|km|miles?|reps?|sessions?|books?|calls?|words?|percent|%/i.test(t);
-
-const nearestSunToMonthEnd = (yr, mo) => {
-  const last=new Date(yr,mo+1,0); const dow=last.getDay();
-  const back=dow, fwd=dow===0?0:7-dow;
-  const d=back<=fwd?new Date(yr,mo,last.getDate()-back):new Date(yr,mo,last.getDate()+fwd);
-  return fmt(d);
-};
-
-/* ─── Background themes ─── */
-const BG_THEMES = [
-  { id:'midnight', label:'Night',   bg:'#131823' },
-  { id:'western',  label:'Ember',   bg:'#1E110A' },
-  { id:'crimson',  label:'Crimson', bg:'#180808' },
-  { id:'alpine',   label:'Alpine',  bg:'#0D1518' },
-];
-
-/* ─── Section colors ─── */
-const SEC = {
-  daily:  '#B5293C',
-  goals:  '#9B2335',
-  habits: '#50A078',
-  budget: '#C4963A',
-  bible:  '#8880B0',
-  affirm: '#D4736B',
-  cal:    '#7A9E9F',
-  meet:   '#5A8CC8',
-};
-const SEC2 = {
-  daily:  '#D4736B',
-  goals:  '#B5293C',
-  habits: '#7AC8A0',
-  budget: '#E8C87A',
-  bible:  '#A89CCF',
-  affirm: '#EEC4BC',
-  cal:    '#9ABCBD',
-  meet:   '#82AADE',
-};
-
-/* ─── Supabase sync engine ─── */
-const Sync = (() => {
-  let _client = null, _status = 'offline', _listeners = [], _timer = null, _pending = {};
-  const notify = s => { _status=s; _listeners.forEach(fn=>fn(s)); };
-  const onStatus = fn => { _listeners.push(fn); return ()=>{ _listeners=_listeners.filter(f=>f!==fn); }; };
-  const getStatus = () => _status;
-  const isReady = () => !!_client;
-  const SQL = `-- Run this once in Supabase > SQL Editor
-create table if not exists journey_data (
-  key text primary key,
-  val text not null,
-  updated_at timestamptz default now()
-);
-alter table journey_data enable row level security;
-create policy "anon_all" on journey_data
-  for all to anon using (true) with check (true);`;
-  const loadSupabase = () => new Promise((resolve, reject) => {
-    if(window.supabase) { resolve(); return; }
-    const s = document.createElement('script');
-    s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
-    s.onload = resolve; s.onerror = reject;
-    document.head.appendChild(s);
-  });
-  const init = async (url, key) => {
-    try { await loadSupabase(); _client = window.supabase.createClient(url, key); notify('syncing'); await pullAll(); return true; }
-    catch(e) { _client = null; notify('error'); return false; }
-  };
-  const pullAll = async () => {
-    if(!_client) return;
-    try {
-      notify('syncing');
-      const {data, error} = await _client.from('journey_data').select('key,val');
-      if(error) { notify('error'); return; }
-      (data||[]).forEach(row => { try { localStorage.setItem('jny_'+row.key, row.val); } catch {} });
-      notify('synced');
-    } catch { notify('error'); }
-  };
-  const scheduleUpsert = (key, val) => {
-    if(!_client) return; _pending[key] = val;
-    clearTimeout(_timer); _timer = setTimeout(flush, 1500);
-  };
-  const flush = async () => {
-    if(!_client || !Object.keys(_pending).length) return;
-    const rows = Object.entries(_pending).map(([key,val])=>({key,val,updated_at:new Date().toISOString()}));
-    _pending = {}; notify('syncing');
-    try { const {error} = await _client.from('journey_data').upsert(rows); notify(error?'error':'synced'); }
-    catch { notify('error'); }
-  };
-  return {init, pullAll, scheduleUpsert, onStatus, getStatus, isReady, SQL};
-})();
+const weekDays = (start,wk) => { const sm=getSundayOf(start); const mon=new Date(sm); mon.setDate(sm.getDate()+(wk-1)*7); return Array.from({length:7},(_,i)=>{ const d=new Date(mon); d.setDate(mon.getDate()+i); return fmt(d); }); };
 
 /* ─── local storage DB ─── */
 const DB = {
   get(k, fallback=null){ try { const r=localStorage.getItem('jny_'+k); return r!==null?JSON.parse(r):fallback; } catch { return fallback; } },
-  set(k, v){ const s=JSON.stringify(v); try { localStorage.setItem('jny_'+k, s); } catch {} Sync.scheduleUpsert(k, s); }
+  set(k, v){ const s=JSON.stringify(v); try { localStorage.setItem('jny_'+k, s); } catch {} }
 };
+
+/* ─── Databases ─── */
+const DB_FOODS = [
+  {name:"Chicken Breast", unit:"100g", cal:165, pro:31},
+  {name:"Egg", unit:"1 large", cal:70, pro:6},
+  {name:"White Rice", unit:"100g cooked", cal:130, pro:2.7},
+  {name:"Brown Rice", unit:"100g cooked", cal:111, pro:2.6},
+  {name:"Oats", unit:"100g dry", cal:389, pro:16.9},
+  {name:"Beef Mince 5%", unit:"100g", cal:137, pro:21},
+  {name:"Beef Steak", unit:"100g", cal:271, pro:25},
+  {name:"Salmon", unit:"100g", cal:208, pro:20},
+  {name:"Tuna (Canned)", unit:"100g", cal:116, pro:26},
+  {name:"Whey Protein", unit:"1 scoop", cal:120, pro:24},
+  {name:"Banana", unit:"1 medium", cal:105, pro:1.3},
+  {name:"Apple", unit:"1 medium", cal:95, pro:0.5},
+  {name:"Broccoli", unit:"100g", cal:34, pro:2.8},
+  {name:"Spinach", unit:"100g", cal:23, pro:2.9},
+  {name:"Peanut Butter", unit:"1 tbsp", cal:94, pro:4},
+  {name:"Whole Milk", unit:"100ml", cal:61, pro:3.2},
+  {name:"Skim Milk", unit:"100ml", cal:35, pro:3.4},
+  {name:"Almonds", unit:"100g", cal:579, pro:21},
+  {name:"Potato", unit:"100g baked", cal:93, pro:2.5},
+  {name:"Sweet Potato", unit:"100g baked", cal:90, pro:2},
+  {name:"Pasta", unit:"100g cooked", cal:131, pro:5},
+  {name:"Greek Yogurt", unit:"100g", cal:59, pro:10},
+  {name:"Avocado", unit:"100g", cal:160, pro:2},
+  {name:"Olive Oil", unit:"1 tbsp", cal:119, pro:0},
+  {name:"Bread (White)", unit:"1 slice", cal:66, pro:1.9},
+  {name:"Bread (Wholemeal)", unit:"1 slice", cal:69, pro:3.6},
+  {name:"Cheddar Cheese", unit:"100g", cal:402, pro:25}
+];
+
+const DB_EXERCISES = [
+  {name:"Weightlifting", calPerMin: 4},
+  {name:"Running (Moderate)", calPerMin: 11},
+  {name:"Running (Fast)", calPerMin: 14},
+  {name:"Walking", calPerMin: 4.5},
+  {name:"Cycling", calPerMin: 8},
+  {name:"Swimming", calPerMin: 9},
+  {name:"Yoga", calPerMin: 3},
+  {name:"HIIT", calPerMin: 12},
+  {name:"Rowing", calPerMin: 7},
+  {name:"Stairmaster", calPerMin: 9}
+];
+
+const DEFAULT_HABITS = ['Wake up on time','Exercise','Read / Learn','Prayer / Devotion','No social media','Drink water','Sleep on time'];
+
+const BUD_CATS = [
+  {id:'housing',    name:'Home',                ico:'🏠', color:'#5b8dee'},
+  {id:'dailyliving',name:'Daily Living',        ico:'🛍️', color:'#f0a500'},
+  {id:'dues',       name:'Dues',                ico:'📋', color:'#20c997'},
+  {id:'subs',       name:'Subscriptions',       ico:'📱', color:'#8b5cf6'},
+  {id:'debts',      name:'Debts',               ico:'💳', color:'#FF453A'},
+  {id:'personal',   name:'Personal',            ico:'👤', color:'#f43f5e'},
+  {id:'investment', name:'Investment',          ico:'📈', color:'#32D74B'},
+  {id:'savings',    name:'Savings',             ico:'💰', color:'#34C759'},
+  {id:'misc',       name:'Misc',                ico:'📌', color:'#9C8A82'},
+  {id:'transport',  name:'Transport',           ico:'🚗', color:'#FF9F0A'},
+  {id:'groceries',  name:'Groceries',           ico:'🛒', color:'#E8C87A'},
+  {id:'care',       name:'Personal Care',       ico:'🧴', color:'#0ea5e9'},
+];
 
 /* ─── shared ui ─── */
 function PBar({pct,label}){
@@ -533,7 +473,7 @@ function DateNav({date,setDate,maxToday}){
   const isMax=maxToday&&date>=todayStr();
   const lbl=date===todayStr()?'Today':new Date(date+'T12:00:00').toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});
   const go=dir=>{ const d=new Date(date+'T12:00:00'); d.setDate(d.getDate()+dir); setDate(fmt(d)); };
-  return(<div className="card" style={{padding:'9px 13px',marginBottom:11}}>
+  return(<div className="card" style={{padding:'12px 16px',marginBottom:14}}>
     <div className="dnav">
       <button className="dnbtn" onClick={()=>go(-1)}>‹</button>
       <div className="dlbl">{lbl}</div>
@@ -541,101 +481,26 @@ function DateNav({date,setDate,maxToday}){
     </div></div>);
 }
 
-/* ─── Sync Setup Modal ─── */
-function SyncModal({onClose, onSynced}){
-  const [step, setStep] = useState('check');
-  const [url, setUrl]   = useState(DB.get('sync_url','')||'');
-  const [key, setKey]   = useState(DB.get('sync_key','')||'');
-  const [status, setStatus] = useState(Sync.getStatus());
-  const [copied, setCopied] = useState(false);
-  const [testing, setTesting] = useState(false);
-  const [err, setErr] = useState('');
-  useEffect(()=>{ if(Sync.isReady()) setStep('done'); return Sync.onStatus(s=>setStatus(s)); },[]);
-  const copySQL = () => { navigator.clipboard.writeText(Sync.SQL).then(()=>{ setCopied(true); setTimeout(()=>setCopied(false),2000); }).catch(()=>{}); };
-  const connect = async () => {
-    if(!url.trim()||!key.trim()){ setErr('Please fill in both fields.'); return; }
-    setErr(''); setTesting(true);
-    const ok = await Sync.init(url.trim(), key.trim());
-    setTesting(false);
-    if(ok){ DB.set('sync_url', url.trim()); DB.set('sync_key', key.trim()); setStep('done'); onSynced && onSynced(); }
-    else { setErr('Could not connect. Check your URL and anon key, and make sure you ran the SQL.'); }
-  };
-  const disconnect = () => { localStorage.removeItem('jny_sync_url'); localStorage.removeItem('jny_sync_key'); window.location.reload(); };
-  const statusColor = {synced:'var(--ok)',syncing:'var(--gold-champ)',error:'var(--danger)',offline:'rgba(255,255,255,0.3)'};
-  const statusText  = {synced:'Synced — data is live across devices',syncing:'Syncing…',error:'Sync error — check credentials',offline:'Not connected'};
-  return(
-    <div className="overlay" onClick={e=>e.target===e.currentTarget&&onClose()}>
-      <div className="modal">
-        <div className="mtitle">☁ Sync Across Devices</div>
-        {step==='done' ? (
-          <>
-            <div className={`sync-status-row ${status}`}>
-              <div style={{width:10,height:10,borderRadius:'50%',background:statusColor[status],flexShrink:0}}/>
-              <span style={{fontSize:'.83rem'}}>{statusText[status]}</span>
-            </div>
-            <p style={{fontSize:'.83rem',color:'var(--muted)',lineHeight:1.6,marginBottom:14}}>Your data is syncing automatically. Open the same URL on any device and it will stay in sync.</p>
-            <div style={{display:'flex',gap:8}}>
-              <button className="btn btng btnsm" onClick={()=>Sync.pullAll()} style={{flex:1}}>Force Pull</button>
-              <button className="btn btng btnsm" style={{flex:1,color:'var(--danger)',borderColor:'rgba(181,41,60,.3)'}} onClick={disconnect}>Disconnect</button>
-            </div>
-            <div className="macts"><button className="btn btnfull" onClick={onClose}>Close</button></div>
-          </>
-        ) : (
-          <>
-            <p style={{fontSize:'.83rem',color:'var(--muted)',lineHeight:1.6,marginBottom:16}}>Follow these steps to sync your Journey data across your phone and laptop for free. Takes about 5 minutes.</p>
-            {[
-              ['Create a free Supabase account','Go to supabase.com and click "Start your project". Sign up with GitHub or email (it\'s free).', null],
-              ['Create a new project','Click "New project". Give it any name. Choose a region close to you. Wait ~2 minutes for it to start.', null],
-              ['Run the setup SQL','In your Supabase project, click SQL Editor in the left sidebar, paste and run this:', Sync.SQL],
-              ['Get your Project URL and anon key','In Supabase, go to Settings → API. Copy your Project URL and your anon / public key.', null],
-            ].map(([title,desc,code],i)=>(
-              <div key={i} className="step">
-                <div className="step-num">{i+1}</div>
-                <div className="step-body">
-                  <div className="step-title">{title}</div>
-                  <div className="step-desc">{desc}</div>
-                  {code && <><div className={`code-box ${copied?'copied':''}`} onClick={copySQL}>{copied?'✓ Copied!':code}</div>
-                    {!copied && <div style={{fontSize:'.7rem',color:'var(--muted)',marginTop:4}}>Tap the box above to copy</div>}</>}
-                </div>
-              </div>
-            ))}
-            <div className="step">
-              <div className="step-num">5</div>
-              <div className="step-body">
-                <div className="step-title">Paste them below</div>
-                <div className="frow" style={{marginTop:6}}><label className="flbl">Project URL</label><input className="inp inp-sm" placeholder="https://xxxx.supabase.co" value={url} onChange={e=>setUrl(e.target.value)}/></div>
-                <div className="frow"><label className="flbl">Anon / Public Key</label><input className="inp inp-sm" placeholder="eyJhbGci..." value={key} onChange={e=>setKey(e.target.value)}/></div>
-                {err && <div style={{fontSize:'.78rem',color:'var(--danger)',marginBottom:8}}>{err}</div>}
-                <button className="btn btnfull" onClick={connect} disabled={testing}>{testing?'Connecting…':'Connect & Sync'}</button>
-              </div>
-            </div>
-          </>
-        )}
-      </div>
-    </div>
-  );
-}
-
 /* ─── Setup screen ─── */
 function Setup({onDone}){
   const [d,setD]=useState('');
   return(
-    <div className="setup">
+    <div className="setup" data-theme="apple-dark">
       <div className="setup-t">Journey</div>
-      <p className="setup-s">Welcome. When did your journey begin?<br/>This sets your Day&nbsp;1.</p>
+      <p className="setup-s">Welcome. When did your journey begin?<br/>This sets your Day 1.</p>
       <div className="setup-f">
         <label className="flbl" style={{textAlign:'left'}}>Journey Start Date</label>
-        <input className="inp" type="date" value={d} onChange={e=>setD(e.target.value)} max={todayStr()} style={{textAlign:'center'}}/>
-        <button className="btn btnfull" style={{background:'var(--red-garnet)'}} onClick={()=>d&&onDone(d)} disabled={!d}>Begin Journey →</button>
+        <input className="inp" type="date" value={d} onChange={e=>setD(e.target.value)} max={todayStr()}/>
+        <button className="btn btnfull" onClick={()=>d&&onDone(d)} disabled={!d}>Begin Journey</button>
       </div>
     </div>
   );
 }
 
 /* ─── Donut Ring ─── */
-function Donut({pct, size=88, thick=9, color, bg, label}){
-  const c = color || 'var(--sec)';
-  const b = bg || 'rgba(255,255,255,0.08)';
+function Donut({pct, size=88, thick=8, color, bg, label}){
+  const c = color || 'var(--accent)';
+  const b = bg || 'var(--glass-border-strong)';
   const r=(size-thick)/2, circ=2*Math.PI*r;
   const dash=Math.min(pct,100)/100*circ;
   return(
@@ -644,120 +509,104 @@ function Donut({pct, size=88, thick=9, color, bg, label}){
         <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={b} strokeWidth={thick}/>
         <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={c} strokeWidth={thick}
           strokeDasharray={dash+' '+circ} strokeLinecap="round"
-          style={{transition:'stroke-dasharray .5s ease'}}/>
+          style={{transition:'stroke-dasharray 0.8s cubic-bezier(0.2, 0.8, 0.2, 1)'}}/>
       </svg>
       <div style={{position:'absolute',inset:0,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}}>
-        <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:size>70?'1.05rem':'.75rem',fontWeight:700,color:pct>0?c:'var(--muted)',lineHeight:1}}>{Math.round(pct)}%</div>
-        {label&&<div style={{fontSize:'.55rem',color:'var(--muted)',marginTop:1,letterSpacing:'.06em',textTransform:'uppercase'}}>{label}</div>}
+        <div style={{fontSize:size>70?'1.1rem':'.8rem',fontWeight:700,color:pct>0?c:'var(--text-muted)',lineHeight:1}}>{Math.round(pct)}%</div>
+        {label&&<div style={{fontSize:'.55rem',color:'var(--text-muted)',marginTop:2,letterSpacing:'.06em',textTransform:'uppercase',fontWeight:600}}>{label}</div>}
       </div>
     </div>
   );
 }
 
+function SmallDonut({pct,color='var(--accent)',size=56}){
+  const thick=6,r=(size-thick)/2,circ=2*Math.PI*r,dash=Math.min(pct,100)/100*circ;
+  return(
+    <div style={{position:'relative',width:size,height:size,flexShrink:0}}>
+      <svg width={size} height={size} style={{transform:'rotate(-90deg)',display:'block'}}>
+        <circle cx={size/2} cy={size/2} r={r} fill="none" stroke="var(--glass-border-strong)" strokeWidth={thick}/>
+        <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={color} strokeWidth={thick}
+          strokeDasharray={dash+' '+circ} strokeLinecap="round"/>
+      </svg>
+      <div style={{position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center',
+        fontSize:'.6rem',fontWeight:700,color:pct>0?color:'var(--text-muted)'}}>
+        {Math.round(pct)}%
+      </div>
+    </div>
+  );
+}
+
+
 /* ─── Daily ─── */
-function DailyDay({dateStr, start, isToday, wgoals}){
+function DailyDay({dateStr, isToday}){
   const [todos, setTodos] = useState([]);
   const [inp, setInp]     = useState('');
-  const [sel, setSel]     = useState('');
   const [adding, setAdding] = useState(false);
-  const color = isToday ? SEC.daily : '#3a2020';
-  const color2 = isToday ? SEC2.daily : '#5a3030';
 
   useEffect(()=>{ setTodos(DB.get('todos_'+dateStr,[])); },[dateStr]);
   const save=u=>{ setTodos(u); DB.set('todos_'+dateStr,u); };
-  const add=()=>{ if(!inp.trim()) return; save([...todos,{id:genId(),text:inp.trim(),done:false,wgid:sel||null}]); setInp(''); setSel(''); setAdding(false); };
+  const add=()=>{ if(!inp.trim()) return; save([...todos,{id:genId(),text:inp.trim(),done:false}]); setInp(''); setAdding(false); };
   const toggle=id=>save(todos.map(t=>t.id===id?{...t,done:!t.done}:t));
   const del=id=>save(todos.filter(t=>t.id!==id));
 
   const done=todos.filter(t=>t.done).length;
   const pct=todos.length?(done/todos.length)*100:0;
   const dateObj=new Date(dateStr+'T12:00:00');
-  const dayName=['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY'][dateObj.getDay()];
-  const dateLabel=dateObj.toLocaleDateString('en-GB',{day:'2-digit',month:'2-digit',year:'numeric'}).replace(/\//g,'.');
+  const dayName=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][dateObj.getDay()];
+  const dateLabel=dateObj.toLocaleDateString('en-GB',{day:'numeric',month:'short'});
   const isFuture=dateStr>todayStr();
 
   return(
-    <div style={{
-      minWidth:'82vw',maxWidth:340,flexShrink:0,
-      background:isToday?'rgba(181,41,60,0.08)':'rgba(255,255,255,0.04)',
-      border:'1px solid '+(isToday?'rgba(181,41,60,0.35)':'rgba(255,255,255,0.08)'),
-      borderRadius:14,overflow:'hidden',display:'flex',flexDirection:'column',
-      backdropFilter:'blur(12px)',WebkitBackdropFilter:'blur(12px)',
-    }}>
-      <div style={{background:isToday?SEC.daily:'rgba(255,255,255,0.06)',padding:'12px 14px 10px',textAlign:'center'}}>
-        <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:'1.1rem',fontWeight:700,color:'#fff',letterSpacing:'.12em',textTransform:'uppercase'}}>{dayName}</div>
-        <div style={{fontSize:'.68rem',color:isToday?'rgba(255,255,255,.75)':'rgba(255,255,255,.45)',marginTop:2,letterSpacing:'.06em'}}>{dateLabel}</div>
+    <div className="card" style={{minWidth:'85vw',maxWidth:360,flexShrink:0, padding: 0, overflow: 'hidden', border: isToday ? '1px solid var(--accent)' : ''}}>
+      <div style={{background:isToday?'var(--accent-soft)':'rgba(120,120,120,0.1)',padding:'16px',textAlign:'center', borderBottom: '1px solid var(--glass-border)'}}>
+        <div style={{fontSize:'1.1rem',fontWeight:700,color:isToday?'var(--accent)':'var(--text-main)', letterSpacing: '-0.02em'}}>{dayName}</div>
+        <div style={{fontSize:'.75rem',color:'var(--text-muted)',marginTop:2, fontWeight: 500}}>{dateLabel}{isToday ? ' • Today' : ''}</div>
       </div>
-      <div style={{display:'flex',justifyContent:'center',padding:'16px 0 10px'}}>
-        <Donut pct={pct} size={90} thick={9} color={color} bg={isToday?'rgba(181,41,60,0.15)':'rgba(255,255,255,0.06)'}/>
+      <div style={{display:'flex',justifyContent:'center',padding:'20px 0 10px'}}>
+        <Donut pct={pct} size={100} thick={10} color={isToday?'var(--accent)':'var(--text-main)'}/>
       </div>
-      <div style={{display:'flex',justifyContent:'center',gap:14,padding:'0 14px 10px',fontSize:'.67rem',color:'var(--muted)'}}>
+      <div style={{display:'flex',justifyContent:'center',gap:20,padding:'0 16px 16px',fontSize:'.75rem',color:'var(--text-muted)', fontWeight: 500}}>
         <span style={{color:'var(--ok)'}}>✓ {done} Done</span>
-        <span style={{color:SEC.daily}}>✕ {todos.length-done} Left</span>
+        <span>— {todos.length-done} Left</span>
       </div>
-      <div style={{flex:1,padding:'0 12px 10px',overflowY:'auto',maxHeight:280}}>
-        <div style={{fontSize:'.6rem',fontWeight:700,letterSpacing:'.12em',color:isToday?SEC2.daily:'rgba(255,255,255,0.35)',marginBottom:8,textTransform:'uppercase'}}>Tasks</div>
+      <div style={{flex:1,padding:'0 16px 16px',overflowY:'auto',maxHeight:300}}>
         {todos.length===0&&!isFuture&&(
-          <div style={{fontSize:'.75rem',color:'var(--muted)',textAlign:'center',padding:'8px 0'}}>No tasks — tap + to add</div>
+          <div style={{fontSize:'.85rem',color:'var(--text-muted)',textAlign:'center',padding:'12px 0'}}>No tasks yet.</div>
         )}
-        {todos.map(t=>{
-          const lg=wgoals.find(g=>g.id===t.wgid);
-          return(
-            <div key={t.id} style={{display:'flex',gap:8,alignItems:'flex-start',padding:'5px 0',borderBottom:'1px solid rgba(255,255,255,.05)'}}>
-              <button
-                style={{width:16,height:16,borderRadius:3,border:'1.5px solid '+(t.done?color:'rgba(255,255,255,0.25)'),
-                  background:t.done?color:'none',cursor:'pointer',display:'flex',alignItems:'center',
-                  justifyContent:'center',flexShrink:0,marginTop:1}}
-                onClick={()=>toggle(t.id)}>
-                {t.done&&<span style={{color:'#fff',fontSize:'.55rem',fontWeight:700}}>✓</span>}
-              </button>
-              <div style={{flex:1,minWidth:0}}>
-                <div style={{fontSize:'.78rem',lineHeight:1.35,textDecoration:t.done?'line-through':'none',
-                  color:t.done?'var(--muted)':'var(--cream)'}}>{t.text}</div>
-                {lg&&<div style={{fontSize:'.6rem',color:color2,marginTop:1}}>↳ {lg.text.slice(0,22)+(lg.text.length>22?'…':'')}</div>}
-              </div>
-              <button onClick={()=>del(t.id)} style={{background:'none',border:'none',color:'var(--muted)',cursor:'pointer',fontSize:'.8rem',opacity:.5,lineHeight:1}}>✕</button>
-            </div>
-          );
-        })}
+        {todos.map(t=>(
+          <div key={t.id} className="titem" style={{padding: '8px 0'}}>
+            <button className={'tchk'+(t.done?' on':'')} onClick={()=>toggle(t.id)}>
+              {t.done&&<span style={{color:'#fff',fontSize:'.65rem',fontWeight:700}}>✓</span>}
+            </button>
+            <div className={`ttxt ${t.done?'done':''}`}>{t.text}</div>
+            <button className="tdel" onClick={()=>del(t.id)}>✕</button>
+          </div>
+        ))}
         {!isFuture&&adding?(
-          <div style={{marginTop:8}}>
-            <div style={{display:'flex',gap:6}}>
-              <input autoFocus className="inp inp-sm" style={{flex:1,fontSize:'.78rem',padding:'6px 9px'}}
-                placeholder="Task…" value={inp} onChange={e=>setInp(e.target.value)} onKeyDown={e=>e.key==='Enter'&&add()}/>
-              <button style={{background:color,color:'#fff',border:'none',borderRadius:7,padding:'6px 10px',cursor:'pointer',fontWeight:600,fontSize:'.78rem'}} onClick={add}>+</button>
+          <div style={{marginTop:12}}>
+            <div style={{display:'flex',gap:8}}>
+              <input autoFocus className="inp inp-sm" style={{flex:1}} placeholder="Task…" value={inp} onChange={e=>setInp(e.target.value)} onKeyDown={e=>e.key==='Enter'&&add()}/>
+              <button className="btn btnsm" onClick={add}>Add</button>
             </div>
-            {wgoals.length>0&&inp.trim()&&(
-              <select className="inp inp-sm" value={sel} onChange={e=>setSel(e.target.value)} style={{width:'100%',marginTop:5,fontSize:'.72rem'}}>
-                <option value="">— Link to weekly goal (optional) —</option>
-                {wgoals.map(g=><option key={g.id} value={g.id}>{g.text}</option>)}
-              </select>
-            )}
           </div>
         ):!isFuture&&(
           <button onClick={()=>setAdding(true)}
-            style={{marginTop:8,width:'100%',background:'rgba(181,41,60,0.08)',border:'1px dashed rgba(181,41,60,0.28)',
-              borderRadius:7,padding:'6px',color:color2,fontSize:'.75rem',cursor:'pointer',letterSpacing:'.05em'}}>
+            style={{marginTop:12,width:'100%',background:'rgba(120,120,120,0.1)', border:'1px dashed var(--glass-border-strong)',
+              borderRadius:10,padding:'10px',color:'var(--text-main)',fontSize:'.85rem',cursor:'pointer', fontWeight: 500, transition: 'all 0.2s'}}>
             + Add Task
           </button>
         )}
-      </div>
-      <div style={{borderTop:'1px solid rgba(255,255,255,.06)',display:'flex',fontSize:'.65rem',color:'var(--muted)'}}>
-        <div style={{flex:1,padding:'6px 12px',textAlign:'center',letterSpacing:'.05em',textTransform:'uppercase'}}>Done<br/><span style={{color:'var(--ok)',fontWeight:600}}>{done}</span></div>
-        <div style={{flex:1,padding:'6px 12px',textAlign:'center',borderLeft:'1px solid rgba(255,255,255,.06)',letterSpacing:'.05em',textTransform:'uppercase'}}>Left<br/><span style={{color:SEC.daily,fontWeight:600}}>{todos.length-done}</span></div>
       </div>
     </div>
   );
 }
 
-function DailyTab({dn,wn,mn,yn,start}){
+function DailyTab({dn,wn,mn,yn}){
   const now=new Date();
-  const dow=now.getDay();
-  const weekStart=new Date(now); weekStart.setDate(now.getDate()-dow); weekStart.setHours(12,0,0,0);
   const [weekOffset,setWeekOffset]=useState(0);
-  const [wgoals,setWgoals]=useState([]);
   const scrollRef=useRef();
 
+  const weekStart=new Date(now); weekStart.setDate(now.getDate()-now.getDay()); weekStart.setHours(12,0,0,0);
   const days=Array.from({length:7},(_,i)=>{
     const d=new Date(weekStart); d.setDate(weekStart.getDate()+weekOffset*7+i);
     return fmt(d);
@@ -765,10 +614,9 @@ function DailyTab({dn,wn,mn,yn,start}){
 
   const weekLabel=()=>{
     const s=new Date(days[0]+'T12:00:00'), e=new Date(days[6]+'T12:00:00');
-    return s.toLocaleDateString('en-GB',{day:'numeric',month:'short'})+' – '+e.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+    return s.toLocaleDateString('en-GB',{day:'numeric',month:'short'})+' – '+e.toLocaleDateString('en-GB',{day:'numeric',month:'short'});
   };
 
-  useEffect(()=>{ const wk=weekNumOf(start,days[0]); setWgoals(DB.get('wgoals_'+wk,[])); },[weekOffset,start]);
   useEffect(()=>{
     if(scrollRef.current&&weekOffset===0){
       const todayIdx=days.indexOf(todayStr());
@@ -778,22 +626,22 @@ function DailyTab({dn,wn,mn,yn,start}){
 
   return(
     <div style={{display:'flex',flexDirection:'column',height:'100%'}}>
-      <div style={{display:'flex',gap:8,padding:'12px 14px 8px',flexShrink:0}}>
-        {[['Day',dn,'Day'],['Week',wn,'Wk'],['Month',mn,'Mo'],['Year',yn,'Yr']].map(([l,v,s])=>(
-          <div key={l} className="dstat"><div className="dsnum">{v}</div><div className="dslbl">{s}</div></div>
+      <div style={{display:'flex',gap:10,padding:'16px',flexShrink:0}}>
+        {[['Day',dn],['Wk',wn],['Mo',mn],['Yr',yn]].map(([l,v])=>(
+          <div key={l} className="stat-box"><div className="stat-val">{v}</div><div className="stat-lbl">{l}</div></div>
         ))}
       </div>
-      <div style={{display:'flex',alignItems:'center',padding:'0 14px 10px',gap:10,flexShrink:0}}>
+      <div style={{display:'flex',alignItems:'center',padding:'0 16px 12px',gap:12,flexShrink:0}}>
         <button className="dnbtn" onClick={()=>setWeekOffset(w=>w-1)}>‹</button>
-        <div className="dlbl" style={{fontSize:'.78rem',letterSpacing:'.06em'}}>{weekLabel()}</div>
+        <div className="dlbl" style={{fontSize:'.9rem'}}>{weekLabel()}</div>
         <button className="dnbtn" onClick={()=>setWeekOffset(w=>w+1)} disabled={weekOffset>=1} style={{opacity:weekOffset>=1?.35:1}}>›</button>
       </div>
       <div ref={scrollRef}
-        style={{display:'flex',gap:10,padding:'0 14px 14px',overflowX:'auto',
+        style={{display:'flex',gap:14,padding:'0 16px 16px',overflowX:'auto',
           WebkitOverflowScrolling:'touch',flex:1,alignItems:'flex-start',scrollSnapType:'x mandatory'}}>
         {days.map(d=>(
-          <div key={d} style={{scrollSnapAlign:'start'}}>
-            <DailyDay dateStr={d} start={start} isToday={d===todayStr()} wgoals={wgoals}/>
+          <div key={d} style={{scrollSnapAlign:'center'}}>
+            <DailyDay dateStr={d} isToday={d===todayStr()}/>
           </div>
         ))}
       </div>
@@ -802,7 +650,7 @@ function DailyTab({dn,wn,mn,yn,start}){
 }
 
 /* ─── Goals ─── */
-function GoalsTab({dn,wn,mn,yn,start}){
+function GoalsTab({dn,wn,mn,yn}){
   const [sub,setSub]=useState('weekly');
   const yn2=calcYear(dn);
   const [viewWk,setViewWk]=useState(wn);
@@ -815,86 +663,447 @@ function GoalsTab({dn,wn,mn,yn,start}){
         <button className={'stab'+(sub==='monthly'?' on':'')} onClick={()=>setSub('monthly')}>Monthly</button>
         <button className={'stab'+(sub==='yearly'?' on':'')} onClick={()=>setSub('yearly')}>Yearly</button>
       </div>
-
       {sub==='weekly'&&(
-        <>
-          <div style={{display:'flex',alignItems:'center',gap:9,marginBottom:11}}>
-            <button className="dnbtn" onClick={()=>setViewWk(w=>Math.max(1,w-1))}>&#x2039;</button>
+        <><div className="dnav" style={{marginBottom:14}}>
+            <button className="dnbtn" onClick={()=>setViewWk(w=>Math.max(1,w-1))}>‹</button>
             <div className="dlbl">Week {viewWk}{viewWk===wn?' (Current)':''}</div>
-            <button className="dnbtn" onClick={()=>setViewWk(w=>Math.min(wn,w+1))} disabled={viewWk>=wn} style={{opacity:viewWk>=wn?.35:1}}>&#x203a;</button>
+            <button className="dnbtn" onClick={()=>setViewWk(w=>Math.min(wn,w+1))} disabled={viewWk>=wn} style={{opacity:viewWk>=wn?.35:1}}>›</button>
           </div>
-          <GoalList skey={'wgoals_'+viewWk} label={`Week ${viewWk}`} type="week" period={viewWk} start={start}/>
+          <GoalList skey={'wgoals_'+viewWk} label={`Week ${viewWk}`} />
         </>
       )}
       {sub==='monthly'&&(
-        <>
-          <div style={{display:'flex',alignItems:'center',gap:9,marginBottom:11}}>
-            <button className="dnbtn" onClick={()=>setViewMn(m=>Math.max(1,m-1))}>&#x2039;</button>
+        <><div className="dnav" style={{marginBottom:14}}>
+            <button className="dnbtn" onClick={()=>setViewMn(m=>Math.max(1,m-1))}>‹</button>
             <div className="dlbl">Month {viewMn}{viewMn===mn?' (Current)':''}</div>
-            <button className="dnbtn" onClick={()=>setViewMn(m=>Math.min(mn,m+1))} disabled={viewMn>=mn} style={{opacity:viewMn>=mn?.35:1}}>&#x203a;</button>
+            <button className="dnbtn" onClick={()=>setViewMn(m=>Math.min(mn,m+1))} disabled={viewMn>=mn} style={{opacity:viewMn>=mn?.35:1}}>›</button>
           </div>
-          <GoalList skey={'mgoals_'+viewMn} label={`Month ${viewMn}`} type="none"/>
+          <GoalList skey={'mgoals_'+viewMn} label={`Month ${viewMn}`} />
         </>
       )}
       {sub==='yearly'&&(
-        <>
-          <div style={{display:'flex',alignItems:'center',gap:9,marginBottom:11}}>
-            <button className="dnbtn" onClick={()=>setViewYr(y=>Math.max(1,y-1))}>&#x2039;</button>
+        <><div className="dnav" style={{marginBottom:14}}>
+            <button className="dnbtn" onClick={()=>setViewYr(y=>Math.max(1,y-1))}>‹</button>
             <div className="dlbl">Year {viewYr}{viewYr===yn2?' (Current)':''}</div>
-            <button className="dnbtn" onClick={()=>setViewYr(y=>Math.min(yn2,y+1))} disabled={viewYr>=yn2} style={{opacity:viewYr>=yn2?.35:1}}>&#x203a;</button>
+            <button className="dnbtn" onClick={()=>setViewYr(y=>Math.min(yn2,y+1))} disabled={viewYr>=yn2} style={{opacity:viewYr>=yn2?.35:1}}>›</button>
           </div>
-          <GoalList skey={'ygoals_'+viewYr} label={`Year ${viewYr}`} type="none"/>
+          <GoalList skey={'ygoals_'+viewYr} label={`Year ${viewYr}`} />
         </>
       )}
     </div>
   );
 }
-function GoalList({skey,label,type,period,start}){
+
+function GoalList({skey,label}){
   const [goals,setGoals]=useState([]);
   const [inp,setInp]=useState('');
-  const [linked,setLinked]=useState({});
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiError, setAiError] = useState('');
+
   useEffect(()=>{ setGoals(DB.get(skey,[])); },[skey]);
-  useEffect(()=>{
-    if(type!=='week'||!start||!period) return;
-    const counts={};
-    weekDays(start,period).forEach(dk=>{ const ts=DB.get('todos_'+dk,[]); ts.forEach(t=>{ if(t.wgid){ if(!counts[t.wgid]) counts[t.wgid]={tot:0,done:0}; counts[t.wgid].tot++; if(t.done) counts[t.wgid].done++; } }); });
-    setLinked(counts);
-  },[type,period,start,goals]);
   const save=g=>{ setGoals(g); DB.set(skey,g); };
-  const add=()=>{ if(!inp.trim()) return; save([...goals,{id:genId(),text:inp.trim(),measurable:isMeas(inp),done:false}]); setInp(''); };
+  const add=()=>{ if(!inp.trim()) return; save([...goals,{id:genId(),text:inp.trim(),done:false}]); setInp(''); setAiError(''); };
   const toggle=id=>save(goals.map(g=>g.id===id?{...g,done:!g.done}:g));
   const del=id=>save(goals.filter(g=>g.id!==id));
-  let tpct=0,mc=0;
-  goals.forEach(g=>{ if(!g.measurable) return; mc++; const lk=linked[g.id]; if(lk&&lk.tot>0) tpct+=(lk.done/lk.tot)*100; else if(g.done) tpct+=100; });
-  const nm=goals.filter(g=>!g.measurable),nmd=nm.filter(g=>g.done).length;
-  const ovr=goals.length===0?0:mc>0?(tpct/mc+(nm.length>0?(nmd/nm.length)*100:0))/(mc>0&&nm.length>0?2:1):nm.length>0?(nmd/nm.length)*100:0;
+  
+  const handleAIBreakdown = async () => {
+    if (!inp.trim()) { setAiError('Type a goal first to break it down.'); return; }
+    setAiLoading(true); setAiError('');
+    
+    const sysPrompt = `You are an expert productivity coach. The user wants to achieve a goal. Break down the user's goal into exactly 3 to 4 smaller, highly actionable sub-goals or steps. Return ONLY a valid JSON array of objects, where each object has a 'text' property (string).`;
+    
+    const result = await callGeminiAPI(`Goal: ${inp}`, sysPrompt);
+    
+    if (result && Array.isArray(result)) {
+      const newGoals = result.map(g => ({ id: genId(), text: g.text, done: false }));
+      save([...goals, ...newGoals]);
+      setInp('');
+    } else {
+      setAiError("AI failed to break down the goal. Try again.");
+    }
+    setAiLoading(false);
+  };
+
+  const doneCount = goals.filter(g=>g.done).length;
+  const pct = goals.length ? (doneCount/goals.length)*100 : 0;
+  
   return(
-    <div>
-      <div className="card">
-        <div className="ctitle">◎ {label} Goals</div>
-        {goals.length>0&&<PBar pct={ovr} label="Overall progress"/>}
-        {goals.length===0&&<div className="empty"><div className="eico">🎯</div><div className="etxt">No goals yet — add one below</div></div>}
-        {goals.map(g=>{ const lk=linked[g.id],lkp=lk&&lk.tot>0?(lk.done/lk.tot)*100:null; return(
-          <div key={g.id} className="gitem">
-            {!g.measurable&&<button className={'tchk'+(g.done?' on':'')} onClick={()=>toggle(g.id)} aria-label="toggle">
-              {g.done&&<span style={{color:'#fff',fontSize:'.68rem',fontWeight:700}}>✓</span>}</button>}
-            {g.measurable&&<div style={{width:20,flexShrink:0}}/>}
-            <div style={{flex:1}}>
-              <div style={{fontSize:'.88rem',lineHeight:1.4,textDecoration:g.done&&!g.measurable?'line-through':'none',color:g.done&&!g.measurable?'var(--muted)':'var(--cream)'}}>{g.text}</div>
-              <div style={{display:'flex',gap:5,marginTop:3,flexWrap:'wrap',alignItems:'center'}}>
-                <span className={'mbdg '+(g.measurable?'y':'n')}>{g.measurable?'◉ measurable':'◌ not measurable'}</span>
-                {g.measurable&&lk&&lk.tot>0&&<span style={{fontSize:'.66rem',color:'var(--sec2)'}}>{lk.done}/{lk.tot} tasks done</span>}
-              </div>
-              {g.measurable&&lkp!==null&&<div style={{marginTop:4}}><div className="pwrap" style={{height:3}}><div className="pbar" style={{width:lkp+'%'}}/></div></div>}
-            </div>
-            <button className="tdel" onClick={()=>del(g.id)}>✕</button>
-          </div>);})}
-        <div className="row">
-          <input className="inp" placeholder="Add a goal…" value={inp} onChange={e=>setInp(e.target.value)} onKeyDown={e=>e.key==='Enter'&&add()}/>
-          <button className="btn" onClick={add}>+</button>
-        </div>
-        {inp.trim()&&<div className={'hint '+(isMeas(inp)?'ok':'mu')}>{isMeas(inp)?'◉ Measurable — progress tracked':'◌ Not measurable — tick manually'}</div>}
+    <div className="card">
+      <div className="ctitle">
+        <span>🎯 {label} Goals</span>
       </div>
+      
+      {goals.length>0&&<PBar pct={pct} label="Progress"/>}
+      {goals.length===0&&<div className="empty" style={{padding: '10px 0'}}><div className="eico">🎯</div><div className="etxt">No goals set</div></div>}
+      
+      <div style={{marginTop: 10, marginBottom: 16}}>
+        {goals.map(g=>(
+          <div key={g.id} className="gitem">
+            <button className={'tchk'+(g.done?' on':'')} onClick={()=>toggle(g.id)}>
+              {g.done&&<span style={{color:'#fff',fontSize:'.65rem',fontWeight:700}}>✓</span>}
+            </button>
+            <div className={`ttxt ${g.done?'done':''}`}>{g.text}</div>
+            <button className="tdel" onClick={()=>del(g.id)}>✕</button>
+          </div>
+        ))}
+      </div>
+      
+      <div className="row" style={{alignItems: 'stretch', flexWrap: 'wrap'}}>
+        <input className="inp" style={{minWidth: '100%'}} placeholder="Type a big goal here..." value={inp} onChange={e=>setInp(e.target.value)} onKeyDown={e=>e.key==='Enter'&&add()}/>
+        <div style={{display: 'flex', gap: 10, width: '100%'}}>
+          <button className="btn" onClick={add} style={{flex: 1}}>Add Goal</button>
+          <button className={`btn btn-ai ${aiLoading ? 'ai-loading' : ''}`} onClick={handleAIBreakdown} style={{flex: 1}}>
+            ✨ AI Break Down
+          </button>
+        </div>
+      </div>
+      {aiError && <div className="ai-error">{aiError}</div>}
+    </div>
+  );
+}
+
+/* ─── Fitness / Health ─── */
+function FitnessTab(){
+  const [fd, setFd] = useState(todayStr());
+  const [sub, setSub] = useState('log'); // log, progress, settings
+  const [settings, setSettings] = useState({cal: 2500, pro: 150, water: 8});
+  const [log, setLog] = useState({ foods:[], workouts:[], strength:[], water:0 });
+  
+  // AI Logging State
+  const [aiInput, setAiInput] = useState('');
+  const [aiType, setAiType] = useState('food'); // 'food' | 'workout'
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiError, setAiError] = useState('');
+
+  // Search states
+  const [fQuery, setFQuery] = useState('');
+  const [fRes, setFRes] = useState([]);
+  const [fSel, setFSel] = useState(null);
+  const [fMult, setFMult] = useState(1);
+  const [fCustom, setFCustom] = useState({name:'', cal:'', pro:''});
+
+  const [wQuery, setWQuery] = useState('');
+  const [wRes, setWRes] = useState([]);
+  const [wSel, setWSel] = useState(null);
+  const [wMins, setWMins] = useState(30);
+
+  const [sEx, setSEx] = useState('');
+  const [sWt, setSWt] = useState('');
+  const [sSets, setSSets] = useState('');
+  const [sReps, setSReps] = useState('');
+
+  const [strHistory, setStrHistory] = useState({});
+
+  useEffect(() => {
+    setSettings(DB.get('fit_settings', {cal: 2500, pro: 150, water: 8}));
+    setStrHistory(DB.get('fit_history', {}));
+  }, []);
+
+  useEffect(() => {
+    setLog(DB.get('fit_log_'+fd, { foods:[], workouts:[], strength:[], water:0 }));
+  }, [fd]);
+
+  const saveSettings = (s) => { setSettings(s); DB.set('fit_settings', s); };
+  const saveLog = (l) => { setLog(l); DB.set('fit_log_'+fd, l); };
+
+  // Computed
+  const calsIn = log.foods.reduce((s,f) => s + f.cal, 0);
+  const proIn  = log.foods.reduce((s,f) => s + f.pro, 0);
+  const calsOut = log.workouts.reduce((s,w) => s + w.cal, 0);
+  const calsRemaining = Math.round(settings.cal + calsOut - calsIn);
+  const calPct = Math.min(100, Math.max(0, (calsIn / (settings.cal + calsOut)) * 100));
+  const proPct = Math.min(100, Math.max(0, (proIn / settings.pro) * 100));
+  const watPct = Math.min(100, Math.max(0, (log.water / settings.water) * 100));
+
+  // AI Logger Logic
+  const handleAILog = async () => {
+    if(!aiInput.trim()) return;
+    setAiLoading(true); setAiError('');
+    
+    if(aiType === 'food') {
+      const sysPrompt = `You are a professional nutrition expert. The user will describe a meal they ate. Estimate the total nutritional value. Return ONLY a valid JSON object with the following keys: 'name' (string, a very short 2-4 word descriptive summary), 'cal' (number, estimated total calories), 'pro' (number, estimated total protein in grams). DO NOT return markdown formatting like \`\`\`json, just the raw JSON object.`;
+      
+      const res = await callGeminiAPI(aiInput, sysPrompt);
+      
+      if(res && res.name && res.cal !== undefined) {
+         const item = { id:genId(), name: res.name + " ✨", cal: Number(res.cal), pro: Number(res.pro||0), desc: 'AI Logged' };
+         saveLog({...log, foods: [item, ...log.foods]});
+         setAiInput('');
+      } else { setAiError('AI could not process this meal. Try being more specific.'); }
+    } else {
+      const sysPrompt = `You are a professional fitness expert. The user will describe a physical activity they performed. Estimate the calories burned and duration. Return ONLY a valid JSON object with the following keys: 'name' (string, a very short 2-4 word descriptive summary of the activity), 'cal' (number, estimated calories burned), 'mins' (number, estimated duration in minutes). DO NOT return markdown formatting like \`\`\`json, just the raw JSON object.`;
+      
+      const res = await callGeminiAPI(aiInput, sysPrompt);
+      
+      if(res && res.name && res.cal !== undefined) {
+         const item = { id:genId(), name: res.name + " ✨", cal: Number(res.cal), mins: Number(res.mins||0) };
+         saveLog({...log, workouts: [item, ...log.workouts]});
+         setAiInput('');
+      } else { setAiError('AI could not process this workout.'); }
+    }
+    setAiLoading(false);
+  };
+
+  // Search logic
+  useEffect(()=>{
+    if(fQuery.length > 1){
+      const res = DB_FOODS.filter(f=>f.name.toLowerCase().includes(fQuery.toLowerCase()));
+      setFRes(res);
+    } else { setFRes([]); setFSel(null); }
+  }, [fQuery]);
+
+  useEffect(()=>{
+    if(wQuery.length > 1){
+      const res = DB_EXERCISES.filter(e=>e.name.toLowerCase().includes(wQuery.toLowerCase()));
+      setWRes(res);
+    } else { setWRes([]); setWSel(null); }
+  }, [wQuery]);
+
+  const addFood = () => {
+    if(fSel){
+      const item = { id:genId(), name: fSel.name, cal: Math.round(fSel.cal*fMult), pro: Math.round(fSel.pro*fMult), desc: `${fMult}x ${fSel.unit}` };
+      saveLog({...log, foods: [item, ...log.foods]});
+      setFQuery(''); setFSel(null); setFMult(1);
+    } else if(fCustom.name && fCustom.cal) {
+      const item = { id:genId(), name: fCustom.name, cal: Number(fCustom.cal), pro: Number(fCustom.pro||0), desc: 'Custom' };
+      saveLog({...log, foods: [item, ...log.foods]});
+      setFCustom({name:'', cal:'', pro:''});
+    }
+  };
+
+  const addWorkout = () => {
+    if(wSel && wMins > 0) {
+      const burned = Math.round(wSel.calPerMin * wMins);
+      const item = { id:genId(), name: wSel.name, cal: burned, mins: wMins };
+      saveLog({...log, workouts: [item, ...log.workouts]});
+      setWQuery(''); setWSel(null); setWMins(30);
+    }
+  };
+
+  const addStrength = () => {
+    if(!sEx || !sWt || !sSets || !sReps) return;
+    const item = { id:genId(), ex: sEx, wt: sWt, sets: sSets, reps: sReps };
+    saveLog({...log, strength: [item, ...log.strength]});
+    
+    // Save to history
+    const hist = {...strHistory};
+    const key = sEx.toLowerCase().trim();
+    if(!hist[key]) hist[key] = [];
+    hist[key].push({ date: fd, wt: sWt, sets: sSets, reps: sReps });
+    setStrHistory(hist);
+    DB.set('fit_history', hist);
+
+    setSEx(''); setSWt(''); setSSets(''); setSReps('');
+  };
+
+  const delLog = (type, id) => { saveLog({...log, [type]: log[type].filter(x=>x.id!==id)}); };
+  const addWater = (n) => { saveLog({...log, water: Math.max(0, log.water + n)}); };
+
+  return(
+    <div className="sec">
+      <DateNav date={fd} setDate={setFd} maxToday/>
+      
+      <div className="stabs">
+        <button className={'stab'+(sub==='log'?' on':'')} onClick={()=>setSub('log')}>Day Log</button>
+        <button className={'stab'+(sub==='progress'?' on':'')} onClick={()=>setSub('progress')}>Gym Progress</button>
+        <button className={'stab'+(sub==='settings'?' on':'')} onClick={()=>setSub('settings')}>Goals</button>
+      </div>
+
+      {sub==='log' && (
+        <>
+          <div className="card" style={{display:'flex', alignItems:'center', gap: 16}}>
+            <Donut pct={calPct} size={100} thick={10} color="var(--accent)"/>
+            <div style={{flex:1}}>
+              <div style={{fontSize: '1.4rem', fontWeight: 700}}>{calsRemaining}</div>
+              <div style={{fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: 8}}>Calories Remaining</div>
+              <div style={{display:'flex', gap: 16, fontSize: '0.75rem', fontWeight: 600}}>
+                <div><span style={{color:'var(--text-muted)'}}>In:</span> {calsIn}</div>
+                <div><span style={{color:'var(--ok)'}}>Burn:</span> {calsOut}</div>
+              </div>
+            </div>
+          </div>
+
+          <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap: 14, marginBottom: 14}}>
+            <div className="card" style={{marginBottom: 0, textAlign:'center'}}>
+              <div style={{fontSize:'0.7rem', color:'var(--text-muted)', textTransform:'uppercase', letterSpacing:'0.05em', marginBottom:8}}>Protein (g)</div>
+              <Donut pct={proPct} size={60} thick={6} color="#f43f5e"/>
+              <div style={{marginTop:8, fontSize:'0.85rem', fontWeight:600}}>{proIn} / {settings.pro}</div>
+            </div>
+            <div className="card" style={{marginBottom: 0, textAlign:'center'}}>
+              <div style={{fontSize:'0.7rem', color:'var(--text-muted)', textTransform:'uppercase', letterSpacing:'0.05em', marginBottom:8}}>Water (Glass)</div>
+              <Donut pct={watPct} size={60} thick={6} color="#0ea5e9"/>
+              <div style={{display:'flex', alignItems:'center', justifyContent:'center', gap: 8, marginTop: 8}}>
+                <button className="dnbtn" style={{width:24,height:24,fontSize:'.9rem'}} onClick={()=>addWater(-1)}>-</button>
+                <div style={{fontSize:'0.85rem', fontWeight:600}}>{log.water}/{settings.water}</div>
+                <button className="dnbtn" style={{width:24,height:24,fontSize:'.9rem'}} onClick={()=>addWater(1)}>+</button>
+              </div>
+            </div>
+          </div>
+
+          {/* AI Smart Logger Card */}
+          <div className="card" style={{border: '1px solid rgba(139, 92, 246, 0.4)'}}>
+            <div className="ctitle" style={{color: '#d946ef'}}>
+              <span>✨ AI Smart Logger</span>
+            </div>
+            <div className="stabs" style={{marginBottom: 10}}>
+              <button className={'stab'+(aiType==='food'?' on':'')} style={aiType==='food'?{background:'#8b5cf6', borderColor:'#8b5cf6'}:{}} onClick={()=>setAiType('food')}>Meal</button>
+              <button className={'stab'+(aiType==='workout'?' on':'')} style={aiType==='workout'?{background:'#8b5cf6', borderColor:'#8b5cf6'}:{}} onClick={()=>setAiType('workout')}>Workout</button>
+            </div>
+            <textarea 
+               className="inp" 
+               style={{minHeight: 60}}
+               placeholder={aiType === 'food' ? "e.g. 'I ate 3 scrambled eggs with two slices of whole wheat toast and an avocado'" : "e.g. 'I ran for 45 minutes at a steady pace and did 15 mins of yoga'"} 
+               value={aiInput} 
+               onChange={e=>setAiInput(e.target.value)}>
+            </textarea>
+            <div className="row" style={{marginTop: 8}}>
+              <button className={`btn btnfull btn-ai ${aiLoading ? 'ai-loading' : ''}`} onClick={handleAILog}>
+                ✨ Estimate {aiType === 'food' ? 'Calories & Macros' : 'Burn & Duration'}
+              </button>
+            </div>
+            {aiError && <div className="ai-error">{aiError}</div>}
+          </div>
+
+          <div className="card">
+            <div className="ctitle">🥑 Manual Food Log</div>
+            <input className="inp" placeholder="Search database (e.g., Chicken)..." value={fQuery} onChange={e=>setFQuery(e.target.value)} />
+            {fRes.length > 0 && !fSel && (
+              <div className="search-res">
+                {fRes.map(r=><div key={r.name} className="search-item" onClick={()=>{setFSel(r);setFQuery(r.name);setFRes([]);}}>
+                  <strong>{r.name}</strong> <span style={{color:'var(--text-muted)', fontSize:'.8rem'}}>— {r.cal} kcal, {r.pro}g pro per {r.unit}</span>
+                </div>)}
+              </div>
+            )}
+            {fSel && (
+              <div className="row" style={{alignItems:'center'}}>
+                <span style={{fontSize:'.85rem'}}>Multiplier ({fSel.unit}):</span>
+                <input className="inp inp-sm" type="number" min="0.1" step="0.1" value={fMult} onChange={e=>setFMult(e.target.value)}/>
+                <button className="btn" onClick={addFood}>Add</button>
+                <button className="btn btng" onClick={()=>{setFSel(null);setFQuery('');}}>✕</button>
+              </div>
+            )}
+            {!fSel && fQuery.length > 0 && fRes.length === 0 && (
+              <div style={{marginTop: 10}}>
+                <div style={{fontSize:'.8rem', color:'var(--text-muted)', marginBottom: 8}}>Not found. Add custom:</div>
+                <div className="row">
+                  <input className="inp inp-sm" placeholder="Name" value={fCustom.name} onChange={e=>setFCustom({...fCustom, name:e.target.value})}/>
+                  <input className="inp inp-sm" type="number" placeholder="Kcal" value={fCustom.cal} onChange={e=>setFCustom({...fCustom, cal:e.target.value})}/>
+                  <input className="inp inp-sm" type="number" placeholder="Pro (g)" value={fCustom.pro} onChange={e=>setFCustom({...fCustom, pro:e.target.value})}/>
+                  <button className="btn btnsm" onClick={addFood}>Add</button>
+                </div>
+              </div>
+            )}
+
+            {log.foods.length > 0 && <div style={{marginTop: 16, paddingTop: 16, borderTop: '1px solid var(--glass-border)'}}>
+              {log.foods.map(f=>(
+                <div key={f.id} className="gitem" style={{padding:'8px 0'}}>
+                  <div style={{flex:1}}>
+                    <div style={{fontSize:'.9rem', fontWeight:600}}>{f.name}</div>
+                    <div style={{fontSize:'.75rem', color:'var(--text-muted)'}}>{f.desc} • {f.cal} kcal • {f.pro}g pro</div>
+                  </div>
+                  <button className="tdel" onClick={()=>delLog('foods', f.id)}>✕</button>
+                </div>
+              ))}
+            </div>}
+          </div>
+
+          <div className="card">
+            <div className="ctitle">🔥 Manual Cardio Log</div>
+            <input className="inp" placeholder="Search activity (e.g., Running)..." value={wQuery} onChange={e=>setWQuery(e.target.value)} />
+            {wRes.length > 0 && !wSel && (
+              <div className="search-res">
+                {wRes.map(r=><div key={r.name} className="search-item" onClick={()=>{setWSel(r);setWQuery(r.name);setWRes([]);}}>
+                  <strong>{r.name}</strong> <span style={{color:'var(--text-muted)', fontSize:'.8rem'}}>— ~{r.calPerMin} kcal/min</span>
+                </div>)}
+              </div>
+            )}
+             {wSel && (
+              <div className="row" style={{alignItems:'center'}}>
+                <span style={{fontSize:'.85rem'}}>Minutes:</span>
+                <input className="inp inp-sm" type="number" min="1" value={wMins} onChange={e=>setWMins(e.target.value)}/>
+                <button className="btn" onClick={addWorkout}>Add</button>
+                <button className="btn btng" onClick={()=>{setWSel(null);setWQuery('');}}>✕</button>
+              </div>
+            )}
+            {log.workouts.length > 0 && <div style={{marginTop: 16, paddingTop: 16, borderTop: '1px solid var(--glass-border)'}}>
+              {log.workouts.map(w=>(
+                <div key={w.id} className="gitem" style={{padding:'8px 0'}}>
+                  <div style={{flex:1}}>
+                    <div style={{fontSize:'.9rem', fontWeight:600}}>{w.name}</div>
+                    <div style={{fontSize:'.75rem', color:'var(--text-muted)'}}>{w.mins} mins • <span style={{color:'var(--ok)'}}>{w.cal} kcal burned</span></div>
+                  </div>
+                  <button className="tdel" onClick={()=>delLog('workouts', w.id)}>✕</button>
+                </div>
+              ))}
+            </div>}
+          </div>
+
+          <div className="card">
+            <div className="ctitle">🏋️ Strength Log</div>
+            <div className="frow"><input className="inp inp-sm" placeholder="Exercise (e.g., Bench Press)" value={sEx} onChange={e=>setSEx(e.target.value)}/></div>
+            <div className="row" style={{marginTop:0}}>
+              <input className="inp inp-sm" placeholder="Weight (kg)" type="number" value={sWt} onChange={e=>setSWt(e.target.value)}/>
+              <input className="inp inp-sm" placeholder="Sets" type="number" value={sSets} onChange={e=>setSSets(e.target.value)}/>
+              <input className="inp inp-sm" placeholder="Reps" type="number" value={sReps} onChange={e=>setSReps(e.target.value)}/>
+            </div>
+            <button className="btn btnfull" style={{marginTop:12}} onClick={addStrength}>Log Set</button>
+
+            {log.strength.length > 0 && <div style={{marginTop: 16, paddingTop: 16, borderTop: '1px solid var(--glass-border)'}}>
+              {log.strength.map(s=>(
+                <div key={s.id} className="gitem" style={{padding:'8px 0'}}>
+                  <div style={{flex:1}}>
+                    <div style={{fontSize:'.9rem', fontWeight:600}}>{s.ex}</div>
+                    <div style={{fontSize:'.75rem', color:'var(--accent)'}}>{s.wt} kg × {s.sets} sets × {s.reps} reps</div>
+                  </div>
+                  <button className="tdel" onClick={()=>delLog('strength', s.id)}>✕</button>
+                </div>
+              ))}
+            </div>}
+          </div>
+        </>
+      )}
+
+      {sub==='progress' && (
+        <div className="card">
+          <div className="ctitle">📈 Strength History</div>
+          {Object.keys(strHistory).length === 0 ? (
+            <div className="empty"><div className="etxt">No strength data logged yet.</div></div>
+          ) : (
+            Object.keys(strHistory).sort().map(ex => (
+              <div key={ex} style={{marginBottom: 20}}>
+                <div style={{fontSize:'.95rem', fontWeight:700, textTransform:'capitalize', marginBottom:8, color:'var(--accent)'}}>{ex}</div>
+                <div style={{background:'rgba(120,120,120,0.1)', borderRadius:10, padding: 12}}>
+                  {strHistory[ex].slice(-5).map((log, i) => (
+                    <div key={i} style={{display:'flex', justifyContent:'space-between', fontSize:'.85rem', padding:'6px 0', borderBottom: i<Math.min(strHistory[ex].length,5)-1?'1px solid var(--glass-border)':'none'}}>
+                      <span style={{color:'var(--text-muted)'}}>{log.date}</span>
+                      <span style={{fontWeight:600}}>{log.wt} kg • {log.sets}×{log.reps}</span>
+                    </div>
+                  ))}
+                  {strHistory[ex].length > 5 && <div style={{fontSize:'.75rem', color:'var(--text-muted)', textAlign:'center', marginTop:6}}>Showing last 5 entries</div>}
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      )}
+
+      {sub==='settings' && (
+        <div className="card">
+          <div className="ctitle">⚙️ Daily Targets</div>
+          <div className="frow">
+            <label className="flbl">Calories Goal</label>
+            <input className="inp" type="number" value={settings.cal} onChange={e=>saveSettings({...settings, cal:Number(e.target.value)})}/>
+          </div>
+          <div className="frow">
+            <label className="flbl">Protein Goal (g)</label>
+            <input className="inp" type="number" value={settings.pro} onChange={e=>saveSettings({...settings, pro:Number(e.target.value)})}/>
+          </div>
+          <div className="frow">
+            <label className="flbl">Water Goal (Glasses)</label>
+            <input className="inp" type="number" value={settings.water} onChange={e=>saveSettings({...settings, water:Number(e.target.value)})}/>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -913,7 +1122,7 @@ function BibleTab(){
       <div className="card">
         <div className="ctitle">✝ Scripture Study</div>
         <div className="frow"><label className="flbl">Scripture References</label>
-          <input className="inp" placeholder="e.g. John 3:16, Psalm 23, Romans 8:28-39" value={entry.scripture} onChange={e=>setEntry({...entry,scripture:e.target.value})}/></div>
+          <input className="inp" placeholder="e.g. John 3:16, Psalm 23" value={entry.scripture} onChange={e=>setEntry({...entry,scripture:e.target.value})}/></div>
         <div className="frow"><label className="flbl">Notes & Reflections</label>
           <textarea className="inp" style={{minHeight:150}} placeholder="What is God speaking through this passage? Key insights, prayers, applications…" value={entry.notes} onChange={e=>setEntry({...entry,notes:e.target.value})}/></div>
         <button className="btn btnfull" onClick={save}>{saved?'✓ Saved':'Save Entry'}</button>
@@ -950,7 +1159,7 @@ function AffirmTab(){
           </div>))}
         <div className="row">
           <input className="inp" placeholder="I am…" value={inp} onChange={e=>setInp(e.target.value)} onKeyDown={e=>e.key==='Enter'&&add()}/>
-          <button className="btn" onClick={add}>+</button>
+          <button className="btn" onClick={add}>Add</button>
         </div>
       </div>
     </div>
@@ -994,7 +1203,7 @@ function CalTab(){
           <button className="dnbtn" onClick={()=>navMo(1)}>›</button>
         </div>
         <div className="cgrid">
-          {DAYS.map(d=><div key={d} className="cdname">{d}</div>)}
+          {DAYS.map(d=><div key={d} className="cdname">{d.substring(0,3)}</div>)}
           {cells.map((c,i)=>{ const dk=c.cur?fmt(new Date(yr,mo,c.d)):''; const isTdy=dk===todayStr(),isSel=dk===sel,hasE=dk&&evOn(dk).length>0; return(
             <div key={i} className={`cday${!c.cur?' oth':''}${isTdy?' today':''}${isSel&&!isTdy?' sel':''}${hasE?' hase':''}`} onClick={()=>c.cur&&setSel(dk)}>{c.d}</div>);})}
         </div>
@@ -1004,13 +1213,13 @@ function CalTab(){
           <div className="ctitle" style={{marginBottom:0}}>{selLbl}</div>
           <button className="btn btnsm" onClick={()=>setModal(true)}>+ Event</button>
         </div>
-        {selEvs.length===0&&<div className="empty" style={{padding:'14px 0'}}><div className="etxt">No events — tap + to add one</div></div>}
+        {selEvs.length===0&&<div className="empty" style={{padding:'14px 0'}}><div className="etxt">No events</div></div>}
         {selEvs.map(ev=>(
           <div key={ev.id} className="evitem">
             <div className="evtime">{ev.st||'—'}{ev.et&&<><br/><span style={{opacity:.6}}>{ev.et}</span></>}</div>
             <div style={{flex:1}}>
               <div className="evtit">{ev.title}</div>
-              {ev.rec==='sun'&&<div style={{fontSize:'.66rem',color:'var(--sec2)',marginTop:2}}>↻ Weekly (Sundays)</div>}
+              {ev.rec==='sun'&&<div style={{fontSize:'.66rem',color:'var(--accent)',marginTop:2}}>↻ Weekly (Sundays)</div>}
               {ev.type==='deadline'&&<div style={{fontSize:'.66rem',color:'var(--danger)',marginTop:2}}>⚑ Deadline</div>}
             </div>
             <button className="evdel" onClick={()=>saveEvs(events.filter(e=>e.id!==ev.id))}>✕</button>
@@ -1053,9 +1262,9 @@ function MeetTab({wn}){
   const f=(k,v)=>setData(d=>({...d,[k]:v}));
   return(
     <div className="sec">
-      <div style={{display:'flex',alignItems:'center',gap:9,marginBottom:13}}>
+      <div style={{display:'flex',alignItems:'center',gap:12,marginBottom:14}}>
         <button className="dnbtn" onClick={()=>setVw(w=>Math.max(1,w-1))}>‹</button>
-        <div style={{flex:1,textAlign:'center',fontFamily:"'Cormorant Garamond',serif",fontSize:'1rem',color:'var(--sec2)',letterSpacing:'.1em',textTransform:'uppercase'}}>Week {vw} {vw===wn?'(Current)':''}</div>
+        <div style={{flex:1,textAlign:'center',fontSize:'1.05rem',color:'var(--text-main)',fontWeight:700,letterSpacing:'-0.02em'}}>Week {vw} {vw===wn?'(Current)':''}</div>
         <button className="dnbtn" onClick={()=>setVw(w=>Math.min(wn,w+1))} disabled={vw>=wn} style={{opacity:vw>=wn?.35:1}}>›</button>
       </div>
       <div className="card">
@@ -1070,7 +1279,7 @@ function MeetTab({wn}){
             <textarea className="swinp" placeholder="Where did you fall short?" value={data.weak} onChange={e=>f('weak',e.target.value)}/>
           </div>
         </div>
-        <div className="swcard" style={{marginBottom:9,borderLeft:'2px solid var(--sec2)'}}>
+        <div className="swcard" style={{marginBottom:10,borderLeft:'2px solid var(--accent)'}}>
           <div className="swlbl">🎯 Areas to Improve</div>
           <textarea className="swinp" placeholder="What will you focus on next week?" value={data.imp} onChange={e=>f('imp',e.target.value)} style={{minHeight:65}}/>
         </div>
@@ -1088,8 +1297,6 @@ function MeetTab({wn}){
 }
 
 /* ─── Habits Tracker ─── */
-const DEFAULT_HABITS = ['Wake up on time','Exercise','Read / Learn','Prayer / Devotion','No social media','Drink water','Sleep on time'];
-
 function HabitsTab(){
   const now = new Date();
   const [yr,setYr]   = useState(now.getFullYear());
@@ -1149,20 +1356,20 @@ function HabitsTab(){
 
   return(
     <div className="sec">
-      <div className="card" style={{padding:'9px 13px',marginBottom:11}}>
+      <div className="card" style={{padding:'12px 16px',marginBottom:14}}>
         <div className="dnav">
           <button className="dnbtn" onClick={()=>navMo(-1)}>‹</button>
-          <div className="dlbl">{MONTHS[mo]} {yr} — {monthPct}% complete</div>
+          <div className="dlbl">{MONTHS[mo]} {yr} — {monthPct}%</div>
           <button className="dnbtn" onClick={()=>navMo(1)} disabled={yr===now.getFullYear()&&mo===now.getMonth()} style={{opacity:yr===now.getFullYear()&&mo===now.getMonth()?.35:1}}>›</button>
         </div>
       </div>
-      <div className="card" style={{padding:'12px 0 8px'}}>
-        <div style={{padding:'0 14px 8px',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+      <div className="card" style={{padding:'16px 0 10px'}}>
+        <div style={{padding:'0 18px 12px',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
           <div className="ctitle" style={{marginBottom:0}}>☑ Habit Tracker</div>
           <button className="btn btnsm" onClick={()=>setShowAdd(v=>!v)}>+ Habit</button>
         </div>
         {showAdd&&(
-          <div style={{padding:'0 14px 10px',display:'flex',gap:7}}>
+          <div style={{padding:'0 18px 12px',display:'flex',gap:10}}>
             <input className="inp inp-sm" placeholder="New habit…" value={newHab} autoFocus
               onChange={e=>setNewHab(e.target.value)} onKeyDown={e=>e.key==='Enter'&&addHabit()}/>
             <button className="btn btnsm" onClick={addHabit}>Add</button>
@@ -1172,15 +1379,15 @@ function HabitsTab(){
           <table className="hab-tbl">
             <thead>
               <tr>
-                <th className="hab-name" style={{fontSize:'.58rem',color:'var(--muted)',fontWeight:600,paddingBottom:2,letterSpacing:'.08em',textTransform:'uppercase'}}>My Habits</th>
+                <th className="hab-name" style={{fontSize:'.65rem',color:'var(--text-muted)',fontWeight:600,paddingBottom:4,letterSpacing:'.05em',textTransform:'uppercase'}}>My Habits</th>
                 {weeks.map(({wk,days})=><th key={wk} className="hab-wh" colSpan={days.length}>Wk {wk}</th>)}
               </tr>
               <tr>
                 <th className="hab-name" style={{paddingTop:2}}></th>
                 {weeks.flatMap(({days})=>days.map(d=>(
                   <th key={d} className="hab-dh">
-                    <div style={{color:d===todayD?SEC.habits:'',fontWeight:d===todayD?700:400}}>{d}</div>
-                    <div style={{fontSize:'.48rem',opacity:.6}}>{dayName(d)}</div>
+                    <div style={{color:d===todayD?'var(--accent)':'',fontWeight:d===todayD?700:500}}>{d}</div>
+                    <div style={{fontSize:'.55rem',opacity:.7}}>{dayName(d)}</div>
                   </th>
                 )))}
               </tr>
@@ -1189,7 +1396,7 @@ function HabitsTab(){
               {habits.map(h=>(
                 <tr key={h.id}>
                   <td className="hab-name">
-                    <span style={{cursor:'pointer',opacity:.5}} onClick={()=>delHabit(h.id)} title="tap to remove">✕ </span>
+                    <span style={{cursor:'pointer',opacity:.5}} onClick={()=>delHabit(h.id)} title="remove">✕ </span>
                     {h.text}
                   </td>
                   {weeks.flatMap(({days})=>days.map(d=>(
@@ -1205,9 +1412,9 @@ function HabitsTab(){
               <tr className="hab-prow">
                 <td className="hab-name">Progress</td>
                 {weeks.map(({wk,days},wi)=>(
-                  <td key={wk} colSpan={days.length} style={{textAlign:'center',fontSize:'.65rem',
-                    color:wkPcts[wi]!==null?(wkPcts[wi]>=80?'var(--ok)':wkPcts[wi]>=50?SEC2.habits:'var(--danger)'):'var(--muted)',
-                    fontWeight:600,paddingTop:4,borderTop:'1px solid rgba(255,255,255,0.08)'}}>
+                  <td key={wk} colSpan={days.length} style={{textAlign:'center',fontSize:'.7rem',
+                    color:wkPcts[wi]!==null?(wkPcts[wi]>=80?'var(--ok)':wkPcts[wi]>=50?'var(--accent)':'var(--danger)'):'var(--text-muted)',
+                    fontWeight:600,paddingTop:6,borderTop:'1px solid var(--glass-border)'}}>
                     {wkPcts[wi]!==null?wkPcts[wi]+'%':'—'}
                   </td>
                 ))}
@@ -1228,63 +1435,29 @@ function HabitsTab(){
             const pct=st.possible>0?Math.round((st.done/st.possible)*100):0;
             const barCls=pct>=80?'':pct>=50?'warn':'bad';
             return(<React.Fragment key={h.id}>
-              <div className="anl-c" style={{fontSize:'.76rem',borderBottom:'1px solid rgba(255,255,255,.04)'}}>{h.text}</div>
-              <div className="anl-c" style={{justifyContent:'center',borderBottom:'1px solid rgba(255,255,255,.04)'}}>{st.possible}</div>
-              <div className="anl-c" style={{justifyContent:'center',borderBottom:'1px solid rgba(255,255,255,.04)'}}>{st.done}</div>
-              <div className="anl-c" style={{gap:6,borderBottom:'1px solid rgba(255,255,255,.04)'}}>
+              <div className="anl-c">{h.text}</div>
+              <div className="anl-c" style={{justifyContent:'center'}}>{st.possible}</div>
+              <div className="anl-c" style={{justifyContent:'center'}}>{st.done}</div>
+              <div className="anl-c" style={{gap:10}}>
                 <div className="anl-bar-wrap"><div className={`anl-bar ${barCls}`} style={{width:pct+'%'}}/></div>
-                <span style={{fontSize:'.65rem',color:'var(--muted)',flexShrink:0,width:28,textAlign:'right'}}>{pct}%</span>
+                <span style={{fontSize:'.75rem',color:'var(--text-muted)',flexShrink:0,width:32,textAlign:'right'}}>{pct}%</span>
               </div>
             </React.Fragment>);
           })}
         </div>
-        <div style={{marginTop:12,display:'flex',alignItems:'center',gap:10,background:'rgba(255,255,255,0.05)',borderRadius:8,padding:'10px 12px',border:'1px solid rgba(255,255,255,0.08)'}}>
+        <div style={{marginTop:16,display:'flex',alignItems:'center',gap:12,background:'rgba(120,120,120,0.1)',borderRadius:12,padding:'14px 16px',border:'1px solid var(--glass-border)'}}>
           <div style={{flex:1}}>
-            <div style={{fontSize:'.68rem',color:'var(--muted)',marginBottom:4,letterSpacing:'.08em',textTransform:'uppercase'}}>Overall Month Progress</div>
-            <div className="anl-bar-wrap" style={{height:7}}><div className="anl-bar" style={{width:monthPct+'%'}}/></div>
+            <div style={{fontSize:'.75rem',color:'var(--text-muted)',marginBottom:6,letterSpacing:'.05em',textTransform:'uppercase',fontWeight:600}}>Overall Month Progress</div>
+            <div className="anl-bar-wrap" style={{height:8}}><div className="anl-bar" style={{width:monthPct+'%'}}/></div>
           </div>
-          <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:'1.4rem',color:'var(--sec2)',fontWeight:600}}>{monthPct}%</div>
+          <div style={{fontSize:'1.6rem',color:'var(--accent)',fontWeight:700}}>{monthPct}%</div>
         </div>
       </div>
     </div>
   );
 }
 
-/* ─── Budget ─── */
-const BUD_CATS = [
-  {id:'housing',    name:'Home',                ico:'🏠', color:'#5b8dee'},
-  {id:'dailyliving',name:'Daily Living',        ico:'🛍️', color:'#f0a500'},
-  {id:'dues',       name:'Dues',                ico:'📋', color:'#20c997'},
-  {id:'subs',       name:'Subscriptions',       ico:'📱', color:'#8880B0'},
-  {id:'debts',      name:'Debts',               ico:'💳', color:'#B5293C'},
-  {id:'personal',   name:'Personal',            ico:'👤', color:'#D4736B'},
-  {id:'investment', name:'Investment',          ico:'📈', color:'#50A078'},
-  {id:'savings',    name:'Savings',             ico:'💰', color:'#7AC8A0'},
-  {id:'misc',       name:'Misc',                ico:'📌', color:'#9C8A82'},
-  {id:'transport',  name:'Transport',           ico:'🚗', color:'#C4963A'},
-  {id:'groceries',  name:'Groceries',           ico:'🛒', color:'#E8C87A'},
-  {id:'care',       name:'Personal Care',       ico:'🧴', color:'#7A9E9F'},
-];
-const MONTH_NAMES=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const FULL_MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
-
-function SmallDonut({pct,color='#C4963A',size=56}){
-  const thick=6,r=(size-thick)/2,circ=2*Math.PI*r,dash=Math.min(pct,100)/100*circ;
-  return(
-    <div style={{position:'relative',width:size,height:size,flexShrink:0}}>
-      <svg width={size} height={size} style={{transform:'rotate(-90deg)',display:'block'}}>
-        <circle cx={size/2} cy={size/2} r={r} fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth={thick}/>
-        <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={color} strokeWidth={thick}
-          strokeDasharray={dash+' '+circ} strokeLinecap="round"/>
-      </svg>
-      <div style={{position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center',
-        fontSize:'.58rem',fontWeight:700,color:pct>0?color:'var(--muted)'}}>
-        {Math.round(pct)}%
-      </div>
-    </div>
-  );
-}
-
+/* ─── Budget Planner ─── */
 function BudgetTab(){
   const now=new Date();
   const [yr,setYr]=useState(now.getFullYear());
@@ -1329,7 +1502,7 @@ function BudgetTab(){
 
   return(
     <div className="sec">
-      <div className="card" style={{padding:'9px 13px',marginBottom:11}}>
+      <div className="card" style={{padding:'12px 16px',marginBottom:14}}>
         <div className="dnav">
           <button className="dnbtn" onClick={()=>navMo(-1)}>‹</button>
           <div className="dlbl">{FULL_MONTHS[mo]} {yr}</div>
@@ -1350,32 +1523,32 @@ function BudgetTab(){
             <div className="bstat"><div className={`bnum ${savings>=0?'pos':'neg'}`}>{f2(savings)}</div><div className="blbl">Left</div></div>
           </div>
           <div className="card">
-            <div style={{display:'flex',alignItems:'center',gap:16,marginBottom:12}}>
-              <Donut pct={overallPct} size={80} thick={8} color={overallPct>90?SEC.daily:overallPct>75?SEC.budget:SEC.budget} label="budget"/>
+            <div style={{display:'flex',alignItems:'center',gap:16,marginBottom:16}}>
+              <Donut pct={overallPct} size={90} thick={9} color={overallPct>90?'var(--danger)':overallPct>75?'var(--warn)':'var(--accent)'} label="budget"/>
               <div style={{flex:1}}>
-                <div style={{fontSize:'.82rem',fontWeight:600,marginBottom:4,letterSpacing:'.04em'}}>Budget Overview</div>
-                <div style={{fontSize:'.72rem',color:'var(--muted)',marginBottom:8}}>{fp(totalSpent)} spent of {fp(totalBudgeted)} budgeted</div>
+                <div style={{fontSize:'.9rem',fontWeight:700,marginBottom:4,letterSpacing:'-0.01em'}}>Budget Overview</div>
+                <div style={{fontSize:'.8rem',color:'var(--text-muted)',marginBottom:10}}>{fp(totalSpent)} spent of {fp(totalBudgeted)} budgeted</div>
                 {savGoalNum>0&&(
                   <div>
-                    <div style={{fontSize:'.68rem',color:'var(--muted)',marginBottom:3}}>Saving Goal: {fp(savGoalNum)}</div>
-                    <div className="pwrap"><div className="pbar" style={{width:Math.min(100,(savings/savGoalNum)*100)+'%'}}/></div>
-                    <div style={{fontSize:'.68rem',color:'var(--ok)',marginTop:2}}>{fp(Math.max(0,savings))} saved ({Math.round(Math.min(100,(savings/savGoalNum)*100))}%)</div>
+                    <div style={{fontSize:'.75rem',color:'var(--text-muted)',marginBottom:4, fontWeight:500}}>Saving Goal: {fp(savGoalNum)}</div>
+                    <div className="pwrap"><div className="pbar" style={{width:Math.min(100,(savings/savGoalNum)*100)+'%', background:'var(--ok)'}}/></div>
+                    <div style={{fontSize:'.75rem',color:'var(--ok)',marginTop:4, fontWeight:600}}>{fp(Math.max(0,savings))} saved ({Math.round(Math.min(100,(savings/savGoalNum)*100))}%)</div>
                   </div>
                 )}
               </div>
             </div>
-            <div style={{display:'flex',justifyContent:'flex-end',marginBottom:8}}>
+            <div style={{display:'flex',justifyContent:'flex-end',marginBottom:12}}>
               <button className="btn btnsm" onClick={()=>setShowForm(v=>!v)}>+ Transaction</button>
             </div>
             {showForm&&(
-              <div style={{background:'rgba(255,255,255,0.04)',borderRadius:10,padding:12,marginBottom:12,border:'1px solid rgba(255,255,255,0.10)'}}>
-                <div style={{fontSize:'.75rem',fontWeight:600,color:'var(--sec2)',marginBottom:10,letterSpacing:'.08em',textTransform:'uppercase'}}>Add Transaction</div>
-                <div style={{display:'flex',gap:6,marginBottom:10}}>
+              <div style={{background:'rgba(120,120,120,0.1)',borderRadius:12,padding:16,marginBottom:16,border:'1px solid var(--glass-border)'}}>
+                <div style={{fontSize:'.85rem',fontWeight:700,color:'var(--text-main)',marginBottom:12,letterSpacing:'-0.01em'}}>Add Transaction</div>
+                <div style={{display:'flex',gap:8,marginBottom:12}}>
                   {['expense','income'].map(t=>(
                     <button key={t} className={'btn btnsm '+(form.type===t?'':'btng')} onClick={()=>setForm(f=>({...f,type:t}))} style={{flex:1,textTransform:'capitalize'}}>{t}</button>))}
                 </div>
                 <div className="frow"><label className="flbl">Description</label><input className="inp inp-sm" placeholder="e.g. Tesco shop" value={form.desc} onChange={e=>setForm(f=>({...f,desc:e.target.value}))} autoFocus/></div>
-                <div className="grid2" style={{marginBottom:10}}>
+                <div className="grid2" style={{marginBottom:12}}>
                   <div><label className="flbl">Amount (£)</label><input className="inp inp-sm" type="number" placeholder="0.00" value={form.amount} onChange={e=>setForm(f=>({...f,amount:e.target.value}))}/></div>
                   <div><label className="flbl">Date</label><input className="inp inp-sm" type="date" value={form.date} onChange={e=>setForm(f=>({...f,date:e.target.value}))}/></div>
                 </div>
@@ -1383,7 +1556,7 @@ function BudgetTab(){
                   <select className="inp inp-sm" value={form.catId} onChange={e=>setForm(f=>({...f,catId:e.target.value}))}>
                     {BUD_CATS.map(c=><option key={c.id} value={c.id}>{c.ico} {c.name}</option>)}
                   </select></div>
-                <div style={{display:'flex',gap:7}}>
+                <div style={{display:'flex',gap:10}}>
                   <button className="btn btng" onClick={()=>setShowForm(false)} style={{flex:1}}>Cancel</button>
                   <button className="btn" onClick={addTx} style={{flex:1}}>Add</button>
                 </div>
@@ -1396,15 +1569,15 @@ function BudgetTab(){
               const over=bud>0&&spent>bud;
               if(spent===0&&bud===0) return null;
               return(
-                <div key={cat.id} style={{display:'flex',alignItems:'center',gap:10,padding:'9px 0',borderBottom:'1px solid rgba(255,255,255,.04)'}}>
-                  <SmallDonut pct={bud>0?pct:0} color={over?SEC.daily:cat.color} size={44}/>
+                <div key={cat.id} style={{display:'flex',alignItems:'center',gap:12,padding:'12px 0',borderBottom:'1px solid var(--glass-border)'}}>
+                  <SmallDonut pct={bud>0?pct:0} color={over?'var(--danger)':cat.color} size={48}/>
                   <div style={{flex:1,minWidth:0}}>
-                    <div style={{display:'flex',justifyContent:'space-between',alignItems:'baseline',marginBottom:3}}>
-                      <span style={{fontSize:'.83rem'}}>{cat.ico} {cat.name}</span>
-                      <span style={{fontSize:'.8rem',fontWeight:600,color:over?'var(--danger)':'var(--cream)'}}>{fp(spent)}{bud>0&&<span style={{fontWeight:400,color:'var(--muted)'}}> / {fp(bud)}</span>}</span>
+                    <div style={{display:'flex',justifyContent:'space-between',alignItems:'baseline',marginBottom:6}}>
+                      <span style={{fontSize:'.9rem', fontWeight:600}}>{cat.ico} {cat.name}</span>
+                      <span style={{fontSize:'.85rem',fontWeight:700,color:over?'var(--danger)':'var(--text-main)'}}>{fp(spent)}{bud>0&&<span style={{fontWeight:500,color:'var(--text-muted)'}}> / {fp(bud)}</span>}</span>
                     </div>
-                    {bud>0&&(<div style={{height:3,background:'rgba(255,255,255,0.07)',borderRadius:99,overflow:'hidden'}}>
-                      <div style={{height:'100%',width:pct+'%',background:over?SEC.daily:pct>75?SEC.budget:cat.color,borderRadius:99,transition:'width .4s'}}/></div>)}
+                    {bud>0&&(<div style={{height:4,background:'rgba(120,120,120,0.15)',borderRadius:99,overflow:'hidden'}}>
+                      <div style={{height:'100%',width:pct+'%',background:over?'var(--danger)':pct>75?'var(--warn)':cat.color,borderRadius:99,transition:'width .4s'}}/></div>)}
                   </div>
                 </div>
               );
@@ -1416,7 +1589,7 @@ function BudgetTab(){
       {sub==='monthly'&&(
         <div className="card">
           <div className="ctitle">Monthly Spending — {yr}</div>
-          <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:10}}>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:12}}>
             {Array.from({length:12},(_,m)=>{
               const spent=getMonthSpent(m);
               const inc=getMonthIncome(m);
@@ -1424,14 +1597,14 @@ function BudgetTab(){
               const isThisMo=m===mo&&yr===now.getFullYear();
               return(
                 <div key={m} onClick={()=>{setMo(m);setSub('overview');}}
-                  style={{background:isThisMo?'rgba(196,150,58,0.12)':'rgba(255,255,255,0.04)',borderRadius:10,padding:'10px 8px',
-                    textAlign:'center',cursor:'pointer',border:isThisMo?'1px solid rgba(196,150,58,0.35)':'1px solid rgba(255,255,255,0.08)'}}>
-                  <div style={{fontSize:'.65rem',fontWeight:600,color:isThisMo?SEC.budget:'var(--muted)',marginBottom:7,textTransform:'uppercase',letterSpacing:'.08em'}}>{MONTH_NAMES[m]}</div>
-                  <div style={{display:'flex',justifyContent:'center',marginBottom:5}}>
-                    <SmallDonut pct={pct} color={pct>90?SEC.daily:pct>75?SEC.budget:SEC.budget} size={50}/>
+                  style={{background:isThisMo?'var(--accent-soft)':'rgba(120,120,120,0.1)',borderRadius:12,padding:'12px 10px',
+                    textAlign:'center',cursor:'pointer',border:isThisMo?'1px solid var(--accent)':'1px solid var(--glass-border)'}}>
+                  <div style={{fontSize:'.75rem',fontWeight:700,color:isThisMo?'var(--accent)':'var(--text-muted)',marginBottom:8,textTransform:'uppercase',letterSpacing:'.05em'}}>{MONTH_NAMES[m]}</div>
+                  <div style={{display:'flex',justifyContent:'center',marginBottom:8}}>
+                    <SmallDonut pct={pct} color={pct>90?'var(--danger)':pct>75?'var(--warn)':'var(--accent)'} size={54}/>
                   </div>
-                  <div style={{fontSize:'.63rem',color:'var(--muted)'}}>£{spent.toFixed(0)}</div>
-                  {inc>0&&<div style={{fontSize:'.58rem',color:'var(--muted)',opacity:.6}}>of £{inc.toFixed(0)}</div>}
+                  <div style={{fontSize:'.75rem',color:'var(--text-main)', fontWeight:600}}>£{spent.toFixed(0)}</div>
+                  {inc>0&&<div style={{fontSize:'.65rem',color:'var(--text-muted)',opacity:.8}}>of £{inc.toFixed(0)}</div>}
                 </div>
               );
             })}
@@ -1441,25 +1614,25 @@ function BudgetTab(){
 
       {sub==='annual'&&(
         <div className="card" style={{padding:0,overflow:'hidden'}}>
-          <div style={{padding:'12px 14px 0',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-            <div className="ctitle" style={{marginBottom:8}}>📊 Annual Budget — {yr}</div>
-            <div style={{display:'flex',gap:6,marginBottom:8}}>
+          <div style={{padding:'16px 18px 0',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+            <div className="ctitle" style={{marginBottom:10}}>📊 Annual Budget — {yr}</div>
+            <div style={{display:'flex',gap:8,marginBottom:10}}>
               <button className="btn btng btnsm" onClick={()=>setYr(y=>y-1)}>{yr-1}</button>
               <button className="btn btng btnsm" onClick={()=>setYr(y=>y+1)}>{yr+1}</button>
             </div>
           </div>
           <div style={{overflowX:'auto',WebkitOverflowScrolling:'touch'}}>
-            <table style={{borderCollapse:'collapse',fontSize:'.68rem',whiteSpace:'nowrap',width:'100%',minWidth:700}}>
+            <table style={{borderCollapse:'collapse',fontSize:'.75rem',whiteSpace:'nowrap',width:'100%',minWidth:700}}>
               <thead>
-                <tr style={{background:SEC.budget}}>
-                  <th style={{padding:'7px 10px',textAlign:'left',position:'sticky',left:0,background:SEC.budget,zIndex:2,fontWeight:600,letterSpacing:'.06em',textTransform:'uppercase'}}>Category</th>
-                  {MONTH_NAMES.map(m=><th key={m} style={{padding:'7px 8px',textAlign:'center',fontWeight:600,letterSpacing:'.06em'}}>{m}</th>)}
-                  <th style={{padding:'7px 8px',textAlign:'center',fontWeight:600,letterSpacing:'.06em'}}>YEAR</th>
+                <tr style={{background:'var(--accent)'}}>
+                  <th style={{padding:'10px 12px',textAlign:'left',position:'sticky',left:0,background:'var(--accent)',zIndex:2,fontWeight:700,letterSpacing:'.05em',textTransform:'uppercase', color:'#fff'}}>Category</th>
+                  {MONTH_NAMES.map(m=><th key={m} style={{padding:'10px 10px',textAlign:'center',fontWeight:700,letterSpacing:'.05em', color:'#fff'}}>{m}</th>)}
+                  <th style={{padding:'10px 10px',textAlign:'center',fontWeight:700,letterSpacing:'.05em', color:'#fff'}}>YEAR</th>
                 </tr>
               </thead>
               <tbody>
-                <tr style={{background:'rgba(80,160,120,.12)'}}>
-                  <td colSpan={14} style={{padding:'5px 10px',fontSize:'.62rem',fontWeight:700,textTransform:'uppercase',letterSpacing:'.12em',color:'var(--ok)',position:'sticky',left:0,background:'rgba(80,160,120,.12)'}}>REVENUE</td>
+                <tr style={{background:'rgba(50,215,75,.15)'}}>
+                  <td colSpan={14} style={{padding:'8px 12px',fontSize:'.7rem',fontWeight:700,textTransform:'uppercase',letterSpacing:'.1em',color:'var(--ok)',position:'sticky',left:0,background:'rgba(50,215,75,.15)'}}>REVENUE</td>
                 </tr>
                 {['salary','other','other2'].map((k,i)=>{
                   const labels=['Salary / Main Income','Other Income','Additional Income'];
@@ -1467,41 +1640,41 @@ function BudgetTab(){
                   const total=yearly.reduce((s,v)=>s+v,0);
                   if(total===0) return null;
                   return(
-                    <tr key={k} style={{background:i%2===0?'rgba(255,255,255,0.03)':'transparent'}}>
-                      <td style={{padding:'5px 10px',color:'var(--cream)',position:'sticky',left:0,background:i%2===0?'rgba(22,15,12,0.95)':'rgba(22,15,12,0.90)',zIndex:1}}>{labels[i]}</td>
-                      {yearly.map((v,m)=><td key={m} style={{padding:'5px 8px',textAlign:'center',color:v>0?'var(--ok)':'var(--muted)'}}>{v>0?'£'+v.toFixed(0):'—'}</td>)}
-                      <td style={{padding:'5px 8px',textAlign:'center',fontWeight:600,color:'var(--ok)'}}>£{total.toFixed(0)}</td>
+                    <tr key={k} style={{background:i%2===0?'rgba(120,120,120,0.05)':'transparent'}}>
+                      <td style={{padding:'8px 12px',color:'var(--text-main)',position:'sticky',left:0,background:i%2===0?'var(--bg-color)':'var(--glass-bg)',zIndex:1}}>{labels[i]}</td>
+                      {yearly.map((v,m)=><td key={m} style={{padding:'8px 10px',textAlign:'center',color:v>0?'var(--ok)':'var(--text-muted)'}}>{v>0?'£'+v.toFixed(0):'—'}</td>)}
+                      <td style={{padding:'8px 10px',textAlign:'center',fontWeight:700,color:'var(--ok)'}}>£{total.toFixed(0)}</td>
                     </tr>
                   );
                 })}
-                <tr style={{background:'rgba(80,160,120,.08)',borderTop:'1px solid rgba(80,160,120,.2)'}}>
-                  <td style={{padding:'6px 10px',fontWeight:700,color:'var(--ok)',position:'sticky',left:0,background:'rgba(80,160,120,.10)'}}>Total Income</td>
-                  {Array.from({length:12},(_,m)=>{ const v=getMonthIncome(m); return <td key={m} style={{padding:'6px 8px',textAlign:'center',fontWeight:600,color:'var(--ok)'}}>{v>0?'£'+v.toFixed(0):'—'}</td>; })}
-                  <td style={{padding:'6px 8px',textAlign:'center',fontWeight:700,color:'var(--ok)'}}>£{Array.from({length:12},(_,m)=>getMonthIncome(m)).reduce((s,v)=>s+v,0).toFixed(0)}</td>
+                <tr style={{background:'rgba(50,215,75,.10)',borderTop:'1px solid rgba(50,215,75,.3)'}}>
+                  <td style={{padding:'10px 12px',fontWeight:700,color:'var(--ok)',position:'sticky',left:0,background:'rgba(50,215,75,.15)'}}>Total Income</td>
+                  {Array.from({length:12},(_,m)=>{ const v=getMonthIncome(m); return <td key={m} style={{padding:'10px 10px',textAlign:'center',fontWeight:700,color:'var(--ok)'}}>{v>0?'£'+v.toFixed(0):'—'}</td>; })}
+                  <td style={{padding:'10px 10px',textAlign:'center',fontWeight:800,color:'var(--ok)'}}>£{Array.from({length:12},(_,m)=>getMonthIncome(m)).reduce((s,v)=>s+v,0).toFixed(0)}</td>
                 </tr>
-                <tr style={{background:'rgba(181,41,60,.10)'}}>
-                  <td colSpan={14} style={{padding:'5px 10px',fontSize:'.62rem',fontWeight:700,textTransform:'uppercase',letterSpacing:'.12em',color:'var(--danger)',position:'sticky',left:0,background:'rgba(181,41,60,.10)'}}>EXPENSES</td>
+                <tr style={{background:'rgba(255,69,58,.15)'}}>
+                  <td colSpan={14} style={{padding:'8px 12px',fontSize:'.7rem',fontWeight:700,textTransform:'uppercase',letterSpacing:'.1em',color:'var(--danger)',position:'sticky',left:0,background:'rgba(255,69,58,.15)'}}>EXPENSES</td>
                 </tr>
                 {BUD_CATS.map((cat,i)=>{
                   const yearly=Array.from({length:12},(_,m)=>getMonthCatSpent(m,cat.id));
                   const total=yearly.reduce((s,v)=>s+v,0);
                   return(
-                    <tr key={cat.id} style={{background:i%2===0?'rgba(255,255,255,0.03)':'transparent'}}>
-                      <td style={{padding:'5px 10px',position:'sticky',left:0,background:i%2===0?'rgba(22,15,12,0.95)':'rgba(22,15,12,0.90)',zIndex:1}}>{cat.ico} {cat.name}</td>
-                      {yearly.map((v,m)=><td key={m} style={{padding:'5px 8px',textAlign:'center',color:v>0?'var(--cream)':'var(--muted)'}}>{v>0?'£'+v.toFixed(0):'—'}</td>)}
-                      <td style={{padding:'5px 8px',textAlign:'center',fontWeight:600,color:total>0?cat.color:'var(--muted)'}}>{total>0?'£'+total.toFixed(0):'—'}</td>
+                    <tr key={cat.id} style={{background:i%2===0?'rgba(120,120,120,0.05)':'transparent'}}>
+                      <td style={{padding:'8px 12px',position:'sticky',left:0,background:i%2===0?'var(--bg-color)':'var(--glass-bg)',zIndex:1}}>{cat.ico} {cat.name}</td>
+                      {yearly.map((v,m)=><td key={m} style={{padding:'8px 10px',textAlign:'center',color:v>0?'var(--text-main)':'var(--text-muted)'}}>{v>0?'£'+v.toFixed(0):'—'}</td>)}
+                      <td style={{padding:'8px 10px',textAlign:'center',fontWeight:700,color:total>0?cat.color:'var(--text-muted)'}}>{total>0?'£'+total.toFixed(0):'—'}</td>
                     </tr>
                   );
                 })}
-                <tr style={{background:'rgba(181,41,60,.08)',borderTop:'1px solid rgba(181,41,60,.2)'}}>
-                  <td style={{padding:'6px 10px',fontWeight:700,color:'var(--danger)',position:'sticky',left:0,background:'rgba(181,41,60,.10)'}}>Total Expenses</td>
-                  {Array.from({length:12},(_,m)=>{ const v=getMonthSpent(m); return <td key={m} style={{padding:'6px 8px',textAlign:'center',fontWeight:600,color:'var(--danger)'}}>{v>0?'£'+v.toFixed(0):'—'}</td>; })}
-                  <td style={{padding:'6px 8px',textAlign:'center',fontWeight:700,color:'var(--danger)'}}>£{Array.from({length:12},(_,m)=>getMonthSpent(m)).reduce((s,v)=>s+v,0).toFixed(0)}</td>
+                <tr style={{background:'rgba(255,69,58,.10)',borderTop:'1px solid rgba(255,69,58,.3)'}}>
+                  <td style={{padding:'10px 12px',fontWeight:700,color:'var(--danger)',position:'sticky',left:0,background:'rgba(255,69,58,.15)'}}>Total Expenses</td>
+                  {Array.from({length:12},(_,m)=>{ const v=getMonthSpent(m); return <td key={m} style={{padding:'10px 10px',textAlign:'center',fontWeight:700,color:'var(--danger)'}}>{v>0?'£'+v.toFixed(0):'—'}</td>; })}
+                  <td style={{padding:'10px 10px',textAlign:'center',fontWeight:800,color:'var(--danger)'}}>£{Array.from({length:12},(_,m)=>getMonthSpent(m)).reduce((s,v)=>s+v,0).toFixed(0)}</td>
                 </tr>
-                <tr style={{background:'rgba(196,150,58,.08)',borderTop:'1px solid rgba(196,150,58,.15)'}}>
-                  <td style={{padding:'6px 10px',fontWeight:700,color:SEC.budget,position:'sticky',left:0,background:'rgba(196,150,58,.10)'}}>💰 Net Savings</td>
-                  {Array.from({length:12},(_,m)=>{ const v=getMonthIncome(m)-getMonthSpent(m); return <td key={m} style={{padding:'6px 8px',textAlign:'center',fontWeight:600,color:v>=0?'var(--ok)':'var(--danger)'}}>{getMonthIncome(m)>0?(v>=0?'+':'')+'£'+Math.abs(v).toFixed(0):'—'}</td>; })}
-                  <td style={{padding:'6px 8px',textAlign:'center',fontWeight:700,color:SEC.budget}}>{(()=>{const v=Array.from({length:12},(_,m)=>getMonthIncome(m)-getMonthSpent(m)).reduce((s,x)=>s+x,0); return (v>=0?'+':'')+'£'+Math.abs(v).toFixed(0);})()}</td>
+                <tr style={{background:'rgba(10,132,255,.15)',borderTop:'1px solid rgba(10,132,255,.3)'}}>
+                  <td style={{padding:'10px 12px',fontWeight:700,color:'var(--accent)',position:'sticky',left:0,background:'rgba(10,132,255,.15)'}}>💰 Net Savings</td>
+                  {Array.from({length:12},(_,m)=>{ const v=getMonthIncome(m)-getMonthSpent(m); return <td key={m} style={{padding:'10px 10px',textAlign:'center',fontWeight:700,color:v>=0?'var(--ok)':'var(--danger)'}}>{getMonthIncome(m)>0?(v>=0?'+':'')+'£'+Math.abs(v).toFixed(0):'—'}</td>; })}
+                  <td style={{padding:'10px 10px',textAlign:'center',fontWeight:800,color:'var(--accent)'}}>{(()=>{const v=Array.from({length:12},(_,m)=>getMonthIncome(m)-getMonthSpent(m)).reduce((s,x)=>s+x,0); return (v>=0?'+':'')+'£'+Math.abs(v).toFixed(0);})()}</td>
                 </tr>
               </tbody>
             </table>
@@ -1516,21 +1689,21 @@ function BudgetTab(){
             <div className="frow" key={k}><label className="flbl">{lbl} (£)</label>
               <input className="inp" type="number" placeholder="0.00" value={income[k]} onChange={e=>saveIncome({...income,[k]:e.target.value})}/></div>
           ))}
-          <div style={{background:'rgba(196,150,58,0.08)',borderRadius:8,padding:'10px 12px',display:'flex',justifyContent:'space-between',marginBottom:12,border:'1px solid rgba(196,150,58,0.20)'}}>
-            <span style={{fontSize:'.82rem',color:'var(--muted)',letterSpacing:'.04em'}}>Total Income</span>
-            <span style={{fontFamily:"'Cormorant Garamond',serif",fontSize:'1.2rem',color:SEC.budget,fontWeight:600}}>{fp(totalIncome)}</span>
+          <div style={{background:'var(--accent-soft)',borderRadius:12,padding:'14px 16px',display:'flex',justifyContent:'space-between',marginBottom:16,border:'1px solid var(--accent)'}}>
+            <span style={{fontSize:'.9rem',color:'var(--text-main)',fontWeight:600}}>Total Income</span>
+            <span style={{fontSize:'1.3rem',color:'var(--accent)',fontWeight:700}}>{fp(totalIncome)}</span>
           </div>
           <div className="frow"><label className="flbl">Monthly Saving Goal (£)</label>
             <input className="inp" type="number" placeholder="0.00" value={savingGoal}
               onChange={e=>{setSavingGoal(e.target.value);DB.set('bud_saving_goal',e.target.value);}}/></div>
-          <div style={{height:1,background:'rgba(255,255,255,0.08)',margin:'14px 0'}}/>
-          <div className="ctitle" style={{marginBottom:10}}>Category Budgets — {FULL_MONTHS[mo]}</div>
-          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8}}>
+          <div style={{height:1,background:'var(--glass-border)',margin:'20px 0'}}/>
+          <div className="ctitle" style={{marginBottom:14}}>Category Budgets — {FULL_MONTHS[mo]}</div>
+          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
             {BUD_CATS.map(cat=>(
-              <div key={cat.id} style={{background:'rgba(255,255,255,0.04)',borderRadius:8,padding:'9px 10px',border:'1px solid rgba(255,255,255,0.08)'}}>
-                <div style={{fontSize:'.7rem',fontWeight:600,marginBottom:5,color:'var(--cream)',letterSpacing:'.04em'}}>{cat.ico} {cat.name}</div>
+              <div key={cat.id} style={{background:'rgba(120,120,120,0.1)',borderRadius:12,padding:'12px',border:'1px solid var(--glass-border)'}}>
+                <div style={{fontSize:'.8rem',fontWeight:600,marginBottom:8,color:'var(--text-main)'}}>{cat.ico} {cat.name}</div>
                 <input className="inp inp-sm" type="number" placeholder="£ budget" value={budgets[cat.id]||''}
-                  onChange={e=>saveBudgets({...budgets,[cat.id]:e.target.value})} style={{padding:'6px 9px',fontSize:'.78rem'}}/>
+                  onChange={e=>saveBudgets({...budgets,[cat.id]:e.target.value})} style={{padding:'8px 10px',fontSize:'.85rem'}}/>
               </div>
             ))}
           </div>
@@ -1539,32 +1712,32 @@ function BudgetTab(){
 
       {sub==='transactions'&&(
         <div className="card">
-          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:11}}>
+          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:14}}>
             <div className="ctitle" style={{marginBottom:0}}>Transactions — {FULL_MONTHS[mo]}</div>
             <button className="btn btnsm" onClick={()=>{setSub('overview');setShowForm(true);}}>+ Add</button>
           </div>
-          <div style={{display:'flex',gap:8,marginBottom:10,fontSize:'.75rem'}}>
-            <div style={{flex:1,background:'rgba(80,160,120,.08)',border:'1px solid rgba(80,160,120,.2)',borderRadius:7,padding:'7px 10px',textAlign:'center'}}>
-              <div style={{color:'var(--ok)',fontWeight:600}}>{fp(txs.filter(t=>t.type==='income').reduce((s,t)=>s+(parseFloat(t.amount)||0),0))}</div>
-              <div style={{color:'var(--muted)',fontSize:'.62rem',letterSpacing:'.06em',textTransform:'uppercase'}}>Income</div>
+          <div style={{display:'flex',gap:12,marginBottom:14,fontSize:'.8rem'}}>
+            <div style={{flex:1,background:'rgba(50,215,75,.15)',border:'1px solid rgba(50,215,75,.3)',borderRadius:10,padding:'10px',textAlign:'center'}}>
+              <div style={{color:'var(--ok)',fontWeight:700, fontSize:'1.1rem'}}>{fp(txs.filter(t=>t.type==='income').reduce((s,t)=>s+(parseFloat(t.amount)||0),0))}</div>
+              <div style={{color:'var(--ok)',fontSize:'.65rem',letterSpacing:'.05em',textTransform:'uppercase', opacity:0.8}}>Income</div>
             </div>
-            <div style={{flex:1,background:'rgba(181,41,60,.08)',border:'1px solid rgba(181,41,60,.2)',borderRadius:7,padding:'7px 10px',textAlign:'center'}}>
-              <div style={{color:'var(--danger)',fontWeight:600}}>{fp(totalSpent)}</div>
-              <div style={{color:'var(--muted)',fontSize:'.62rem',letterSpacing:'.06em',textTransform:'uppercase'}}>Expenses</div>
+            <div style={{flex:1,background:'rgba(255,69,58,.15)',border:'1px solid rgba(255,69,58,.3)',borderRadius:10,padding:'10px',textAlign:'center'}}>
+              <div style={{color:'var(--danger)',fontWeight:700, fontSize:'1.1rem'}}>{fp(totalSpent)}</div>
+              <div style={{color:'var(--danger)',fontSize:'.65rem',letterSpacing:'.05em',textTransform:'uppercase', opacity:0.8}}>Expenses</div>
             </div>
           </div>
           {txs.length===0&&<div className="empty"><div className="eico">📋</div><div className="etxt">No transactions yet</div></div>}
           {txs.map(t=>{
             const cat=BUD_CATS.find(c=>c.id===t.catId)||BUD_CATS[BUD_CATS.length-1];
             return(
-              <div key={t.id} style={{display:'flex',alignItems:'center',gap:9,padding:'8px 0',borderBottom:'1px solid rgba(255,255,255,.04)'}}>
-                <span style={{fontSize:'1rem',flexShrink:0}}>{cat.ico}</span>
+              <div key={t.id} style={{display:'flex',alignItems:'center',gap:12,padding:'12px 0',borderBottom:'1px solid var(--glass-border)'}}>
+                <span style={{fontSize:'1.2rem',flexShrink:0}}>{cat.ico}</span>
                 <div style={{flex:1,minWidth:0}}>
-                  <div style={{fontSize:'.83rem'}}>{t.desc}</div>
-                  <div style={{fontSize:'.65rem',color:'var(--muted)',letterSpacing:'.04em'}}>{cat.name} · {t.date}</div>
+                  <div style={{fontSize:'.9rem', fontWeight:500}}>{t.desc}</div>
+                  <div style={{fontSize:'.75rem',color:'var(--text-muted)', marginTop:2}}>{cat.name} • {t.date}</div>
                 </div>
-                <span style={{fontWeight:600,flexShrink:0,color:t.type==='income'?'var(--ok)':'var(--cream)'}}>{t.type==='income'?'+':'-'}{fp(t.amount)}</span>
-                <button onClick={()=>saveTxs(txs.filter(x=>x.id!==t.id))} style={{background:'none',border:'none',color:'var(--muted)',cursor:'pointer',fontSize:'.85rem',opacity:.4}}>✕</button>
+                <span style={{fontWeight:700,flexShrink:0,color:t.type==='income'?'var(--ok)':'var(--text-main)'}}>{t.type==='income'?'+':'-'}{fp(t.amount)}</span>
+                <button onClick={()=>saveTxs(txs.filter(x=>x.id!==t.id))} style={{background:'none',border:'none',color:'var(--text-muted)',cursor:'pointer',fontSize:'1rem',opacity:.5, padding:'0 4px'}}>✕</button>
               </div>
             );
           })}
@@ -1574,199 +1747,87 @@ function BudgetTab(){
   );
 }
 
-/* ─── Settings Modal ─── */
-function SettingsModal({start, onClose, onUpdateStart}){
-  const [nd, setNd] = useState(start||'');
-  const [saved, setSaved] = useState(false);
-  const doSave = () => {
-    if(!nd) return;
-    DB.set('start', nd); onUpdateStart(nd); setSaved(true);
-    setTimeout(()=>{ setSaved(false); onClose(); }, 900);
-  };
-  const pd  = nd ? calcDay(nd)    : null;
-  const pwk = nd ? calcWeek(nd)   : null;
-  const pm  = nd ? calcMonth(nd)  : null;
-  const py  = pd ? calcYear(pd)   : null;
-  const fmtDate = d => d ? new Date(d+'T12:00:00').toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'}) : 'Not set';
-  return(
-    <div className="overlay" onClick={e=>e.target===e.currentTarget&&onClose()}>
-      <div className="modal">
-        <div className="mtitle">⚙ Settings</div>
-        <div style={{background:'rgba(196,150,58,0.08)',borderRadius:10,padding:'11px 13px',marginBottom:14,border:'1px solid rgba(196,150,58,0.20)'}}>
-          <div style={{fontSize:'.62rem',color:'var(--muted)',marginBottom:4,textTransform:'uppercase',letterSpacing:'.1em'}}>Journey Start Date</div>
-          <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:'1.05rem',color:SEC.budget,fontWeight:600}}>{fmtDate(start)}</div>
-          {start&&(
-            <div style={{fontSize:'.75rem',color:'var(--muted)',marginTop:5,display:'flex',gap:12,flexWrap:'wrap'}}>
-              <span style={{color:'var(--cream)'}}>Day {calcDay(start)}</span>
-              <span style={{color:'var(--cream)'}}>Wk {calcWeek(start)}</span>
-              <span style={{color:'var(--cream)'}}>Mo {calcMonth(start)}</span>
-              <span style={{color:'var(--cream)'}}>Yr {calcYear(calcDay(start))}</span>
-            </div>
-          )}
-        </div>
-        <div className="frow"><label className="flbl">Correct Start Date</label>
-          <input className="inp" type="date" value={nd} max={todayStr()} onChange={e=>setNd(e.target.value)}/></div>
-        {pd&&nd!==start&&(
-          <div style={{background:'rgba(181,41,60,0.08)',border:'1px solid rgba(181,41,60,0.22)',borderRadius:9,padding:'10px 13px',marginBottom:12}}>
-            <div style={{fontSize:'.68rem',color:SEC2.daily,marginBottom:6,fontWeight:600,letterSpacing:'.08em',textTransform:'uppercase'}}>Preview with new date:</div>
-            <div style={{display:'flex',gap:16,fontSize:'.82rem',flexWrap:'wrap'}}>
-              <span>Day <strong>{pd}</strong></span>
-              <span>Week <strong>{pwk}</strong></span>
-              <span>Month <strong>{pm}</strong></span>
-              <span>Year <strong>{py}</strong></span>
-            </div>
-          </div>
-        )}
-        <div className="macts">
-          <button className="btn btng" onClick={onClose} style={{flex:1}}>Cancel</button>
-          <button className="btn" onClick={doSave} disabled={!nd||nd===start||saved} style={{flex:1}}>{saved?'Saved!':'Save & Apply'}</button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ─── Tab config ─── */
-const TABS=[
-  {id:'daily', ico:'✦', lbl:'Today',    nav:'nav-daily'},
-  {id:'goals', ico:'◎', lbl:'Goals',    nav:'nav-goals'},
-  {id:'habits',ico:'☑', lbl:'Habits',   nav:'nav-habits'},
-  {id:'budget',ico:'£', lbl:'Budget',   nav:'nav-budget'},
-  {id:'bible', ico:'✝', lbl:'Scripture',nav:'nav-bible'},
-  {id:'affirm',ico:'☀', lbl:'Affirm',   nav:'nav-affirm'},
-  {id:'cal',   ico:'◻', lbl:'Calendar', nav:'nav-cal'},
-  {id:'meet',  ico:'◈', lbl:'Meeting',  nav:'nav-meet'},
-];
 
 /* ─── App Root ─── */
+const TABS=[
+  {id:'daily', ico:'✦', lbl:'Today'},
+  {id:'goals', ico:'◎', lbl:'Goals'},
+  {id:'habits',ico:'☑', lbl:'Habits'},
+  {id:'fitness',ico:'♥', lbl:'Fitness'},
+  {id:'budget',ico:'£', lbl:'Budget'},
+  {id:'bible', ico:'✝', lbl:'Scripture'},
+  {id:'affirm',ico:'☀', lbl:'Affirm'},
+  {id:'cal',   ico:'◻', lbl:'Calendar'},
+  {id:'meet',  ico:'◈', lbl:'Meeting'},
+];
+
 function App(){
   const [tab,setTab]=useState('daily');
   const [start,setStart]=useState(undefined);
-  const [syncReady,setSyncReady]=useState(false);
-  const [syncStatus,setSyncStatus]=useState('offline');
-  const [showSync,setShowSync]=useState(false);
-  const [showSettings,setShowSettings]=useState(false);
-  const [bgTheme,setBgTheme]=useState(()=>DB.get('bg_theme','midnight'));
+  const [bgTheme,setBgTheme]=useState(()=>DB.get('bg_theme','apple-dark'));
 
   useEffect(()=>{
-    Sync.onStatus(setSyncStatus);
-    const initApp = async () => {
-      const syncUrl = DB.get('sync_url',null);
-      const syncKey = DB.get('sync_key',null);
-      if(syncUrl && syncKey) await Sync.init(syncUrl, syncKey);
-      setStart(DB.get('start', null));
-      setSyncReady(true);
-    };
-    initApp();
+    setStart(DB.get('start', null));
   },[]);
 
   const onSetup = d => { DB.set('start',d); setStart(d); };
-  const onUpdateStart = d => setStart(d);
   const setBg = id => { setBgTheme(id); DB.set('bg_theme',id); };
-
-  const bgMap = { midnight:'#131823', western:'#1E110A', crimson:'#180808', alpine:'#0D1518' };
-
-  if(!syncReady) return(
-    <div style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',height:'100vh',gap:14,background:'#131823'}}>
-      <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:'2rem',color:'#E8C87A',letterSpacing:'.14em',textTransform:'uppercase'}}>Journey</div>
-      <div style={{fontSize:'.78rem',color:'rgba(255,255,255,0.38)',letterSpacing:'.08em',textTransform:'uppercase'}}>{syncStatus==='syncing'?'Syncing your data…':'Loading…'}</div>
-      <div style={{width:120,height:2,background:'rgba(255,255,255,0.08)',borderRadius:99,overflow:'hidden'}}>
-        <div style={{height:'100%',background:'#C4963A',borderRadius:99,animation:'load 1.2s ease infinite'}}/>
-      </div>
-      <style>{`@keyframes load{0%{width:0;margin-left:0}50%{width:60%;margin-left:20%}100%{width:0;margin-left:120px}}`}</style>
-    </div>
-  );
 
   if(!start) return <Setup onDone={onSetup}/>;
 
   const dn=calcDay(start),wn=calcWeek(start),mn=calcMonth(start),yn=calcYear(dn);
 
   return(
-    <div className="app" style={{background:bgMap[bgTheme]||'#131823',transition:'background .5s ease'}}>
+    <div className="app" data-theme={bgTheme}>
       <header className="hdr">
         <div className="hdr-t">Journey</div>
         <div className="hdr-r">
           <div className="chips">
             <span className="chip">Day {dn}</span>
             <span className="chip">Wk {wn}</span>
-            <span className="chip">Mo {mn}</span>
-            <span className="chip">Yr {yn}</span>
           </div>
-          <div className={'syncdot '+syncStatus} onClick={()=>setShowSync(true)}
-            title={syncStatus==='synced'?'Synced':syncStatus==='syncing'?'Syncing…':syncStatus==='error'?'Sync error':'Tap to set up sync'}/>
-          <button onClick={()=>setShowSettings(true)}
-            style={{background:'none',border:'none',cursor:'pointer',color:'rgba(255,255,255,0.38)',fontSize:'.72rem',
-              padding:'2px 4px',lineHeight:1,letterSpacing:'.08em',fontFamily:"'DM Sans',sans-serif",textTransform:'uppercase'}}>
-            Settings
-          </button>
         </div>
       </header>
 
-      {/* Background switcher */}
+      {/* Theme Switcher */}
       <div className="bg-picker">
         {[
-          {id:'midnight',label:'Night',   bg:'#131823'},
-          {id:'western', label:'Ember',   bg:'#1E110A'},
-          {id:'crimson', label:'Crimson', bg:'#180808'},
-          {id:'alpine',  label:'Alpine',  bg:'#0D1518'},
+          {id:'apple-dark', label:'Dark Glass'},
+          {id:'apple-light', label:'Light Glass'},
+          {id:'midnight-glass', label:'Midnight'},
+          {id:'ocean-glass', label:'Ocean'},
+          {id:'crimson-glass', label:'Crimson'},
         ].map(t=>(
-          <div key={t.id} className={`bg-btn${bgTheme===t.id?' active':''}`}
-            style={{background:t.bg}} onClick={()=>setBg(t.id)}>
-            <span>{t.label}</span>
+          <div key={t.id} className={`bg-btn${bgTheme===t.id?' active':''}`} onClick={()=>setBg(t.id)}>
+            {t.label}
           </div>
         ))}
       </div>
 
-      <main className={`main tab-${tab}`}>
-        {tab==='daily'  && <DailyTab  dn={dn} wn={wn} mn={mn} yn={yn} start={start}/>}
-        {tab==='goals'  && <GoalsTab  dn={dn} wn={wn} mn={mn} yn={yn} start={start}/>}
-        {tab==='habits' && <HabitsTab/>}
-        {tab==='budget' && <BudgetTab/>}
-        {tab==='bible'  && <BibleTab/>}
-        {tab==='affirm' && <AffirmTab/>}
-        {tab==='cal'    && <CalTab/>}
-        {tab==='meet'   && <MeetTab wn={wn}/>}
+      <main className={`main`}>
+        {tab==='daily'   && <DailyTab  dn={dn} wn={wn} mn={mn} yn={yn} />}
+        {tab==='goals'   && <GoalsTab  dn={dn} wn={wn} mn={mn} yn={yn} />}
+        {tab==='habits'  && <HabitsTab />}
+        {tab==='fitness' && <FitnessTab />}
+        {tab==='budget'  && <BudgetTab />}
+        {tab==='bible'   && <BibleTab  />}
+        {tab==='affirm'  && <AffirmTab />}
+        {tab==='cal'     && <CalTab    />}
+        {tab==='meet'    && <MeetTab   wn={wn} />}
       </main>
 
       <nav className="bnav">
         {TABS.map(t=>(
-          <button key={t.id} className={`nbtn ${t.nav}${tab===t.id?' on':''}`} onClick={()=>setTab(t.id)}>
-            <span className="nico" style={tab===t.id?{color:SEC[t.id]}:{}}>{t.ico}</span>
+          <button key={t.id} className={`nbtn ${tab===t.id?' on':''}`} onClick={()=>setTab(t.id)}>
+            <span className="nico">{t.ico}</span>
             <span>{t.lbl}</span>
           </button>))}
       </nav>
-
-      {showSync && <SyncModal onClose={()=>setShowSync(false)} onSynced={()=>setShowSync(false)}/>}
-      {showSettings && <SettingsModal start={start} onClose={()=>setShowSettings(false)} onUpdateStart={onUpdateStart}/>}
     </div>
   );
 }
 
-/* ─── Error Boundary ─── */
-class ErrorBoundary extends React.Component {
-  constructor(props){ super(props); this.state={error:null}; }
-  static getDerivedStateFromError(e){ return {error:e}; }
-  render(){
-    if(this.state.error){
-      return React.createElement('div',{style:{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',height:'100vh',padding:24,textAlign:'center',background:'#131823',color:'rgba(255,255,255,0.92)',fontFamily:"'DM Sans',sans-serif"}},
-        React.createElement('div',{style:{fontSize:'2rem',marginBottom:12}},'⚠️'),
-        React.createElement('div',{style:{fontSize:'1rem',fontWeight:600,marginBottom:8,color:'#E8C87A',letterSpacing:'.08em',textTransform:'uppercase'}},'Something went wrong'),
-        React.createElement('div',{style:{fontSize:'.8rem',color:'rgba(255,255,255,0.38)',marginBottom:16,maxWidth:280,lineHeight:1.6}},'Try refreshing the page. If it keeps happening, clear your browser cache and reload.'),
-        React.createElement('div',{style:{fontSize:'.7rem',color:'rgba(255,255,255,0.25)',fontFamily:'monospace',background:'rgba(0,0,0,0.4)',padding:'8px 12px',borderRadius:6,maxWidth:'90%',wordBreak:'break-all'}},this.state.error.toString()),
-        React.createElement('button',{onClick:()=>window.location.reload(),style:{marginTop:16,background:'#B5293C',color:'#fff',border:'none',borderRadius:8,padding:'10px 20px',cursor:'pointer',fontFamily:"'DM Sans',sans-serif",fontWeight:600,letterSpacing:'.06em'}},'Reload')
-      );
-    }
-    return this.props.children;
-  }
-}
-
-try {
-  ReactDOM.createRoot(document.getElementById('root')).render(
-    React.createElement(ErrorBoundary, null, React.createElement(App))
-  );
-} catch(e) {
-  document.getElementById('root').innerHTML = '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;background:#131823;color:rgba(255,255,255,0.92);font-family:sans-serif;text-align:center;padding:24px"><div style="font-size:2rem;margin-bottom:12px">⚠️</div><div style="font-size:1rem;color:#E8C87A;margin-bottom:8px">Failed to start</div><div style="font-size:.8rem;color:rgba(255,255,255,0.38);margin-bottom:16px">Try refreshing the page.</div><button onclick="location.reload()" style="background:#B5293C;color:#fff;border:none;border-radius:8px;padding:10px 20px;cursor:pointer;font-size:.9rem">Reload</button></div>';
-}
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
 </script>
 </body>
 </html>
