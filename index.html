@@ -345,10 +345,11 @@ const {useState, useEffect, useRef, useCallback} = React;
 const apiKey = "AIzaSyB2LEetOztbKN-jW3XXtoNjGmHCjWaJ3tA"; // Replace this string with your new key for GitHub Pages
 
 async function callGeminiAPI(prompt, systemInstruction) {
-  // Use public model if you provided a key, otherwise use the internal preview model
-  const isCustomKey = apiKey && apiKey !== "" && apiKey !== "PASTE_YOUR_NEW_API_KEY_HERE";
-  const modelName = isCustomKey ? "gemini-1.5-flash" : "gemini-2.5-flash-preview-09-2025";
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
+  if (!apiKey || apiKey.includes("PASTE_YOUR") || apiKey.includes("YOUR_API")) {
+    return { error: "Missing API Key! Please paste your key at the top of the code." };
+  }
+  
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
   
   const payload = {
     contents: [{ parts: [{ text: prompt }] }],
@@ -356,30 +357,29 @@ async function callGeminiAPI(prompt, systemInstruction) {
     generationConfig: { responseMimeType: "application/json" }
   };
 
-  let retries = 5;
-  let delay = 1000;
-  
-  while (retries > 0) {
-    try {
-      const res = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
-      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-      const data = await res.json();
-      const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-      if(text) return JSON.parse(text);
-      throw new Error("No text candidate found.");
-    } catch (e) {
-      retries--;
-      if (retries === 0) {
-        console.error("Gemini API Error:", e);
-        return null;
-      }
-      await new Promise(r => setTimeout(r, delay));
-      delay *= 2;
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+    
+    if (!res.ok) {
+      const errData = await res.json().catch(() => ({}));
+      return { error: `API Error ${res.status}: ${errData.error?.message || 'Check browser console'}` };
     }
+    
+    const data = await res.json();
+    let text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+    if(text) {
+      // Strip Markdown formatting if Gemini incorrectly wraps the JSON
+      text = text.replace(/```json/gi, '').replace(/```/g, '').trim();
+      return { data: JSON.parse(text) };
+    }
+    return { error: "No response text found." };
+  } catch (e) {
+    console.error("Gemini API Error:", e);
+    return { error: `Connection/Parse Error: ${e.message}` };
   }
 }
 
@@ -713,19 +713,15 @@ function GoalList({skey,label}){
   const handleAIBreakdown = async () => {
     if (!inp.trim()) { setAiError('Type a goal first to break it down.'); return; }
     setAiLoading(true); setAiError('');
-    
-    if (!apiKey || apiKey === "YOUR_API_KEY_HERE") {
-      setAiError('Missing API Key! Please get a free Gemini API key from Google AI Studio and add it to the top of the code.');
-      setAiLoading(false);
-      return;
-    }
 
     const sysPrompt = `You are an expert productivity coach. The user wants to achieve a goal. Break down the user's goal into exactly 3 to 4 smaller, highly actionable sub-goals or steps. Return ONLY a valid JSON array of objects, where each object has a 'text' property (string).`;
     
     const result = await callGeminiAPI(`Goal: ${inp}`, sysPrompt);
     
-    if (result && Array.isArray(result)) {
-      const newGoals = result.map(g => ({ id: genId(), text: g.text, done: false }));
+    if (result.error) {
+      setAiError(result.error);
+    } else if (result.data && Array.isArray(result.data)) {
+      const newGoals = result.data.map(g => ({ id: genId(), text: g.text, done: false }));
       save([...goals, ...newGoals]);
       setInp('');
     } else {
@@ -829,20 +825,16 @@ function FitnessTab(){
   const handleAILog = async () => {
     if(!aiInput.trim()) return;
     setAiLoading(true); setAiError('');
-    
-    if (!apiKey || apiKey === "YOUR_API_KEY_HERE") {
-      setAiError('Missing API Key! Please get a free Gemini API key from Google AI Studio and add it to the top of the code.');
-      setAiLoading(false);
-      return;
-    }
 
     if(aiType === 'food') {
       const sysPrompt = `You are a professional nutrition expert. The user will describe a meal they ate. Estimate the total nutritional value. Return ONLY a valid JSON object with the following keys: 'name' (string, a very short 2-4 word descriptive summary), 'cal' (number, estimated total calories), 'pro' (number, estimated total protein in grams). DO NOT return markdown formatting like \`\`\`json, just the raw JSON object.`;
       
       const res = await callGeminiAPI(aiInput, sysPrompt);
       
-      if(res && res.name && res.cal !== undefined) {
-         const item = { id:genId(), name: res.name + " ✨", cal: Number(res.cal), pro: Number(res.pro||0), desc: 'AI Logged' };
+      if (res.error) {
+        setAiError(res.error);
+      } else if(res.data && res.data.name && res.data.cal !== undefined) {
+         const item = { id:genId(), name: res.data.name + " ✨", cal: Number(res.data.cal), pro: Number(res.data.pro||0), desc: 'AI Logged' };
          saveLog({...log, foods: [item, ...log.foods]});
          setAiInput('');
       } else { setAiError('AI could not process this meal. Try being more specific.'); }
@@ -851,8 +843,10 @@ function FitnessTab(){
       
       const res = await callGeminiAPI(aiInput, sysPrompt);
       
-      if(res && res.name && res.cal !== undefined) {
-         const item = { id:genId(), name: res.name + " ✨", cal: Number(res.cal), mins: Number(res.mins||0) };
+      if (res.error) {
+        setAiError(res.error);
+      } else if(res.data && res.data.name && res.data.cal !== undefined) {
+         const item = { id:genId(), name: res.data.name + " ✨", cal: Number(res.data.cal), mins: Number(res.data.mins||0) };
          saveLog({...log, workouts: [item, ...log.workouts]});
          setAiInput('');
       } else { setAiError('AI could not process this workout.'); }
