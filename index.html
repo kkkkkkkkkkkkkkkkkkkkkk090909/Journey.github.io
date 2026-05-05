@@ -372,10 +372,10 @@ async function callGeminiAPI(prompt, systemInstruction) {
       
       if (!res.ok) {
         const errData = await res.json().catch(() => ({}));
-        // If 404 (model not found), log it and try the next model in the list
-        if (res.status === 404) {
-          console.warn(`Model ${model} not found, trying next...`);
-          lastErrorMsg = errData.error?.message || 'Model not found';
+        // If 404 (not found), 503 (overloaded), or 429 (rate limited), try the next model in the list
+        if (res.status === 404 || res.status === 503 || res.status === 429) {
+          console.warn(`Model ${model} failed with ${res.status}, trying next...`);
+          lastErrorMsg = errData.error?.message || `Status ${res.status}`;
           continue; 
         }
         return { error: `API Error ${res.status} (${model}): ${errData.error?.message || 'Check browser console'}` };
