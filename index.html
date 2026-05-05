@@ -349,38 +349,52 @@ async function callGeminiAPI(prompt, systemInstruction) {
     return { error: "Missing API Key! Please paste your key at the top of the code." };
   }
   
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+  // Try these models in order to ensure maximum compatibility with your specific key
+  const modelsToTry = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash-latest", "gemini-1.5-flash", "gemini-pro"];
   
   const payload = {
     contents: [{ parts: [{ text: prompt }] }],
     systemInstruction: { parts: [{ text: systemInstruction }] },
-    generationConfig: { responseMimeType: "application/json" }
+    // Ask for JSON, but we remove the strict responseMimeType config just in case older models reject it
   };
 
-  try {
-    const res = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
+  let lastErrorMsg = "";
+
+  for (const model of modelsToTry) {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
     
-    if (!res.ok) {
-      const errData = await res.json().catch(() => ({}));
-      return { error: `API Error ${res.status}: ${errData.error?.message || 'Check browser console'}` };
+    try {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        // If 404 (model not found), log it and try the next model in the list
+        if (res.status === 404) {
+          console.warn(`Model ${model} not found, trying next...`);
+          lastErrorMsg = errData.error?.message || 'Model not found';
+          continue; 
+        }
+        return { error: `API Error ${res.status} (${model}): ${errData.error?.message || 'Check browser console'}` };
+      }
+      
+      const data = await res.json();
+      let text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+      if(text) {
+        // Strip Markdown formatting if Gemini incorrectly wraps the JSON
+        text = text.replace(/```json/gi, '').replace(/```/g, '').trim();
+        return { data: JSON.parse(text) };
+      }
+    } catch (e) {
+      console.error(`Gemini API Error with ${model}:`, e);
+      lastErrorMsg = e.message;
     }
-    
-    const data = await res.json();
-    let text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-    if(text) {
-      // Strip Markdown formatting if Gemini incorrectly wraps the JSON
-      text = text.replace(/```json/gi, '').replace(/```/g, '').trim();
-      return { data: JSON.parse(text) };
-    }
-    return { error: "No response text found." };
-  } catch (e) {
-    console.error("Gemini API Error:", e);
-    return { error: `Connection/Parse Error: ${e.message}` };
   }
+  
+  return { error: `API Error 404: None of the standard models were found on your key. Last error: ${lastErrorMsg}` };
 }
 
 /* ─── helpers ─── */
