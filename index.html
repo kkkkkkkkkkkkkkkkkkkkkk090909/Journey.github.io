@@ -342,10 +342,14 @@ textarea.swinp{width:100%;background:transparent;border:none;color:var(--text-ma
 const {useState, useEffect, useRef, useCallback} = React;
 
 /* ─── Gemini API Configuration ─── */
-const apiKey = "AIzaSyA8rPfRR-m63gn032sPWt4EVGC0eNJ037A"; 
+const apiKey = "AIzaSyB2LEetOztbKN-jW3XXtoNjGmHCjWaJ3tA"; // Replace this string with your new key for GitHub Pages
 
 async function callGeminiAPI(prompt, systemInstruction) {
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+  // Use public model if you provided a key, otherwise use the internal preview model
+  const isCustomKey = apiKey && apiKey !== "" && apiKey !== "PASTE_YOUR_NEW_API_KEY_HERE";
+  const modelName = isCustomKey ? "gemini-1.5-flash" : "gemini-2.5-flash-preview-09-2025";
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
+  
   const payload = {
     contents: [{ parts: [{ text: prompt }] }],
     systemInstruction: { parts: [{ text: systemInstruction }] },
@@ -710,6 +714,12 @@ function GoalList({skey,label}){
     if (!inp.trim()) { setAiError('Type a goal first to break it down.'); return; }
     setAiLoading(true); setAiError('');
     
+    if (!apiKey || apiKey === "YOUR_API_KEY_HERE") {
+      setAiError('Missing API Key! Please get a free Gemini API key from Google AI Studio and add it to the top of the code.');
+      setAiLoading(false);
+      return;
+    }
+
     const sysPrompt = `You are an expert productivity coach. The user wants to achieve a goal. Break down the user's goal into exactly 3 to 4 smaller, highly actionable sub-goals or steps. Return ONLY a valid JSON array of objects, where each object has a 'text' property (string).`;
     
     const result = await callGeminiAPI(`Goal: ${inp}`, sysPrompt);
@@ -820,6 +830,12 @@ function FitnessTab(){
     if(!aiInput.trim()) return;
     setAiLoading(true); setAiError('');
     
+    if (!apiKey || apiKey === "YOUR_API_KEY_HERE") {
+      setAiError('Missing API Key! Please get a free Gemini API key from Google AI Studio and add it to the top of the code.');
+      setAiLoading(false);
+      return;
+    }
+
     if(aiType === 'food') {
       const sysPrompt = `You are a professional nutrition expert. The user will describe a meal they ate. Estimate the total nutritional value. Return ONLY a valid JSON object with the following keys: 'name' (string, a very short 2-4 word descriptive summary), 'cal' (number, estimated total calories), 'pro' (number, estimated total protein in grams). DO NOT return markdown formatting like \`\`\`json, just the raw JSON object.`;
       
