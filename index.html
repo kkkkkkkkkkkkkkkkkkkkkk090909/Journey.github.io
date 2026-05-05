@@ -423,190 +423,190 @@ const DB = {
 /* ─── Databases ─── */
 const DB_FOODS = [
   // Fruits
-  {name:"Apple", unit:"1 medium", cal:95, pro:0.5},
-  {name:"Banana", unit:"1 medium", cal:105, pro:1.3},
-  {name:"Orange", unit:"1 medium", cal:62, pro:1.2},
-  {name:"Strawberries", unit:"100g", cal:32, pro:0.7},
-  {name:"Blueberries", unit:"100g", cal:57, pro:0.7},
-  {name:"Raspberries", unit:"100g", cal:52, pro:1.2},
-  {name:"Blackberries", unit:"100g", cal:43, pro:1.4},
-  {name:"Pineapple", unit:"100g", cal:50, pro:0.5},
-  {name:"Mango", unit:"100g", cal:60, pro:0.8},
-  {name:"Grapes", unit:"100g", cal:69, pro:0.7},
-  {name:"Watermelon", unit:"100g", cal:30, pro:0.6},
-  {name:"Peach", unit:"1 medium", cal:59, pro:1.4},
-  {name:"Pear", unit:"1 medium", cal:101, pro:0.6},
-  {name:"Plum", unit:"1 medium", cal:30, pro:0.5},
-  {name:"Kiwi", unit:"1 medium", cal:42, pro:0.8},
+  {name:"Apple", unit:"1 medium", cal:95, pro:0.5, carbs:25, fat:0.3},
+  {name:"Banana", unit:"1 medium", cal:105, pro:1.3, carbs:27, fat:0.3},
+  {name:"Orange", unit:"1 medium", cal:62, pro:1.2, carbs:15, fat:0.2},
+  {name:"Strawberries", unit:"100g", cal:32, pro:0.7, carbs:8, fat:0.3},
+  {name:"Blueberries", unit:"100g", cal:57, pro:0.7, carbs:14, fat:0.3},
+  {name:"Raspberries", unit:"100g", cal:52, pro:1.2, carbs:12, fat:0.7},
+  {name:"Blackberries", unit:"100g", cal:43, pro:1.4, carbs:10, fat:0.5},
+  {name:"Pineapple", unit:"100g", cal:50, pro:0.5, carbs:13, fat:0.1},
+  {name:"Mango", unit:"100g", cal:60, pro:0.8, carbs:15, fat:0.4},
+  {name:"Grapes", unit:"100g", cal:69, pro:0.7, carbs:18, fat:0.2},
+  {name:"Watermelon", unit:"100g", cal:30, pro:0.6, carbs:8, fat:0.2},
+  {name:"Peach", unit:"1 medium", cal:59, pro:1.4, carbs:14, fat:0.4},
+  {name:"Pear", unit:"1 medium", cal:101, pro:0.6, carbs:27, fat:0.3},
+  {name:"Plum", unit:"1 medium", cal:30, pro:0.5, carbs:8, fat:0.2},
+  {name:"Kiwi", unit:"1 medium", cal:42, pro:0.8, carbs:10, fat:0.4},
   
   // Vegetables
-  {name:"Broccoli", unit:"100g", cal:34, pro:2.8},
-  {name:"Spinach", unit:"100g", cal:23, pro:2.9},
-  {name:"Cauliflower", unit:"100g", cal:25, pro:1.9},
-  {name:"Cabbage", unit:"100g", cal:25, pro:1.3},
-  {name:"Green Beans", unit:"100g", cal:31, pro:1.8},
-  {name:"Peas", unit:"100g", cal:81, pro:5.4},
-  {name:"Asparagus", unit:"100g", cal:20, pro:2.2},
-  {name:"Courgette (Zucchini)", unit:"100g", cal:17, pro:1.2},
-  {name:"Bell Pepper", unit:"1 medium", cal:24, pro:1},
-  {name:"Onion", unit:"1 medium", cal:44, pro:1.2},
-  {name:"Mushroom", unit:"100g", cal:22, pro:3.1},
-  {name:"Tomato", unit:"1 medium", cal:22, pro:1.1},
-  {name:"Cucumber", unit:"100g", cal:15, pro:0.7},
-  {name:"Lettuce", unit:"100g", cal:15, pro:1.4},
-  {name:"Celery", unit:"100g", cal:14, pro:0.7},
-  {name:"Sweetcorn", unit:"100g", cal:86, pro:3.2},
-  {name:"Aubergine (Eggplant)", unit:"100g", cal:25, pro:1},
-  {name:"Carrots", unit:"100g", cal:41, pro:0.9},
-  {name:"Parsnips (Roasted)", unit:"100g", cal:120, pro:1.5},
-  {name:"Brussels Sprouts", unit:"100g", cal:43, pro:3.4},
+  {name:"Broccoli", unit:"100g", cal:34, pro:2.8, carbs:7, fat:0.4},
+  {name:"Spinach", unit:"100g", cal:23, pro:2.9, carbs:4, fat:0.4},
+  {name:"Cauliflower", unit:"100g", cal:25, pro:1.9, carbs:5, fat:0.3},
+  {name:"Cabbage", unit:"100g", cal:25, pro:1.3, carbs:6, fat:0.1},
+  {name:"Green Beans", unit:"100g", cal:31, pro:1.8, carbs:7, fat:0.2},
+  {name:"Peas", unit:"100g", cal:81, pro:5.4, carbs:14, fat:0.4},
+  {name:"Asparagus", unit:"100g", cal:20, pro:2.2, carbs:4, fat:0.1},
+  {name:"Courgette (Zucchini)", unit:"100g", cal:17, pro:1.2, carbs:3, fat:0.3},
+  {name:"Bell Pepper", unit:"1 medium", cal:24, pro:1, carbs:6, fat:0.3},
+  {name:"Onion", unit:"1 medium", cal:44, pro:1.2, carbs:10, fat:0.1},
+  {name:"Mushroom", unit:"100g", cal:22, pro:3.1, carbs:3, fat:0.3},
+  {name:"Tomato", unit:"1 medium", cal:22, pro:1.1, carbs:5, fat:0.2},
+  {name:"Cucumber", unit:"100g", cal:15, pro:0.7, carbs:4, fat:0.1},
+  {name:"Lettuce", unit:"100g", cal:15, pro:1.4, carbs:3, fat:0.2},
+  {name:"Celery", unit:"100g", cal:14, pro:0.7, carbs:3, fat:0.2},
+  {name:"Sweetcorn", unit:"100g", cal:86, pro:3.2, carbs:19, fat:1.2},
+  {name:"Aubergine (Eggplant)", unit:"100g", cal:25, pro:1, carbs:6, fat:0.2},
+  {name:"Carrots", unit:"100g", cal:41, pro:0.9, carbs:10, fat:0.2},
+  {name:"Parsnips (Roasted)", unit:"100g", cal:120, pro:1.5, carbs:25, fat:3.5},
+  {name:"Brussels Sprouts", unit:"100g", cal:43, pro:3.4, carbs:9, fat:0.3},
 
   // Meats & Fish
-  {name:"Chicken Breast", unit:"100g", cal:165, pro:31},
-  {name:"Turkey Breast", unit:"100g", cal:114, pro:24},
-  {name:"Pork Loin", unit:"100g", cal:143, pro:26},
-  {name:"Lamb Chop", unit:"100g", cal:250, pro:22},
-  {name:"Duck Breast", unit:"100g", cal:337, pro:19},
-  {name:"Beef Mince 5%", unit:"100g", cal:137, pro:21},
-  {name:"Beef Mince 20%", unit:"100g", cal:250, pro:18},
-  {name:"Beef Steak", unit:"100g", cal:271, pro:25},
-  {name:"Salmon", unit:"100g", cal:208, pro:20},
-  {name:"Mackerel", unit:"100g", cal:305, pro:19},
-  {name:"Tuna (Canned)", unit:"100g", cal:116, pro:26},
-  {name:"Prawns", unit:"100g", cal:99, pro:24},
-  {name:"Mussels", unit:"100g", cal:172, pro:24},
-  {name:"Scallops", unit:"100g", cal:111, pro:21},
-  {name:"Cod", unit:"100g", cal:82, pro:18},
-  {name:"Haddock", unit:"100g", cal:90, pro:20},
-  {name:"Kippers", unit:"100g", cal:220, pro:20},
-  {name:"Sardines (in Oil)", unit:"100g", cal:208, pro:25},
+  {name:"Chicken Breast", unit:"100g", cal:165, pro:31, carbs:0, fat:3.6},
+  {name:"Turkey Breast", unit:"100g", cal:114, pro:24, carbs:0, fat:1.5},
+  {name:"Pork Loin", unit:"100g", cal:143, pro:26, carbs:0, fat:3.5},
+  {name:"Lamb Chop", unit:"100g", cal:250, pro:22, carbs:0, fat:17},
+  {name:"Duck Breast", unit:"100g", cal:337, pro:19, carbs:0, fat:28},
+  {name:"Beef Mince 5%", unit:"100g", cal:137, pro:21, carbs:0, fat:5},
+  {name:"Beef Mince 20%", unit:"100g", cal:250, pro:18, carbs:0, fat:20},
+  {name:"Beef Steak", unit:"100g", cal:271, pro:25, carbs:0, fat:19},
+  {name:"Salmon", unit:"100g", cal:208, pro:20, carbs:0, fat:13},
+  {name:"Mackerel", unit:"100g", cal:305, pro:19, carbs:0, fat:25},
+  {name:"Tuna (Canned)", unit:"100g", cal:116, pro:26, carbs:0, fat:1},
+  {name:"Prawns", unit:"100g", cal:99, pro:24, carbs:0.2, fat:0.3},
+  {name:"Mussels", unit:"100g", cal:172, pro:24, carbs:7, fat:4.5},
+  {name:"Scallops", unit:"100g", cal:111, pro:21, carbs:5, fat:1},
+  {name:"Cod", unit:"100g", cal:82, pro:18, carbs:0, fat:0.7},
+  {name:"Haddock", unit:"100g", cal:90, pro:20, carbs:0, fat:0.6},
+  {name:"Kippers", unit:"100g", cal:220, pro:20, carbs:0, fat:15},
+  {name:"Sardines (in Oil)", unit:"100g", cal:208, pro:25, carbs:0, fat:11},
 
   // UK Traditional Meats & Breakfast
-  {name:"Bacon (Back)", unit:"1 rasher", cal:43, pro:4},
-  {name:"Bacon (Streaky)", unit:"1 rasher", cal:60, pro:3},
-  {name:"Pork Sausage", unit:"1 sausage (50g)", cal:150, pro:7},
-  {name:"Cumberland Sausage", unit:"1 sausage", cal:180, pro:8},
-  {name:"Black Pudding", unit:"1 slice", cal:120, pro:5},
-  {name:"Haggis", unit:"100g", cal:300, pro:10},
-  {name:"Gammon Steak", unit:"100g", cal:130, pro:20},
-  {name:"Roast Beef", unit:"100g", cal:150, pro:26},
-  {name:"Roast Lamb", unit:"100g", cal:240, pro:24},
-  {name:"Roast Pork", unit:"100g", cal:230, pro:25},
-  {name:"Egg", unit:"1 large", cal:70, pro:6},
+  {name:"Bacon (Back)", unit:"1 rasher", cal:43, pro:4, carbs:0.1, fat:3},
+  {name:"Bacon (Streaky)", unit:"1 rasher", cal:60, pro:3, carbs:0.1, fat:5},
+  {name:"Pork Sausage", unit:"1 sausage (50g)", cal:150, pro:7, carbs:6, fat:11},
+  {name:"Cumberland Sausage", unit:"1 sausage", cal:180, pro:8, carbs:7, fat:13},
+  {name:"Black Pudding", unit:"1 slice", cal:120, pro:5, carbs:7, fat:8},
+  {name:"Haggis", unit:"100g", cal:300, pro:10, carbs:18, fat:21},
+  {name:"Gammon Steak", unit:"100g", cal:130, pro:20, carbs:0, fat:5},
+  {name:"Roast Beef", unit:"100g", cal:150, pro:26, carbs:0, fat:5},
+  {name:"Roast Lamb", unit:"100g", cal:240, pro:24, carbs:0, fat:16},
+  {name:"Roast Pork", unit:"100g", cal:230, pro:25, carbs:0, fat:14},
+  {name:"Egg", unit:"1 large", cal:70, pro:6, carbs:0.6, fat:5},
 
   // Dairy & Alternatives
-  {name:"Whole Milk", unit:"100ml", cal:61, pro:3.2},
-  {name:"Semi-Skimmed Milk", unit:"100ml", cal:46, pro:3.4},
-  {name:"Skimmed Milk", unit:"100ml", cal:35, pro:3.4},
-  {name:"Soy Milk", unit:"100ml", cal:33, pro:3.3},
-  {name:"Oat Milk", unit:"100ml", cal:45, pro:1},
-  {name:"Almond Milk", unit:"100ml", cal:15, pro:0.5},
-  {name:"Greek Yogurt", unit:"100g", cal:59, pro:10},
-  {name:"Cottage Cheese", unit:"100g", cal:98, pro:11},
-  {name:"Cream Cheese", unit:"100g", cal:342, pro:6},
-  {name:"Feta Cheese", unit:"100g", cal:264, pro:14},
-  {name:"Mozzarella", unit:"100g", cal:280, pro:28},
-  {name:"Parmesan", unit:"100g", cal:431, pro:38},
-  {name:"Ricotta", unit:"100g", cal:174, pro:11},
-  {name:"Cheddar Cheese", unit:"100g", cal:402, pro:25},
-  {name:"Red Leicester Cheese", unit:"100g", cal:400, pro:24},
-  {name:"Double Gloucester", unit:"100g", cal:410, pro:24},
-  {name:"Brie", unit:"100g", cal:334, pro:20},
-  {name:"Halloumi", unit:"100g", cal:315, pro:23},
-  {name:"Double Cream", unit:"1 tbsp", cal:70, pro:0.3},
-  {name:"Clotted Cream", unit:"1 tbsp", cal:90, pro:0.2},
-  {name:"Butter", unit:"1 tbsp", cal:100, pro:0.1},
-  {name:"Whey Protein", unit:"1 scoop", cal:120, pro:24},
+  {name:"Whole Milk", unit:"100ml", cal:61, pro:3.2, carbs:4.8, fat:3.3},
+  {name:"Semi-Skimmed Milk", unit:"100ml", cal:46, pro:3.4, carbs:4.8, fat:1.5},
+  {name:"Skimmed Milk", unit:"100ml", cal:35, pro:3.4, carbs:5, fat:0.1},
+  {name:"Soy Milk", unit:"100ml", cal:33, pro:3.3, carbs:1.8, fat:1.8},
+  {name:"Oat Milk", unit:"100ml", cal:45, pro:1, carbs:6.5, fat:1.5},
+  {name:"Almond Milk", unit:"100ml", cal:15, pro:0.5, carbs:0.3, fat:1.2},
+  {name:"Greek Yogurt", unit:"100g", cal:59, pro:10, carbs:3.6, fat:0.4},
+  {name:"Cottage Cheese", unit:"100g", cal:98, pro:11, carbs:3.4, fat:4.3},
+  {name:"Cream Cheese", unit:"100g", cal:342, pro:6, carbs:4, fat:34},
+  {name:"Feta Cheese", unit:"100g", cal:264, pro:14, carbs:4, fat:21},
+  {name:"Mozzarella", unit:"100g", cal:280, pro:28, carbs:3, fat:17},
+  {name:"Parmesan", unit:"100g", cal:431, pro:38, carbs:4, fat:29},
+  {name:"Ricotta", unit:"100g", cal:174, pro:11, carbs:3, fat:13},
+  {name:"Cheddar Cheese", unit:"100g", cal:402, pro:25, carbs:1.3, fat:33},
+  {name:"Red Leicester Cheese", unit:"100g", cal:400, pro:24, carbs:0.1, fat:33},
+  {name:"Double Gloucester", unit:"100g", cal:410, pro:24, carbs:0.1, fat:34},
+  {name:"Brie", unit:"100g", cal:334, pro:20, carbs:0.5, fat:28},
+  {name:"Halloumi", unit:"100g", cal:315, pro:23, carbs:2, fat:24},
+  {name:"Double Cream", unit:"1 tbsp", cal:70, pro:0.3, carbs:0.4, fat:7.5},
+  {name:"Clotted Cream", unit:"1 tbsp", cal:90, pro:0.2, carbs:0.3, fat:10},
+  {name:"Butter", unit:"1 tbsp", cal:100, pro:0.1, carbs:0, fat:11},
+  {name:"Whey Protein", unit:"1 scoop", cal:120, pro:24, carbs:3, fat:1.5},
 
   // Carbs & Grains
-  {name:"White Rice", unit:"100g cooked", cal:130, pro:2.7},
-  {name:"Brown Rice", unit:"100g cooked", cal:111, pro:2.6},
-  {name:"Basmati Rice", unit:"100g cooked", cal:121, pro:3.5},
-  {name:"Jasmine Rice", unit:"100g cooked", cal:130, pro:2.7},
-  {name:"Oats", unit:"100g dry", cal:389, pro:16.9},
-  {name:"Quinoa", unit:"100g cooked", cal:120, pro:4.4},
-  {name:"Couscous", unit:"100g cooked", cal:112, pro:3.8},
-  {name:"Bulgur Wheat", unit:"100g cooked", cal:83, pro:3.1},
-  {name:"Pasta", unit:"100g cooked", cal:131, pro:5},
-  {name:"Soba Noodles", unit:"100g cooked", cal:99, pro:5.1},
-  {name:"Udon Noodles", unit:"100g cooked", cal:131, pro:3.3},
-  {name:"Potato", unit:"100g baked", cal:93, pro:2.5},
-  {name:"Sweet Potato", unit:"100g baked", cal:90, pro:2},
-  {name:"Bread (White)", unit:"1 slice", cal:66, pro:1.9},
-  {name:"Bread (Wholemeal)", unit:"1 slice", cal:69, pro:3.6},
+  {name:"White Rice", unit:"100g cooked", cal:130, pro:2.7, carbs:28, fat:0.3},
+  {name:"Brown Rice", unit:"100g cooked", cal:111, pro:2.6, carbs:23, fat:0.9},
+  {name:"Basmati Rice", unit:"100g cooked", cal:121, pro:3.5, carbs:25, fat:0.4},
+  {name:"Jasmine Rice", unit:"100g cooked", cal:130, pro:2.7, carbs:28, fat:0.3},
+  {name:"Oats", unit:"100g dry", cal:389, pro:16.9, carbs:66, fat:6.9},
+  {name:"Quinoa", unit:"100g cooked", cal:120, pro:4.4, carbs:21, fat:1.9},
+  {name:"Couscous", unit:"100g cooked", cal:112, pro:3.8, carbs:23, fat:0.2},
+  {name:"Bulgur Wheat", unit:"100g cooked", cal:83, pro:3.1, carbs:19, fat:0.2},
+  {name:"Pasta", unit:"100g cooked", cal:131, pro:5, carbs:25, fat:1},
+  {name:"Soba Noodles", unit:"100g cooked", cal:99, pro:5.1, carbs:21, fat:0.1},
+  {name:"Udon Noodles", unit:"100g cooked", cal:131, pro:3.3, carbs:28, fat:0.6},
+  {name:"Potato", unit:"100g baked", cal:93, pro:2.5, carbs:21, fat:0.1},
+  {name:"Sweet Potato", unit:"100g baked", cal:90, pro:2, carbs:21, fat:0.2},
+  {name:"Bread (White)", unit:"1 slice", cal:66, pro:1.9, carbs:13, fat:0.8},
+  {name:"Bread (Wholemeal)", unit:"1 slice", cal:69, pro:3.6, carbs:11, fat:1.1},
 
   // Legumes
-  {name:"Lentils", unit:"100g cooked", cal:116, pro:9},
-  {name:"Chickpeas", unit:"100g cooked", cal:164, pro:8.9},
-  {name:"Black Beans", unit:"100g cooked", cal:132, pro:8.9},
-  {name:"Kidney Beans", unit:"100g cooked", cal:127, pro:8.7},
+  {name:"Lentils", unit:"100g cooked", cal:116, pro:9, carbs:20, fat:0.4},
+  {name:"Chickpeas", unit:"100g cooked", cal:164, pro:8.9, carbs:27, fat:2.6},
+  {name:"Black Beans", unit:"100g cooked", cal:132, pro:8.9, carbs:24, fat:0.5},
+  {name:"Kidney Beans", unit:"100g cooked", cal:127, pro:8.7, carbs:23, fat:0.5},
   
   // Nuts, Seeds & Oils
-  {name:"Almonds", unit:"100g", cal:579, pro:21},
-  {name:"Walnuts", unit:"100g", cal:654, pro:15},
-  {name:"Cashews", unit:"100g", cal:553, pro:18},
-  {name:"Pecans", unit:"100g", cal:691, pro:9},
-  {name:"Pistachios", unit:"100g", cal:562, pro:20},
-  {name:"Macadamia Nuts", unit:"100g", cal:718, pro:8},
-  {name:"Chia Seeds", unit:"1 tbsp", cal:60, pro:3},
-  {name:"Flax Seeds", unit:"1 tbsp", cal:55, pro:2},
-  {name:"Pumpkin Seeds", unit:"1 tbsp", cal:56, pro:3},
-  {name:"Sunflower Seeds", unit:"1 tbsp", cal:51, pro:2},
-  {name:"Peanut Butter", unit:"1 tbsp", cal:94, pro:4},
-  {name:"Olive Oil", unit:"1 tbsp", cal:119, pro:0},
+  {name:"Almonds", unit:"100g", cal:579, pro:21, carbs:22, fat:50},
+  {name:"Walnuts", unit:"100g", cal:654, pro:15, carbs:14, fat:65},
+  {name:"Cashews", unit:"100g", cal:553, pro:18, carbs:30, fat:44},
+  {name:"Pecans", unit:"100g", cal:691, pro:9, carbs:14, fat:72},
+  {name:"Pistachios", unit:"100g", cal:562, pro:20, carbs:28, fat:45},
+  {name:"Macadamia Nuts", unit:"100g", cal:718, pro:8, carbs:14, fat:76},
+  {name:"Chia Seeds", unit:"1 tbsp", cal:60, pro:3, carbs:5, fat:3},
+  {name:"Flax Seeds", unit:"1 tbsp", cal:55, pro:2, carbs:3, fat:4.5},
+  {name:"Pumpkin Seeds", unit:"1 tbsp", cal:56, pro:3, carbs:1.5, fat:5},
+  {name:"Sunflower Seeds", unit:"1 tbsp", cal:51, pro:2, carbs:2, fat:4.5},
+  {name:"Peanut Butter", unit:"1 tbsp", cal:94, pro:4, carbs:3, fat:8},
+  {name:"Olive Oil", unit:"1 tbsp", cal:119, pro:0, carbs:0, fat:14},
 
   // Pub & Bakery Classics
-  {name:"Sausage Roll", unit:"1 standard", cal:420, pro:11},
-  {name:"Pork Pie", unit:"1 mini (50g)", cal:180, pro:5},
-  {name:"Cornish Pasty", unit:"1 standard", cal:450, pro:12},
-  {name:"Scotch Egg", unit:"1 standard", cal:280, pro:13},
-  {name:"Yorkshire Pudding", unit:"1 medium", cal:50, pro:2},
-  {name:"Battered Cod", unit:"1 medium fillet", cal:400, pro:35},
-  {name:"Battered Haddock", unit:"1 medium fillet", cal:380, pro:33},
-  {name:"Chips (Chunky/Pub)", unit:"100g", cal:230, pro:3},
-  {name:"Chips (Takeaway)", unit:"1 portion", cal:400, pro:4},
-  {name:"Fish Fingers", unit:"1 piece", cal:60, pro:3.5},
+  {name:"Sausage Roll", unit:"1 standard", cal:420, pro:11, carbs:35, fat:25},
+  {name:"Pork Pie", unit:"1 mini (50g)", cal:180, pro:5, carbs:15, fat:12},
+  {name:"Cornish Pasty", unit:"1 standard", cal:450, pro:12, carbs:40, fat:26},
+  {name:"Scotch Egg", unit:"1 standard", cal:280, pro:13, carbs:15, fat:18},
+  {name:"Yorkshire Pudding", unit:"1 medium", cal:50, pro:2, carbs:6, fat:2},
+  {name:"Battered Cod", unit:"1 medium fillet", cal:400, pro:35, carbs:25, fat:15},
+  {name:"Battered Haddock", unit:"1 medium fillet", cal:380, pro:33, carbs:24, fat:14},
+  {name:"Chips (Chunky/Pub)", unit:"100g", cal:230, pro:3, carbs:35, fat:9},
+  {name:"Chips (Takeaway)", unit:"1 portion", cal:400, pro:4, carbs:60, fat:15},
+  {name:"Fish Fingers", unit:"1 piece", cal:60, pro:3.5, carbs:5, fat:2.5},
   
   // UK Breads & Breakfast
-  {name:"Crumpet", unit:"1 standard", cal:100, pro:3.5},
-  {name:"English Muffin", unit:"1 standard", cal:130, pro:5},
-  {name:"Scone (Plain)", unit:"1 standard", cal:240, pro:4},
-  {name:"Hash Brown", unit:"1 piece", cal:90, pro:1},
-  {name:"Baked Beans", unit:"100g", cal:79, pro:4.7},
-  {name:"Mushy Peas", unit:"100g", cal:85, pro:5},
-  {name:"Marmite", unit:"1 tsp", cal:9, pro:1.5},
+  {name:"Crumpet", unit:"1 standard", cal:100, pro:3.5, carbs:20, fat:0.5},
+  {name:"English Muffin", unit:"1 standard", cal:130, pro:5, carbs:25, fat:1},
+  {name:"Scone (Plain)", unit:"1 standard", cal:240, pro:4, carbs:35, fat:9},
+  {name:"Hash Brown", unit:"1 piece", cal:90, pro:1, carbs:10, fat:5},
+  {name:"Baked Beans", unit:"100g", cal:79, pro:4.7, carbs:13, fat:0.2},
+  {name:"Mushy Peas", unit:"100g", cal:85, pro:5, carbs:14, fat:0.5},
+  {name:"Marmite", unit:"1 tsp", cal:9, pro:1.5, carbs:0.5, fat:0},
   
   // Sweets, Snacks & Biscuits
-  {name:"Digestive Biscuit", unit:"1 biscuit", cal:70, pro:1},
-  {name:"Chocolate Digestive", unit:"1 biscuit", cal:85, pro:1},
-  {name:"Rich Tea Biscuit", unit:"1 biscuit", cal:38, pro:0.5},
-  {name:"Hobnob", unit:"1 biscuit", cal:70, pro:1},
-  {name:"Jaffa Cake", unit:"1 biscuit", cal:46, pro:0.5},
-  {name:"Shortbread", unit:"1 piece", cal:100, pro:1},
-  {name:"Battenberg Cake", unit:"1 slice", cal:160, pro:2},
-  {name:"Victoria Sponge", unit:"1 slice", cal:250, pro:3},
-  {name:"Sticky Toffee Pudding", unit:"1 portion", cal:350, pro:3},
-  {name:"Crisps (Ready Salted)", unit:"1 bag (25g)", cal:130, pro:1.5},
-  {name:"Crisps (Cheese & Onion)", unit:"1 bag (25g)", cal:130, pro:1.5},
-  {name:"Dark Chocolate (70%)", unit:"1 square (10g)", cal:60, pro:0.8},
-  {name:"Milk Chocolate", unit:"1 square (10g)", cal:53, pro:0.7},
+  {name:"Digestive Biscuit", unit:"1 biscuit", cal:70, pro:1, carbs:10, fat:3},
+  {name:"Chocolate Digestive", unit:"1 biscuit", cal:85, pro:1, carbs:11, fat:4},
+  {name:"Rich Tea Biscuit", unit:"1 biscuit", cal:38, pro:0.5, carbs:6, fat:1.5},
+  {name:"Hobnob", unit:"1 biscuit", cal:70, pro:1, carbs:10, fat:3.5},
+  {name:"Jaffa Cake", unit:"1 biscuit", cal:46, pro:0.5, carbs:8, fat:1},
+  {name:"Shortbread", unit:"1 piece", cal:100, pro:1, carbs:10, fat:6},
+  {name:"Battenberg Cake", unit:"1 slice", cal:160, pro:2, carbs:25, fat:6},
+  {name:"Victoria Sponge", unit:"1 slice", cal:250, pro:3, carbs:35, fat:10},
+  {name:"Sticky Toffee Pudding", unit:"1 portion", cal:350, pro:3, carbs:55, fat:14},
+  {name:"Crisps (Ready Salted)", unit:"1 bag (25g)", cal:130, pro:1.5, carbs:13, fat:8},
+  {name:"Crisps (Cheese & Onion)", unit:"1 bag (25g)", cal:130, pro:1.5, carbs:13, fat:8},
+  {name:"Dark Chocolate (70%)", unit:"1 square (10g)", cal:60, pro:0.8, carbs:3.5, fat:4},
+  {name:"Milk Chocolate", unit:"1 square (10g)", cal:53, pro:0.7, carbs:6, fat:3},
 
   // UK Mains / Dinners / Misc
-  {name:"Chicken Tikka Masala", unit:"1 portion (400g)", cal:550, pro:35},
-  {name:"Shepherd's Pie", unit:"1 portion (400g)", cal:400, pro:22},
-  {name:"Cottage Pie", unit:"1 portion (400g)", cal:350, pro:25},
-  {name:"Toad in the Hole", unit:"1 portion", cal:400, pro:20},
-  {name:"Tofu", unit:"100g", cal:76, pro:8},
-  {name:"Quorn (Mince)", unit:"100g", cal:105, pro:14},
-  {name:"Ketchup", unit:"1 tbsp", cal:20, pro:0.2},
-  {name:"Mayonnaise", unit:"1 tbsp", cal:94, pro:0.1},
-  {name:"Hummus", unit:"1 tbsp", cal:25, pro:1.2},
+  {name:"Chicken Tikka Masala", unit:"1 portion (400g)", cal:550, pro:35, carbs:15, fat:38},
+  {name:"Shepherd's Pie", unit:"1 portion (400g)", cal:400, pro:22, carbs:40, fat:18},
+  {name:"Cottage Pie", unit:"1 portion (400g)", cal:350, pro:25, carbs:35, fat:12},
+  {name:"Toad in the Hole", unit:"1 portion", cal:400, pro:20, carbs:30, fat:22},
+  {name:"Tofu", unit:"100g", cal:76, pro:8, carbs:2, fat:4.8},
+  {name:"Quorn (Mince)", unit:"100g", cal:105, pro:14, carbs:5, fat:2},
+  {name:"Ketchup", unit:"1 tbsp", cal:20, pro:0.2, carbs:5, fat:0},
+  {name:"Mayonnaise", unit:"1 tbsp", cal:94, pro:0.1, carbs:0.1, fat:10},
+  {name:"Hummus", unit:"1 tbsp", cal:25, pro:1.2, carbs:2, fat:1.5},
   
   // Drinks
-  {name:"Tea with Milk", unit:"1 mug", cal:20, pro:1},
-  {name:"Pint of Lager", unit:"1 pint", cal:200, pro:1.5},
-  {name:"Pint of Ale", unit:"1 pint", cal:180, pro:1.5},
-  {name:"Pint of Cider", unit:"1 pint", cal:220, pro:0}
+  {name:"Tea with Milk", unit:"1 mug", cal:20, pro:1, carbs:1.5, fat:1},
+  {name:"Pint of Lager", unit:"1 pint", cal:200, pro:1.5, carbs:15, fat:0},
+  {name:"Pint of Ale", unit:"1 pint", cal:180, pro:1.5, carbs:13, fat:0},
+  {name:"Pint of Cider", unit:"1 pint", cal:220, pro:0, carbs:18, fat:0}
 ];
 
 const DB_EXERCISES = [
@@ -662,7 +662,6 @@ const DB_EXERCISES = [
   // Weights (General)
   {name:"Weightlifting (General)", calPerMin: 4}
 ];
-
 const DEFAULT_HABITS = ['Wake up on time','Exercise','Read / Learn','Prayer / Devotion','No social media','Drink water','Sleep on time'];
 
 const BUD_CATS = [
@@ -985,7 +984,7 @@ function GoalList({skey,label}){
 function FitnessTab(){
   const [fd, setFd] = useState(todayStr());
   const [sub, setSub] = useState('log'); // log, progress, settings
-  const [settings, setSettings] = useState({cal: 2500, pro: 150, water: 8});
+  const [settings, setSettings] = useState({cal: 2500, pro: 150, carbs: 250, fat: 70, water: 8});
   const [log, setLog] = useState({ foods:[], workouts:[], strength:[], water:0 });
   
   // AI Logging State
@@ -999,7 +998,7 @@ function FitnessTab(){
   const [fRes, setFRes] = useState([]);
   const [fSel, setFSel] = useState(null);
   const [fMult, setFMult] = useState(1);
-  const [fCustom, setFCustom] = useState({name:'', cal:'', pro:''});
+  const [fCustom, setFCustom] = useState({name:'', cal:'', pro:'', carbs:'', fat:''});
 
   const [wQuery, setWQuery] = useState('');
   const [wRes, setWRes] = useState([]);
@@ -1014,7 +1013,7 @@ function FitnessTab(){
   const [strHistory, setStrHistory] = useState({});
 
   useEffect(() => {
-    setSettings(DB.get('fit_settings', {cal: 2500, pro: 150, water: 8}));
+    setSettings(DB.get('fit_settings', {cal: 2500, pro: 150, carbs: 250, fat: 70, water: 8}));
     setStrHistory(DB.get('fit_history', {}));
   }, []);
 
@@ -1028,10 +1027,15 @@ function FitnessTab(){
   // Computed
   const calsIn = log.foods.reduce((s,f) => s + f.cal, 0);
   const proIn  = log.foods.reduce((s,f) => s + f.pro, 0);
+  const carbsIn = log.foods.reduce((s,f) => s + (f.carbs||0), 0);
+  const fatIn  = log.foods.reduce((s,f) => s + (f.fat||0), 0);
   const calsOut = log.workouts.reduce((s,w) => s + w.cal, 0);
   const calsRemaining = Math.round(settings.cal + calsOut - calsIn);
+  
   const calPct = Math.min(100, Math.max(0, (calsIn / (settings.cal + calsOut)) * 100));
   const proPct = Math.min(100, Math.max(0, (proIn / settings.pro) * 100));
+  const carbsPct = Math.min(100, Math.max(0, (carbsIn / settings.carbs) * 100));
+  const fatPct = Math.min(100, Math.max(0, (fatIn / settings.fat) * 100));
   const watPct = Math.min(100, Math.max(0, (log.water / settings.water) * 100));
 
   // AI Logger Logic
@@ -1040,19 +1044,22 @@ function FitnessTab(){
     setAiLoading(true); setAiError('');
 
     if(aiType === 'food') {
-      const sysPrompt = `You are a professional nutrition expert. The user will describe a meal they ate. Estimate the total nutritional value. Return ONLY a valid JSON object with the following keys: 'name' (string, a very short 2-4 word descriptive summary), 'cal' (number, estimated total calories), 'pro' (number, estimated total protein in grams). DO NOT return markdown formatting like \`\`\`json, just the raw JSON object.`;
+      const sysPrompt = `You are a professional nutrition expert. The user will describe a meal they ate. Estimate the total nutritional value. 
+      CRITICAL INSTRUCTIONS FOR PORTION SIZES:
+      If the user uses vague terms like "chunk", "piece", "scoop", or "spoon", assume standard, moderate serving sizes (e.g., 1 "chunk" of meat = 1 to 1.5 oz, 1 "scoop" of pasta = 1/2 cup). Do NOT overestimate into massive restaurant portions unless explicitly told.
+      Return ONLY a valid JSON object with the following keys: 'name' (string, a very short 2-4 word descriptive summary), 'cal' (number, estimated total calories), 'pro' (number, estimated total protein in grams), 'carbs' (number, estimated total carbohydrates in grams), 'fat' (number, estimated total fat in grams). DO NOT format as markdown.`;
       
       const res = await callGeminiAPI(aiInput, sysPrompt);
       
       if (res.error) {
         setAiError(res.error);
       } else if(res.data && res.data.name && res.data.cal !== undefined) {
-         const item = { id:genId(), name: res.data.name + " ✨", cal: Number(res.data.cal), pro: Number(res.data.pro||0), desc: 'AI Logged' };
+         const item = { id:genId(), name: res.data.name + " ✨", cal: Number(res.data.cal), pro: Number(res.data.pro||0), carbs: Number(res.data.carbs||0), fat: Number(res.data.fat||0), desc: 'AI Logged' };
          saveLog({...log, foods: [item, ...log.foods]});
          setAiInput('');
       } else { setAiError('AI could not process this meal. Try being more specific.'); }
     } else {
-      const sysPrompt = `You are a professional fitness expert. The user will describe a physical activity they performed. Estimate the calories burned and duration. Return ONLY a valid JSON object with the following keys: 'name' (string, a very short 2-4 word descriptive summary of the activity), 'cal' (number, estimated calories burned), 'mins' (number, estimated duration in minutes). DO NOT return markdown formatting like \`\`\`json, just the raw JSON object.`;
+      const sysPrompt = `You are a professional fitness expert. The user will describe a physical activity they performed. Estimate the calories burned and duration. Return ONLY a valid JSON object with the following keys: 'name' (string, a very short 2-4 word descriptive summary of the activity), 'cal' (number, estimated calories burned), 'mins' (number, estimated duration in minutes). DO NOT format as markdown.`;
       
       const res = await callGeminiAPI(aiInput, sysPrompt);
       
@@ -1084,13 +1091,13 @@ function FitnessTab(){
 
   const addFood = () => {
     if(fSel){
-      const item = { id:genId(), name: fSel.name, cal: Math.round(fSel.cal*fMult), pro: Math.round(fSel.pro*fMult), desc: `${fMult}x ${fSel.unit}` };
+      const item = { id:genId(), name: fSel.name, cal: Math.round(fSel.cal*fMult), pro: Math.round(fSel.pro*fMult), carbs: Math.round((fSel.carbs||0)*fMult), fat: Math.round((fSel.fat||0)*fMult), desc: `${fMult}x ${fSel.unit}` };
       saveLog({...log, foods: [item, ...log.foods]});
       setFQuery(''); setFSel(null); setFMult(1);
     } else if(fCustom.name && fCustom.cal) {
-      const item = { id:genId(), name: fCustom.name, cal: Number(fCustom.cal), pro: Number(fCustom.pro||0), desc: 'Custom' };
+      const item = { id:genId(), name: fCustom.name, cal: Number(fCustom.cal), pro: Number(fCustom.pro||0), carbs: Number(fCustom.carbs||0), fat: Number(fCustom.fat||0), desc: 'Custom' };
       saveLog({...log, foods: [item, ...log.foods]});
-      setFCustom({name:'', cal:'', pro:''});
+      setFCustom({name:'', cal:'', pro:'', carbs:'', fat:''});
     }
   };
 
@@ -1153,6 +1160,16 @@ function FitnessTab(){
               <div style={{marginTop:8, fontSize:'0.85rem', fontWeight:600}}>{proIn} / {settings.pro}</div>
             </div>
             <div className="card" style={{marginBottom: 0, textAlign:'center'}}>
+              <div style={{fontSize:'0.7rem', color:'var(--text-muted)', textTransform:'uppercase', letterSpacing:'0.05em', marginBottom:8}}>Carbs (g)</div>
+              <Donut pct={carbsPct} size={60} thick={6} color="var(--warn)"/>
+              <div style={{marginTop:8, fontSize:'0.85rem', fontWeight:600}}>{carbsIn} / {settings.carbs}</div>
+            </div>
+            <div className="card" style={{marginBottom: 0, textAlign:'center'}}>
+              <div style={{fontSize:'0.7rem', color:'var(--text-muted)', textTransform:'uppercase', letterSpacing:'0.05em', marginBottom:8}}>Fat (g)</div>
+              <Donut pct={fatPct} size={60} thick={6} color="#8b5cf6"/>
+              <div style={{marginTop:8, fontSize:'0.85rem', fontWeight:600}}>{fatIn} / {settings.fat}</div>
+            </div>
+            <div className="card" style={{marginBottom: 0, textAlign:'center'}}>
               <div style={{fontSize:'0.7rem', color:'var(--text-muted)', textTransform:'uppercase', letterSpacing:'0.05em', marginBottom:8}}>Water (Glass)</div>
               <Donut pct={watPct} size={60} thick={6} color="#0ea5e9"/>
               <div style={{display:'flex', alignItems:'center', justifyContent:'center', gap: 8, marginTop: 8}}>
@@ -1193,7 +1210,7 @@ function FitnessTab(){
             {fRes.length > 0 && !fSel && (
               <div className="search-res">
                 {fRes.map(r=><div key={r.name} className="search-item" onClick={()=>{setFSel(r);setFQuery(r.name);setFRes([]);}}>
-                  <strong>{r.name}</strong> <span style={{color:'var(--text-muted)', fontSize:'.8rem'}}>— {r.cal} kcal, {r.pro}g pro per {r.unit}</span>
+                  <strong>{r.name}</strong> <br/><span style={{color:'var(--text-muted)', fontSize:'.75rem'}}>{r.cal} kcal, {r.pro}g pro, {r.carbs}g carbs, {r.fat}g fat per {r.unit}</span>
                 </div>)}
               </div>
             )}
@@ -1208,11 +1225,13 @@ function FitnessTab(){
             {!fSel && fQuery.length > 0 && fRes.length === 0 && (
               <div style={{marginTop: 10}}>
                 <div style={{fontSize:'.8rem', color:'var(--text-muted)', marginBottom: 8}}>Not found. Add custom:</div>
-                <div className="row">
-                  <input className="inp inp-sm" placeholder="Name" value={fCustom.name} onChange={e=>setFCustom({...fCustom, name:e.target.value})}/>
-                  <input className="inp inp-sm" type="number" placeholder="Kcal" value={fCustom.cal} onChange={e=>setFCustom({...fCustom, cal:e.target.value})}/>
-                  <input className="inp inp-sm" type="number" placeholder="Pro (g)" value={fCustom.pro} onChange={e=>setFCustom({...fCustom, pro:e.target.value})}/>
-                  <button className="btn btnsm" onClick={addFood}>Add</button>
+                <div className="row" style={{flexWrap: 'wrap', gap: '6px'}}>
+                  <input className="inp inp-sm" style={{flex: '1 1 40%'}} placeholder="Name" value={fCustom.name} onChange={e=>setFCustom({...fCustom, name:e.target.value})}/>
+                  <input className="inp inp-sm" style={{flex: '1 1 20%'}} type="number" placeholder="Kcal" value={fCustom.cal} onChange={e=>setFCustom({...fCustom, cal:e.target.value})}/>
+                  <input className="inp inp-sm" style={{flex: '1 1 20%'}} type="number" placeholder="Pro(g)" value={fCustom.pro} onChange={e=>setFCustom({...fCustom, pro:e.target.value})}/>
+                  <input className="inp inp-sm" style={{flex: '1 1 20%'}} type="number" placeholder="Carb(g)" value={fCustom.carbs} onChange={e=>setFCustom({...fCustom, carbs:e.target.value})}/>
+                  <input className="inp inp-sm" style={{flex: '1 1 20%'}} type="number" placeholder="Fat(g)" value={fCustom.fat} onChange={e=>setFCustom({...fCustom, fat:e.target.value})}/>
+                  <button className="btn btnsm" style={{flex: '1 1 100%'}} onClick={addFood}>Add Custom</button>
                 </div>
               </div>
             )}
@@ -1222,7 +1241,7 @@ function FitnessTab(){
                 <div key={f.id} className="gitem" style={{padding:'8px 0'}}>
                   <div style={{flex:1}}>
                     <div style={{fontSize:'.9rem', fontWeight:600}}>{f.name}</div>
-                    <div style={{fontSize:'.75rem', color:'var(--text-muted)'}}>{f.desc} • {f.cal} kcal • {f.pro}g pro</div>
+                    <div style={{fontSize:'.75rem', color:'var(--text-muted)'}}>{f.desc} • {f.cal} kcal • {f.pro}g pro • {f.carbs}g carbs • {f.fat}g fat</div>
                   </div>
                   <button className="tdel" onClick={()=>delLog('foods', f.id)}>✕</button>
                 </div>
@@ -1330,7 +1349,6 @@ function FitnessTab(){
     </div>
   );
 }
-
 /* ─── Bible ─── */
 function BibleTab(){
   const [vd,setVd]=useState(todayStr());
