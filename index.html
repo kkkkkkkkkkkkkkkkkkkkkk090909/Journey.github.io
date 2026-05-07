@@ -355,7 +355,6 @@ async function callGeminiAPI(prompt, systemInstruction) {
   const payload = {
     contents: [{ parts: [{ text: prompt }] }],
     systemInstruction: { parts: [{ text: systemInstruction }] },
-    // Ask for JSON, but we remove the strict responseMimeType config just in case older models reject it
   };
 
   let lastErrorMsg = "";
@@ -670,7 +669,7 @@ const BUD_CATS = [
   {id:'dues',       name:'Dues',                ico:'📋', color:'#20c997'},
   {id:'subs',       name:'Subscriptions',       ico:'📱', color:'#8b5cf6'},
   {id:'debts',      name:'Debts',               ico:'💳', color:'#FF453A'},
-  {id:'personal',   name:'Personal',            ico:'👤', color:'#f43f5e'},
+  {id:'personal',   name:'Personal',             ico:'👤', color:'#f43f5e'},
   {id:'investment', name:'Investment',          ico:'📈', color:'#32D74B'},
   {id:'savings',    name:'Savings',             ico:'💰', color:'#34C759'},
   {id:'misc',       name:'Misc',                ico:'📌', color:'#9C8A82'},
@@ -718,7 +717,7 @@ function Donut({pct, size=88, thick=8, color, bg, label}){
   const c = color || 'var(--accent)';
   const b = bg || 'var(--glass-border-strong)';
   const r=(size-thick)/2, circ=2*Math.PI*r;
-  const dash=Math.min(pct,100)/100*circ;
+  const dash=Math.min(pct||0,100)/100*circ;
   return(
     <div style={{position:'relative',width:size,height:size,flexShrink:0}}>
       <svg width={size} height={size} style={{transform:'rotate(-90deg)',display:'block'}}>
@@ -728,7 +727,7 @@ function Donut({pct, size=88, thick=8, color, bg, label}){
           style={{transition:'stroke-dasharray 0.8s cubic-bezier(0.2, 0.8, 0.2, 1)'}}/>
       </svg>
       <div style={{position:'absolute',inset:0,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}}>
-        <div style={{fontSize:size>70?'1.1rem':'.8rem',fontWeight:700,color:pct>0?c:'var(--text-muted)',lineHeight:1}}>{Math.round(pct)}%</div>
+        <div style={{fontSize:size>70?'1.1rem':'.8rem',fontWeight:700,color:pct>0?c:'var(--text-muted)',lineHeight:1}}>{Math.round(pct||0)}%</div>
         {label&&<div style={{fontSize:'.55rem',color:'var(--text-muted)',marginTop:2,letterSpacing:'.06em',textTransform:'uppercase',fontWeight:600}}>{label}</div>}
       </div>
     </div>
@@ -736,7 +735,7 @@ function Donut({pct, size=88, thick=8, color, bg, label}){
 }
 
 function SmallDonut({pct,color='var(--accent)',size=56}){
-  const thick=6,r=(size-thick)/2,circ=2*Math.PI*r,dash=Math.min(pct,100)/100*circ;
+  const thick=6,r=(size-thick)/2,circ=2*Math.PI*r,dash=Math.min(pct||0,100)/100*circ;
   return(
     <div style={{position:'relative',width:size,height:size,flexShrink:0}}>
       <svg width={size} height={size} style={{transform:'rotate(-90deg)',display:'block'}}>
@@ -746,7 +745,7 @@ function SmallDonut({pct,color='var(--accent)',size=56}){
       </svg>
       <div style={{position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center',
         fontSize:'.6rem',fontWeight:700,color:pct>0?color:'var(--text-muted)'}}>
-        {Math.round(pct)}%
+        {Math.round(pct||0)}%
       </div>
     </div>
   );
@@ -983,12 +982,14 @@ function GoalList({skey,label}){
 /* ─── Fitness / Health ─── */
 function FitnessTab(){
   const [fd, setFd] = useState(todayStr());
-  const [sub, setSub] = useState('log'); // log, progress, settings
+  const [sub, setSub] = useState('log'); 
   
-  // 1. UPDATE THIS LINE to include carbs and fat defaults
   const [settings, setSettings] = useState({cal: 2500, pro: 150, carbs: 250, fat: 70, water: 8});
-  
   const [log, setLog] = useState({ foods:[], workouts:[], strength:[], water:0 });
+  
+  // Custom databases specific to user logging
+  const [customFoods, setCustomFoods] = useState(() => DB.get('custom_foods', []));
+  const [customWorkouts, setCustomWorkouts] = useState(() => DB.get('custom_workouts', []));
   
   // AI Logging State
   const [aiInput, setAiInput] = useState('');
@@ -1007,6 +1008,7 @@ function FitnessTab(){
   const [wRes, setWRes] = useState([]);
   const [wSel, setWSel] = useState(null);
   const [wMins, setWMins] = useState(30);
+  const [wCustom, setWCustom] = useState({name:'', calPerMin:''});
 
   const [sEx, setSEx] = useState('');
   const [sWt, setSWt] = useState('');
@@ -1016,7 +1018,6 @@ function FitnessTab(){
   const [strHistory, setStrHistory] = useState({});
 
   useEffect(() => {
-    // 2. UPDATE THIS LINE as well to pull carbs/fat from storage
     setSettings(DB.get('fit_settings', {cal: 2500, pro: 150, carbs: 250, fat: 70, water: 8}));
     setStrHistory(DB.get('fit_history', {}));
   }, []);
@@ -1028,17 +1029,22 @@ function FitnessTab(){
   const saveSettings = (s) => { setSettings(s); DB.set('fit_settings', s); };
   const saveLog = (l) => { setLog(l); DB.set('fit_log_'+fd, l); };
 
-  // Computed
+  // Computed Values & Carbs Adjustment Logic
   const calsIn = log.foods.reduce((s,f) => s + f.cal, 0);
   const proIn  = log.foods.reduce((s,f) => s + f.pro, 0);
   const carbsIn = log.foods.reduce((s,f) => s + (f.carbs||0), 0);
   const fatIn  = log.foods.reduce((s,f) => s + (f.fat||0), 0);
+  
   const calsOut = log.workouts.reduce((s,w) => s + w.cal, 0);
   const calsRemaining = Math.round(settings.cal + calsOut - calsIn);
   
+  // ADJUSTED CARBS ALLOWANCE (Earned from exercise)
+  const earnedCarbs = Math.round(calsOut / 4);
+  const adjustedCarbsGoal = (settings.carbs || 0) + earnedCarbs;
+  
   const calPct = Math.min(100, Math.max(0, (calsIn / (settings.cal + calsOut)) * 100));
   const proPct = Math.min(100, Math.max(0, (proIn / settings.pro) * 100));
-  const carbsPct = Math.min(100, Math.max(0, (carbsIn / settings.carbs) * 100));
+  const carbsPct = Math.min(100, Math.max(0, (carbsIn / adjustedCarbsGoal) * 100));
   const fatPct = Math.min(100, Math.max(0, (fatIn / settings.fat) * 100));
   const watPct = Math.min(100, Math.max(0, (log.water / settings.water) * 100));
 
@@ -1050,58 +1056,92 @@ function FitnessTab(){
     if(aiType === 'food') {
       const sysPrompt = `You are a professional nutrition expert. The user will describe a meal they ate. Estimate the total nutritional value. 
       CRITICAL INSTRUCTIONS FOR PORTION SIZES:
-      If the user uses vague terms like "chunk", "piece", "scoop", or "spoon", assume standard, moderate serving sizes (e.g., 1 "chunk" of meat = 1 to 1.5 oz, 1 "scoop" of pasta = 1/2 cup). Do NOT overestimate into massive restaurant portions unless explicitly told.
-      Return ONLY a valid JSON object with the following keys: 'name' (string, a very short 2-4 word descriptive summary), 'cal' (number, estimated total calories), 'pro' (number, estimated total protein in grams), 'carbs' (number, estimated total carbohydrates in grams), 'fat' (number, estimated total fat in grams). DO NOT format as markdown.`;
+      If the user uses vague terms like "chunk", "piece", "scoop", or "spoon", assume standard, moderate serving sizes.
+      Return ONLY a valid JSON object with the following keys: 'name' (string, a very short 2-4 word descriptive summary), 'cal' (number), 'pro' (number), 'carbs' (number), 'fat' (number). DO NOT format as markdown.`;
       
       const res = await callGeminiAPI(aiInput, sysPrompt);
       
       if (res.error) {
         setAiError(res.error);
       } else if(res.data && res.data.name && res.data.cal !== undefined) {
-         const item = { id:genId(), name: res.data.name + " ✨", cal: Number(res.data.cal), pro: Number(res.data.pro||0), carbs: Number(res.data.carbs||0), fat: Number(res.data.fat||0), desc: 'AI Logged' };
-         saveLog({...log, foods: [item, ...log.foods]});
+         const baseName = res.data.name.replace(/✨/g, "").trim();
+         const itemToLog = { id:genId(), name: baseName + " ✨", cal: Number(res.data.cal), pro: Number(res.data.pro||0), carbs: Number(res.data.carbs||0), fat: Number(res.data.fat||0), desc: 'AI Logged' };
+         saveLog({...log, foods: [itemToLog, ...log.foods]});
+         
+         // Save to personal custom database automatically
+         const newFood = { name: baseName, unit: '1 serving', cal: Number(res.data.cal), pro: Number(res.data.pro||0), carbs: Number(res.data.carbs||0), fat: Number(res.data.fat||0) };
+         if (!customFoods.some(f => f.name.toLowerCase() === baseName.toLowerCase())) {
+             const newCustomFoods = [newFood, ...customFoods];
+             setCustomFoods(newCustomFoods);
+             DB.set('custom_foods', newCustomFoods);
+         }
+
          setAiInput('');
       } else { setAiError('AI could not process this meal. Try being more specific.'); }
     } else {
-      const sysPrompt = `You are a professional fitness expert. The user will describe a physical activity they performed. Estimate the calories burned and duration. Return ONLY a valid JSON object with the following keys: 'name' (string, a very short 2-4 word descriptive summary of the activity), 'cal' (number, estimated calories burned), 'mins' (number, estimated duration in minutes). DO NOT format as markdown.`;
+      const sysPrompt = `You are a professional fitness expert. The user will describe a physical activity they performed. Estimate the calories burned and duration. Return ONLY a valid JSON object with the following keys: 'name' (string, a very short 2-4 word descriptive summary), 'cal' (number, estimated calories burned), 'mins' (number, estimated duration in minutes). DO NOT format as markdown.`;
       
       const res = await callGeminiAPI(aiInput, sysPrompt);
       
       if (res.error) {
         setAiError(res.error);
       } else if(res.data && res.data.name && res.data.cal !== undefined) {
-         const item = { id:genId(), name: res.data.name + " ✨", cal: Number(res.data.cal), mins: Number(res.data.mins||0) };
-         saveLog({...log, workouts: [item, ...log.workouts]});
+         const baseName = res.data.name.replace(/✨/g, "").trim();
+         const mins = Number(res.data.mins||1);
+         const itemToLog = { id:genId(), name: baseName + " ✨", cal: Number(res.data.cal), mins: mins };
+         saveLog({...log, workouts: [itemToLog, ...log.workouts]});
+         
+         // Save to personal custom database automatically
+         const calPerMin = Math.round(Number(res.data.cal) / mins);
+         const newEx = { name: baseName, calPerMin };
+         if (!customWorkouts.some(e => e.name.toLowerCase() === baseName.toLowerCase())) {
+             const newCustomWorkouts = [newEx, ...customWorkouts];
+             setCustomWorkouts(newCustomWorkouts);
+             DB.set('custom_workouts', newCustomWorkouts);
+         }
+
          setAiInput('');
       } else { setAiError('AI could not process this workout.'); }
     }
     setAiLoading(false);
   };
 
-  // Search logic
+  // Search logic utilizing DB + Custom Items safely
   useEffect(()=>{
     if(fQuery.length > 1){
-      const res = DB_FOODS.filter(f=>f.name.toLowerCase().includes(fQuery.toLowerCase()));
+      const allFoods = [...DB_FOODS, ...customFoods];
+      const res = allFoods.filter(f=>f.name.toLowerCase().includes(fQuery.toLowerCase()));
       setFRes(res);
     } else { setFRes([]); setFSel(null); }
-  }, [fQuery]);
+  }, [fQuery, customFoods]);
 
   useEffect(()=>{
     if(wQuery.length > 1){
-      const res = DB_EXERCISES.filter(e=>e.name.toLowerCase().includes(wQuery.toLowerCase()));
+      const allWorkouts = [...DB_EXERCISES, ...customWorkouts];
+      const res = allWorkouts.filter(e=>e.name.toLowerCase().includes(wQuery.toLowerCase()));
       setWRes(res);
     } else { setWRes([]); setWSel(null); }
-  }, [wQuery]);
+  }, [wQuery, customWorkouts]);
 
   const addFood = () => {
     if(fSel){
-      const item = { id:genId(), name: fSel.name, cal: Math.round(fSel.cal*fMult), pro: Math.round(fSel.pro*fMult), carbs: Math.round((fSel.carbs||0)*fMult), fat: Math.round((fSel.fat||0)*fMult), desc: `${fMult}x ${fSel.unit}` };
+      const item = { id:genId(), name: fSel.name, cal: Math.round(fSel.cal*fMult), pro: Math.round((fSel.pro||0)*fMult), carbs: Math.round((fSel.carbs||0)*fMult), fat: Math.round((fSel.fat||0)*fMult), desc: `${fMult}x ${fSel.unit}` };
       saveLog({...log, foods: [item, ...log.foods]});
       setFQuery(''); setFSel(null); setFMult(1);
     } else if(fCustom.name && fCustom.cal) {
-      const item = { id:genId(), name: fCustom.name, cal: Number(fCustom.cal), pro: Number(fCustom.pro||0), carbs: Number(fCustom.carbs||0), fat: Number(fCustom.fat||0), desc: 'Custom' };
-      saveLog({...log, foods: [item, ...log.foods]});
+      const itemToLog = { id:genId(), name: fCustom.name, cal: Number(fCustom.cal), pro: Number(fCustom.pro||0), carbs: Number(fCustom.carbs||0), fat: Number(fCustom.fat||0), desc: 'Custom' };
+      saveLog({...log, foods: [itemToLog, ...log.foods]});
+      
+      // Save custom food to DB
+      const newFood = { name: fCustom.name, unit: 'Custom', cal: Number(fCustom.cal), pro: Number(fCustom.pro||0), carbs: Number(fCustom.carbs||0), fat: Number(fCustom.fat||0) };
+      if (!customFoods.some(f => f.name.toLowerCase() === fCustom.name.toLowerCase())) {
+          const newCustomFoods = [newFood, ...customFoods];
+          setCustomFoods(newCustomFoods);
+          DB.set('custom_foods', newCustomFoods);
+      }
+
       setFCustom({name:'', cal:'', pro:'', carbs:'', fat:''});
+      setFQuery('');
     }
   };
 
@@ -1111,6 +1151,28 @@ function FitnessTab(){
       const item = { id:genId(), name: wSel.name, cal: burned, mins: wMins };
       saveLog({...log, workouts: [item, ...log.workouts]});
       setWQuery(''); setWSel(null); setWMins(30);
+    }
+  };
+
+  const addCustomWorkout = () => {
+    if(wCustom.name && wCustom.calPerMin && wMins > 0) {
+      const newItem = { name: wCustom.name, calPerMin: Number(wCustom.calPerMin) };
+      
+      // Save permanently
+      if (!customWorkouts.some(e => e.name.toLowerCase() === wCustom.name.toLowerCase())) {
+        const newCustomWorkouts = [newItem, ...customWorkouts];
+        setCustomWorkouts(newCustomWorkouts);
+        DB.set('custom_workouts', newCustomWorkouts);
+      }
+      
+      // Log it
+      const burned = Math.round(newItem.calPerMin * wMins);
+      const itemToLog = { id:genId(), name: newItem.name, cal: burned, mins: wMins };
+      saveLog({...log, workouts: [itemToLog, ...log.workouts]});
+
+      setWCustom({name:'', calPerMin:''});
+      setWQuery('');
+      setWMins(30);
     }
   };
 
@@ -1166,7 +1228,8 @@ function FitnessTab(){
             <div className="card" style={{marginBottom: 0, textAlign:'center'}}>
               <div style={{fontSize:'0.7rem', color:'var(--text-muted)', textTransform:'uppercase', letterSpacing:'0.05em', marginBottom:8}}>Carbs (g)</div>
               <Donut pct={carbsPct} size={60} thick={6} color="var(--warn)"/>
-              <div style={{marginTop:8, fontSize:'0.85rem', fontWeight:600}}>{carbsIn} / {settings.carbs}</div>
+              <div style={{marginTop:8, fontSize:'0.85rem', fontWeight:600}}>{carbsIn} / {adjustedCarbsGoal}</div>
+              {earnedCarbs > 0 && <div style={{fontSize:'0.65rem', color:'var(--ok)', marginTop: 2, fontWeight: 600}}>+{earnedCarbs} from activity</div>}
             </div>
             <div className="card" style={{marginBottom: 0, textAlign:'center'}}>
               <div style={{fontSize:'0.7rem', color:'var(--text-muted)', textTransform:'uppercase', letterSpacing:'0.05em', marginBottom:8}}>Fat (g)</div>
@@ -1196,13 +1259,13 @@ function FitnessTab(){
             <textarea 
                className="inp" 
                style={{minHeight: 60}}
-               placeholder={aiType === 'food' ? "e.g. 'I ate 3 scrambled eggs with two slices of whole wheat toast and an avocado'" : "e.g. 'I ran for 45 minutes at a steady pace and did 15 mins of yoga'"} 
+               placeholder={aiType === 'food' ? "e.g. 'I ate 3 scrambled eggs with two slices of whole wheat toast'" : "e.g. 'I ran for 45 minutes at a steady pace'"} 
                value={aiInput} 
                onChange={e=>setAiInput(e.target.value)}>
             </textarea>
             <div className="row" style={{marginTop: 8}}>
               <button className={`btn btnfull btn-ai ${aiLoading ? 'ai-loading' : ''}`} onClick={handleAILog}>
-                ✨ Estimate {aiType === 'food' ? 'Calories & Macros' : 'Burn & Duration'}
+                ✨ Estimate & Save
               </button>
             </div>
             {aiError && <div className="ai-error">{aiError}</div>}
@@ -1213,7 +1276,7 @@ function FitnessTab(){
             <input className="inp" placeholder="Search database (e.g., Chicken)..." value={fQuery} onChange={e=>setFQuery(e.target.value)} />
             {fRes.length > 0 && !fSel && (
               <div className="search-res">
-                {fRes.map(r=><div key={r.name} className="search-item" onClick={()=>{setFSel(r);setFQuery(r.name);setFRes([]);}}>
+                {fRes.map((r,i)=><div key={r.name+'-'+i} className="search-item" onClick={()=>{setFSel(r);setFQuery(r.name);setFRes([]);}}>
                   <strong>{r.name}</strong> <br/><span style={{color:'var(--text-muted)', fontSize:'.75rem'}}>{r.cal} kcal, {r.pro}g pro, {r.carbs}g carbs, {r.fat}g fat per {r.unit}</span>
                 </div>)}
               </div>
@@ -1258,7 +1321,7 @@ function FitnessTab(){
             <input className="inp" placeholder="Search activity (e.g., Running)..." value={wQuery} onChange={e=>setWQuery(e.target.value)} />
             {wRes.length > 0 && !wSel && (
               <div className="search-res">
-                {wRes.map(r=><div key={r.name} className="search-item" onClick={()=>{setWSel(r);setWQuery(r.name);setWRes([]);}}>
+                {wRes.map((r,i)=><div key={r.name+'-'+i} className="search-item" onClick={()=>{setWSel(r);setWQuery(r.name);setWRes([]);}}>
                   <strong>{r.name}</strong> <span style={{color:'var(--text-muted)', fontSize:'.8rem'}}>— ~{r.calPerMin} kcal/min</span>
                 </div>)}
               </div>
@@ -1271,6 +1334,18 @@ function FitnessTab(){
                 <button className="btn btng" onClick={()=>{setWSel(null);setWQuery('');}}>✕</button>
               </div>
             )}
+            {!wSel && wQuery.length > 0 && wRes.length === 0 && (
+              <div style={{marginTop: 10}}>
+                <div style={{fontSize:'.8rem', color:'var(--text-muted)', marginBottom: 8}}>Not found. Add custom activity:</div>
+                <div className="row" style={{flexWrap: 'wrap', gap: '6px'}}>
+                  <input className="inp inp-sm" style={{flex: '1 1 100%'}} placeholder="Activity Name" value={wCustom.name} onChange={e=>setWCustom({...wCustom, name:e.target.value})}/>
+                  <input className="inp inp-sm" style={{flex: '1 1 48%'}} type="number" placeholder="Kcal/min" value={wCustom.calPerMin} onChange={e=>setWCustom({...wCustom, calPerMin:e.target.value})}/>
+                  <input className="inp inp-sm" style={{flex: '1 1 48%'}} type="number" placeholder="Mins" value={wMins} onChange={e=>setWMins(e.target.value)}/>
+                  <button className="btn btnsm" style={{flex: '1 1 100%'}} onClick={addCustomWorkout}>Add Custom</button>
+                </div>
+              </div>
+            )}
+
             {log.workouts.length > 0 && <div style={{marginTop: 16, paddingTop: 16, borderTop: '1px solid var(--glass-border)'}}>
               {log.workouts.map(w=>(
                 <div key={w.id} className="gitem" style={{padding:'8px 0'}}>
@@ -1333,7 +1408,6 @@ function FitnessTab(){
         </div>
       )}
 
-      {/* 3. REPLACE YOUR ENTIRE SETTINGS SECTION WITH THIS: */}
       {sub==='settings' && (
         <div className="card">
           <div className="ctitle">⚙️ Daily Targets</div>
@@ -2015,17 +2089,37 @@ const TABS=[
   {id:'meet',  ico:'◈', lbl:'Meeting'},
 ];
 
+// Array of themes available for daily rotation
+const THEMES_LIST = [
+  {id:'apple-dark', label:'Dark Glass'},
+  {id:'apple-light', label:'Light Glass'},
+  {id:'midnight-glass', label:'Midnight'},
+  {id:'ocean-glass', label:'Ocean'},
+  {id:'crimson-glass', label:'Crimson'}
+];
+
 function App(){
   const [tab,setTab]=useState('daily');
   const [start,setStart]=useState(undefined);
-  const [bgTheme,setBgTheme]=useState(()=>DB.get('bg_theme','apple-dark'));
+  
+  const [themePref, setThemePref] = useState(() => DB.get('theme_pref', 'auto'));
 
   useEffect(()=>{
     setStart(DB.get('start', null));
   },[]);
 
+  // Daily Theme logic: Cycle through based on date
+  const dayIndex = Math.floor(Date.now() / 86400000);
+  const autoTheme = THEMES_LIST[dayIndex % THEMES_LIST.length].id;
+  const bgTheme = themePref === 'auto' ? autoTheme : themePref;
+
   const onSetup = d => { DB.set('start',d); setStart(d); };
-  const setBg = id => { setBgTheme(id); DB.set('bg_theme',id); };
+  
+  // Set theme to auto or specific string
+  const setBg = id => { 
+    setThemePref(id); 
+    DB.set('theme_pref', id); 
+  };
 
   if(!start) return <Setup onDone={onSetup}/>;
 
@@ -2045,14 +2139,11 @@ function App(){
 
       {/* Theme Switcher */}
       <div className="bg-picker">
-        {[
-          {id:'apple-dark', label:'Dark Glass'},
-          {id:'apple-light', label:'Light Glass'},
-          {id:'midnight-glass', label:'Midnight'},
-          {id:'ocean-glass', label:'Ocean'},
-          {id:'crimson-glass', label:'Crimson'},
-        ].map(t=>(
-          <div key={t.id} className={`bg-btn${bgTheme===t.id?' active':''}`} onClick={()=>setBg(t.id)}>
+        <div className={`bg-btn${themePref==='auto'?' active':''}`} onClick={()=>setBg('auto')}>
+          Auto
+        </div>
+        {THEMES_LIST.map(t=>(
+          <div key={t.id} className={`bg-btn${themePref===t.id?' active':''}`} onClick={()=>setBg(t.id)}>
             {t.label}
           </div>
         ))}
